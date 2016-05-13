@@ -194,6 +194,23 @@
 				};
 
 
+				function getCharClass(chare)
+				{
+					var code = chare.charCodeAt(0);
+					if((code <= 47)||((code >= 58)&&(code <= 64))||((code >= 91)&&(code <= 96)))
+					{
+						return 'signifier';
+					}
+					else if((code >= 48)&&(code <= 57))
+					{
+						return 'numeral';
+					}
+					else if((code >= 65)&&(code <= 90))
+					{
+						return 'character';
+					}
+				}
+
 			}
 			else
 			{
@@ -316,10 +333,7 @@
 			{
 				data.console[index].innerHTML = (scope.getKeyMap());
 			}
-		}
-
-	
-			
+		}			
 	}
 
 
@@ -479,36 +493,6 @@
         }
     };
 	})();
-
-	var key_scope = Key_Scope.getInstance();
-
- 
-
-// document.getElementById('editor').onkeydown = function(e){
-// 	if(document.getElementById('editor').value != ''){
-// 		document.getElementById('result').innerHTML = document.getElementById('result').innerHTML + '<span>' + document.getElementById('editor').value + '</span>';
-// 		document.getElementById('editor').value = '';
-// 	}
-// 		key_scope.keyDown(e);
-// 		document.getElementsByClassName('console')[0].innerHTML = (key_scope.getKeyMap());
-// };
-// document.getElementById('editor').onkeyup = function(e){
-// 	if(document.getElementById('editor').value != ''){
-// 		document.getElementById('result').innerHTML = document.getElementById('result').innerHTML + '<span>' + document.getElementById('editor').value + '</span>';
-// 		document.getElementById('editor').value = '';
-// 	}
-// 	key_scope.keyUp(e);
-// 	document.getElementsByClassName('console')[0].innerHTML = (key_scope.getKeyMap());
-
-// };
-// window.onload = function(){
-// 	document.getElementById('editor').focus();
-// }
-// document.onclick = function(){
-// 	document.getElementById('editor').focus();
-// }
-//window.onload = loop;
-
 
 	///////////////////////////////////
 	/**         MAIN SCRIPT         **/
