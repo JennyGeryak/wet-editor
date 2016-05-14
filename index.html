@@ -193,11 +193,20 @@
 
 				};
 
-
+			/**
+				* @private
+				* @function
+				* @name getCharClass
+				* @description for subscribing observers
+				* @param {Object} observer - object wich containe observer instans
+				*/
 				function getCharClass(chare)
 				{
 					var code = chare.charCodeAt(0);
-					if((code <= 47)||((code >= 58)&&(code <= 64))||((code >= 91)&&(code <= 96)))
+					if((code <= 47)||((code >= 58)
+					&&(code <= 64))||((code >= 91)
+					&&(code <= 96))||((code >= 122)
+					&&(code <= 126)))
 					{
 						return 'signifier';
 					}
@@ -205,11 +214,14 @@
 					{
 						return 'numeral';
 					}
-					else if((code >= 65)&&(code <= 90))
+					else if(((code >= 65)&&(code <= 90))
+								||((code >= 97)&&(code <= 122)))
 					{
 						return 'character';
 					}
 				}
+
+				console.log(getCharClass('W'));
 
 			}
 			else
