@@ -164,7 +164,7 @@
 					this.work_space[i].onclick = function()
 					{
 						this.object.symbol_buffer[this.index].focus();
-						console.log(window.getSelection());
+						//console.log(window.getSelection());
 					}
 
 				/**
@@ -176,7 +176,6 @@
 					this.symbol_buffer[i].key_scope = Key_Scope.getInstance();
 					this.symbol_buffer[i].onkeydown = function(e)
 					{
-						console.log(this.object);
 						// observer innitialithation 
 						if(Observable != undefined)
 						{
@@ -237,9 +236,10 @@
 		{
 
 			char = user_char;
-
+			// converting char type variable to dec code
 			code = char.charCodeAt(0);
 
+			// adding class to result variable
 			if((code <= 47)||((code >= 58)
 			&&(code <= 64))||((code >= 91)
 			&&(code <= 96))||((code >= 122)
@@ -270,6 +270,8 @@
 		{
 			char = user_char;
 			code = char.charCodeAt(0);
+
+			// signifires and uppercase code map 
 			var codes = [
 				{'start_code':32, 'end_code':32, 'desc':'space'}, //
 				{'start_code':33, 'end_code':33, 'desc':'exclamation'}, // !
@@ -306,6 +308,7 @@
 				{'start_code':125, 'end_code':125, 'desc':'left_curly_brace'}, // }
 				{'start_code':126, 'end_code':126, 'desc':'tilda'}, // ~ 
 			];
+			// adding subclass to result class 
 			for (var i = 0; i < codes.length; i++) {
 				if((code == codes[i].start_code))
 				{
@@ -443,6 +446,7 @@
 		// if that key pressed on new line
 		if(data.line[index][data.current_line[index]].innerHTML == '')
 		{
+			// adding starting teg for a line 
 			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
 																														+ '<span class="wet-line-start">'
 																														+ ' ' 
@@ -451,6 +455,7 @@
 		// if pressed key is not null 
 		if(data.symbol_buffer[index].value != '')
 		{
+			// adding character with a span tag and special class
 			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
 																														+ '<span class="' 
 																														+ class_generator
@@ -462,8 +467,10 @@
 																														+ '">' 
 																														+ data.symbol_buffer[index].value 
 																														+ '</span>';
+			// clearing buffer
 			data.symbol_buffer[index].value = '';
 		}
+		// enter emulation, using adding new line
 		if(scope.getKeyMap() == 13 )
 		{
 			data.current_line[index]++;
@@ -473,12 +480,8 @@
 			data.line[index][data.current_line[index]].setAttribute('line_number', data.current_line[index]);
 			data.work_space[index].appendChild(data.line[index][data.current_line[index]]);
 		}
-		// if(scope.getKeyMap() == 8)
-		// {
-
-		// }
-			
-		// if key is pressed or relissed
+	
+		// if key is pressed or relissed add event to singleton
 		if(condition == 'pressed')
 		{
 			scope.keyDown(event);
