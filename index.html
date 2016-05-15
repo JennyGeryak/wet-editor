@@ -212,7 +212,12 @@
 	* @copyright Ivan Kaduk 2016.
 	* @class
 	* @classdesc this class is returning string for elements class
-	* @example var spoiler = new Spoiler('spoiler','opened', 1);
+	* @example class_generator
+						.setPrefix('wet-')
+						.mainClass(data.symbol_buffer[index].value)
+						.space()
+						.subClass(data.symbol_buffer[index].value)
+						.generate() 
 	*/
 	var Char_Class_Generator = function()
 	{
@@ -221,10 +226,20 @@
 		var result_class = '';
 		var prefix = '';
 
+	/**
+		* @public
+		* @function
+		* @name mainClass
+		* @description adding main class
+		* @param {String} user_char - char from cher buffer 
+		*/
 		function mainClass(user_char)
 		{
+
 			char = user_char;
+
 			code = char.charCodeAt(0);
+
 			if((code <= 47)||((code >= 58)
 			&&(code <= 64))||((code >= 91)
 			&&(code <= 96))||((code >= 122)
@@ -244,6 +259,13 @@
 			return this;
 		}
 
+	/**
+		* @public
+		* @function
+		* @name subClass
+		* @description adding subclass to main 
+		* @param {String} user_char - char from cher buffer 
+		*/
 		function subClass(user_char)
 		{
 			char = user_char;
@@ -287,67 +309,65 @@
 			for (var i = 0; i < codes.length; i++) {
 				if((code == codes[i].start_code))
 				{
-					result_class += ' ' + prefix + codes[i].desc;
-					// break;
+					result_class += prefix + codes[i].desc;
 				}
 				else if(((code >= codes[i].start_code)&&(code <= codes[i].start_code)))
 				{
-					result_class += ' ' + prefix + codes[i].desc;
-					// break;
+					result_class += prefix + codes[i].desc;
 				}
 				else
 				{
 					result_class += '';
-					// break;
 				}
 			};
 			return this;
 		}
 
-		function generate()
-		{
-			return result_class;
-		}
-
+	/**
+		* @public
+		* @function
+		* @name setPrefix
+		* @description setting prefix, which will be adding to every class
+		* @param {String} user_prefix - prefix for class
+		*/
 		function setPrefix(user_prefix)
 		{
 			prefix = user_prefix || "";
 			return this;
 		}
 
+	/**
+		* @public
+		* @function
+		* @name space
+		* @description addpace between classes
+		*/
+		function space()
+		{
+			result_class += ' ';
+			return this;
+		}
+
+	/**
+		* @public
+		* @function
+		* @name generate
+		* @description builder function
+		*/
+		function generate()
+		{
+			return result_class;
+		}
+
 		return{
 			mainClass: mainClass,
 			subClass: subClass,
 			generate: generate,
-			setPrefix: setPrefix
+			setPrefix: setPrefix,
+			space: space
 		}
 	}
 	
-	// function getCharClass(char)
-	// {
-	// 	var code = char.charCodeAt(0);
-	// 	if((code <= 47)||((code >= 58)
-	// 	&&(code <= 64))||((code >= 91)
-	// 	&&(code <= 96))||((code >= 122)
-	// 	&&(code <= 126)))
-	// 	{
-	// 		return 'signifier';
-	// 	}
-	// 	else if((code >= 48)&&(code <= 57))
-	// 	{
-	// 		return 'numeral';
-	// 	}
-	// 	else if(((code >= 65)&&(code <= 90))
-	// 				||((code >= 97)&&(code <= 122)))
-	// 	{
-	// 		return 'character';
-	// 	}
-	// 	function subClass()
-	// 	{
-	// 		console.log();
-	// 	}
-	// }
-
 	///////////////////////////////////
 	/**         OBSERVABLE          **/
 	///////////////////////////////////
@@ -436,6 +456,7 @@
 																														+ class_generator
 																															.setPrefix('wet-')
 																															.mainClass(data.symbol_buffer[index].value)
+																															.space()
 																															.subClass(data.symbol_buffer[index].value)
 																															.generate() 
 																														+ '">' 
@@ -452,6 +473,10 @@
 			data.line[index][data.current_line[index]].setAttribute('line_number', data.current_line[index]);
 			data.work_space[index].appendChild(data.line[index][data.current_line[index]]);
 		}
+		// if(scope.getKeyMap() == 8)
+		// {
+
+		// }
 			
 		// if key is pressed or relissed
 		if(condition == 'pressed')
