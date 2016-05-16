@@ -161,11 +161,13 @@
 					*/
 					this.work_space[i].object = this;
 					this.work_space[i].index = i;
+					this.work_space[i].key_scope = Key_Scope.getInstance();
 					this.work_space[i].onclick = function()
 					{
 						this.object.symbol_buffer[this.index].focus();
 						//console.log(window.getSelection());
 					}
+
 
 				/**
 					* @event symbol_buffer#onclick
@@ -182,6 +184,11 @@
 							this.object.publish(this.object, this.key_scope, this.index, e, 'pressed');
 						}
 					};
+
+				/**
+					* @event symbol_buffer#onkeyup
+					* @param {object} e - event wich will contain key code
+					*/
 					this.symbol_buffer[i].onkeyup = function(e)
 					{
 						if(Observable != undefined)
@@ -189,6 +196,14 @@
 							this.object.publish(this.object, this.key_scope, this.index, e, 'relised');
 						}
 					};
+
+				/**
+					* @event symbol_buffer#onblur
+					*/
+					this.symbol_buffer[i].onblur = function()
+					{
+						this.key_scope.clearKeyMap();
+					}
 
 				};
 			}
@@ -440,12 +455,13 @@
 
 	var Key_Observer = function(data, scope, index, event, condition)
 	{	
-		
+		// initialization of new character class generator 
 		var class_generator = new Char_Class_Generator('wet-');
 
-		if(scope.getKeyMap() == ['17','68']){
-
+		if(scope.getKeyMap()[0] < '32'){
+			event.preventDefault(); event.stopPropagation(); 
 		}
+
 
 		// if that key pressed on new line
 		if(data.line[index][data.current_line[index]].innerHTML == '')
@@ -489,16 +505,19 @@
 		if(condition == 'pressed')
 		{
 			scope.keyDown(event);
+			// event.preventDefault(); event.stopPropagation(); 
 		}
 		else if(condition == 'relised')
 		{
 			scope.keyUp(event);
+			// event.preventDefault(); event.stopPropagation(); 
 		}		
 
 		// adding pressed keys combinations to console
 		if(data.console[index] != undefined)
 		{
 			data.console[index].innerHTML = (scope.getKeyMap());
+
 		}
 	}
 
@@ -589,13 +608,13 @@
 		    var key_num;
 		    if (window.event) // IE   
 		    { 
-		    	e.preventDefault(); e.stopPropagation();      
 		      key_num = e.keyCode;
+		    	// e.preventDefault(); e.stopPropagation();      
 		    } 
 		    else if (e.which) // Netscape/Firefox/Opera
 		    {           
-		    	e.preventDefault(); e.stopPropagation();
 		      key_num = e.which;
+		    	// e.preventDefault(); e.stopPropagation();
 		    }
 		    addKeyToMap(key_num);
 		  }
@@ -611,13 +630,13 @@
 		    var key_num;
 		    if (window.event) // IE  
 		    {         
-		    	e.preventDefault(); e.stopPropagation();
 		      key_num = e.keyCode;
+		    	// e.preventDefault(); e.stopPropagation();
 		    } 
 		    else if (e.which) // Netscape/Firefox/Opera 
 		    {          
-		    	e.preventDefault(); e.stopPropagation();
 		      key_num = e.which;
+		    	// e.preventDefault(); e.stopPropagation();
 		    }
 		    removeKeyFromMap(key_num);
 		  }
@@ -665,18 +684,50 @@
 	})();
 
 	///////////////////////////////////
-	/**         MODULE 						  **/
+	/**         SINGLETON					  **/
 	///////////////////////////////////	
 
 	var Module = (function()
 	{
-		function Module(object, index )
-		{
+		var instance;
+
+    function createInstance() 
+    {
+    	var key_assotiation = [
+    		{}
+    	]
+    	function start()
+    	{
+    		console.log('cool');
+    	}
+
+    	return {
+    		start: start
+    	}
 
 		}
 
-		return Module;
+		return {
+        getInstance: function () {
+            if (!instance) {
+                instance = createInstance();
+            }
+            return instance;
+        }
+    };
+
+		//return Module;
 	})()
+
+	Module.getInstance().func = function(){
+		console.log('1');
+	}
+
+
+
+	var m = new Module.getInstance();
+	m.start();
+	m['func']();
 
 
 	///////////////////////////////////
