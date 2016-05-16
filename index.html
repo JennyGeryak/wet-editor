@@ -443,6 +443,10 @@
 		
 		var class_generator = new Char_Class_Generator('wet-');
 
+		if(scope.getKeyMap() == ['17','68']){
+
+		}
+
 		// if that key pressed on new line
 		if(data.line[index][data.current_line[index]].innerHTML == '')
 		{
@@ -584,11 +588,13 @@
 		  function keyDown(e)  {
 		    var key_num;
 		    if (window.event) // IE   
-		    {       
+		    { 
+		    	e.preventDefault(); e.stopPropagation();      
 		      key_num = e.keyCode;
 		    } 
 		    else if (e.which) // Netscape/Firefox/Opera
 		    {           
+		    	e.preventDefault(); e.stopPropagation();
 		      key_num = e.which;
 		    }
 		    addKeyToMap(key_num);
@@ -605,10 +611,12 @@
 		    var key_num;
 		    if (window.event) // IE  
 		    {         
+		    	e.preventDefault(); e.stopPropagation();
 		      key_num = e.keyCode;
 		    } 
 		    else if (e.which) // Netscape/Firefox/Opera 
 		    {          
+		    	e.preventDefault(); e.stopPropagation();
 		      key_num = e.which;
 		    }
 		    removeKeyFromMap(key_num);
@@ -655,6 +663,20 @@
         }
     };
 	})();
+
+	///////////////////////////////////
+	/**         MODULE 						  **/
+	///////////////////////////////////	
+
+	var Module = (function()
+	{
+		function Module(object, index )
+		{
+
+		}
+
+		return Module;
+	})()
 
 
 	///////////////////////////////////
