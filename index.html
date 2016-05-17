@@ -18,6 +18,10 @@
 	#editor{
 		opacity: 0;
 	}
+	.active{
+		border: 1px solid black; 
+		min-width: 10px;
+	}
 	html{
 		font-family: 'Inconsolata', monospace;
 /*		-moz-user-select: none;
@@ -458,43 +462,83 @@
 		// initialization of new character class generator 
 		var class_generator = new Char_Class_Generator('wet-');
 
-		if(scope.getKeyMap()[0] < '32'){
+		// if controlling key pressed 
+		// need to disabled browser hotkeys 
+		if(scope.getKeyMap()[0] < '46'){//16
 			event.preventDefault(); event.stopPropagation(); 
+		}
+
+	/**
+		* @private
+		* @function
+		* @name deletePrevioseCursor
+		* @description it is need to delete previose cursor 
+		*/
+		function deletePrevioseCursor(){
+			if(document.getElementsByClassName('active')[0] != undefined){
+				var previose = document.getElementsByClassName('active')[0] || '';
+				var class_array = previose.className.split(" ");
+				previose.className = '';
+				for (var i = 0; i < class_array.length-1; i++) {
+					previose.className += class_array[i];
+					previose.className += ' ';
+
+				};
+			}
 		}
 
 
 		// if that key pressed on new line
 		if(data.line[index][data.current_line[index]].innerHTML == '')
 		{
+			// deleting previose cursor 
+			deletePrevioseCursor();
+
+			// creating start span element on line begins 
+			var first_symbol = document.createElement('span');
+			first_symbol.origin_class_name = 'wet-line-start';
+			first_symbol.className = first_symbol.origin_class_name + ' active';
+			var first_symbol_content = document.createTextNode(' ');
+			first_symbol.appendChild(first_symbol_content);
+
 			// adding starting teg for a line 
 			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
-																														+ '<span class="wet-line-start">'
-																														+ ' ' 
-																														+ '</span>';
+																														+ first_symbol.outerHTML;
+
 		}
+
 		// if pressed key is not null 
 		if(data.symbol_buffer[index].value != '')
 		{
+			// deleting previose cursor 
+			deletePrevioseCursor();
+
+			// creating span for regular character or symbol
+			var symbol = document.createElement('span');
+			symbol.origin_class_name = class_generator
+																.setPrefix('wet-')
+																.mainClass(data.symbol_buffer[index].value)
+																.space()
+																.subClass(data.symbol_buffer[index].value)
+																.generate();
+			symbol.className = symbol.origin_class_name + ' active';
+			var symbol_content = document.createTextNode(data.symbol_buffer[index].value);
+			symbol.appendChild(symbol_content);
+
 			// adding character with a span tag and special class
 			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
-																														+ '<span class="' 
-																														+ class_generator
-																															.setPrefix('wet-')
-																															.mainClass(data.symbol_buffer[index].value)
-																															.space()
-																															.subClass(data.symbol_buffer[index].value)
-																															.generate() 
-																														+ '">' 
-																														+ data.symbol_buffer[index].value 
-																														+ '</span>';
+																														+ symbol.outerHTML;
 			// clearing buffer
 			data.symbol_buffer[index].value = '';
 		}
 		// enter emulation, using adding new line
-		if(scope.getKeyMap() == 13 )
+		if(scope.getKeyMap() == 13 ) //  enter
 		{
+			// deleting previose cursor
+			deletePrevioseCursor();
+			// index of created line
 			data.current_line[index]++;
-			console.log(data.current_line[index])
+			// adding new line
 			data.line[index][data.current_line[index]] = document.createElement('div');
 			data.line[index][data.current_line[index]].className = 'line';
 			data.line[index][data.current_line[index]].setAttribute('line_number', data.current_line[index]);
@@ -694,15 +738,37 @@
     function createInstance() 
     {
     	var key_assotiation = [
-    		{}
-    	]
-    	function start()
+    		{'key_combination':'27','function_name':'unselect'}, // esc
+				{'key_combination':'9','function_name':'tab'}, // tab
+				// {'key_combination':'16','function_name':'shift'}, // shift
+				// {'key_combination':'17','function_name':'control'},
+				// {'key_combination':'18','function_name':'alt'},
+				// {'key_combination':'8','function_name':'backspase'}, // <==
+				// {'key_combination':'46','function_name':'delete'}, // <==
+				{'key_combination':'36','function_name':'home'},
+				{'key_combination':'35','function_name':'end'},
+				{'key_combination':'37','function_name':'left_arrow'}, // <-
+				{'key_combination':'39','function_name':'right_arrow'}, // ->
+				{'key_combination':'38','function_name':'up_arrow'}, // ^
+				{'key_combination':'40','function_name':'dovn_arrow'} // \/
+    	];
+
+    	function addFunction(key_combination, function_name)
     	{
-    		console.log('cool');
+    		key_assotiation.push({'key_combination': key_combination,
+    													'function_name': function_name})
+    		//key_assotiation[key_assotiation.length].key_combination = key_combination;
+    		//key_assotiation[key_assotiation.length].function_name = function_name;
+    	}
+
+    	function dump()
+    	{
+    		console.log(key_assotiation);
     	}
 
     	return {
-    		start: start
+    		addFunction: addFunction,
+    		dump: dump
     	}
 
 		}
@@ -715,19 +781,19 @@
             return instance;
         }
     };
-
-		//return Module;
 	})()
 
-	Module.getInstance().func = function(){
+	Module.getInstance().deletes = function(){
 		console.log('1');
 	}
 
+	var module = new Module.getInstance();
+	module.addFunction('2340', 'deletes');
+	module['deletes']();
+	module.deletes();
 
-
-	var m = new Module.getInstance();
-	m.start();
-	m['func']();
+	var module2 = new Module.getInstance();
+	module2.deletes();
 
 
 	///////////////////////////////////
