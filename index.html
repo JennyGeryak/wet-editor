@@ -473,7 +473,7 @@
 		var class_generator = new Char_Class_Generator('wet-');
 		var hotkey = new Module.getInstance();
 
-		hotkey.runFunction();
+		hotkey.runFunction(scope.getStringKeyMap());
 
 		// if controlling key pressed 
 		// need to disabled browser hotkeys 
@@ -763,26 +763,27 @@
 
     function createInstance() 
     {
-    	var key_assotiation = [
-    		{'key_combination':'27','function_name':'unselect'}, // esc
-				{'key_combination':'9','function_name':'tab'}, // tab
-				// {'key_combination':'16','function_name':'shift'}, // shift
-				// {'key_combination':'17','function_name':'control'},
-				// {'key_combination':'18','function_name':'alt'},
-				// {'key_combination':'8','function_name':'backspase'}, // <==
-				// {'key_combination':'46','function_name':'delete'}, // <==
-				{'key_combination':'36','function_name':'home'},
-				{'key_combination':'35','function_name':'end'},
-				{'key_combination':'37','function_name':'left_arrow'}, // <-
-				{'key_combination':'39','function_name':'right_arrow'}, // ->
-				{'key_combination':'38','function_name':'up_arrow'}, // ^
-				{'key_combination':'40','function_name':'dovn_arrow'} // \/
-    	];
+    // 	var key_assotiation = [
+    // 		{'key_combination':'27','function_name':'unselect'}, // esc
+				// {'key_combination':'9','function_name':'tab'}, // tab
+				// // {'key_combination':'16','function_name':'shift'}, // shift
+				// // {'key_combination':'17','function_name':'control'},
+				// // {'key_combination':'18','function_name':'alt'},
+				// // {'key_combination':'8','function_name':'backspase'}, // <==
+				// // {'key_combination':'46','function_name':'delete'}, // <==
+				// {'key_combination':'36','function_name':'home'},
+				// {'key_combination':'35','function_name':'end'},
+				// {'key_combination':'37','function_name':'left_arrow'}, // <-
+				// {'key_combination':'39','function_name':'right_arrow'}, // ->
+				// {'key_combination':'38','function_name':'up_arrow'}, // ^
+				// {'key_combination':'40','function_name':'dovn_arrow'} // \/
+    // 	];
+
+    	var key_assotiation = {'8':{ 'function_name':'backspase' }, '9':{'function_name':'tab'}};
 
     	function addFunction(key_combination, function_name)
     	{
-    		key_assotiation.push({'key_combination': key_combination,
-    													'function_name': function_name});
+    		key_assotiation[key_combination] = { 'function_name':function_name };
     	}
 
     	function dump()
@@ -792,7 +793,10 @@
 
     	function runFunction(combination)
     	{
-    		//this[key_assotiation[0].function_name]();
+    		if (combination>0)
+    		{
+    			this[key_assotiation[combination]['function_name']]()
+    		};
     	}
 
     	return {
@@ -813,18 +817,12 @@
     };
 	})()
 
-	Module.getInstance().backspase = function(data, scope, index, event, condition){
+	Module.getInstance().backspase = function(options){
 		console.log('hello');
 	}
 
 	var module = new Module.getInstance();
 	module.addFunction('8', 'backspase');
-	module['backspase']();
-	module.backspase();
-
-	var module2 = new Module.getInstance();
-	module2.backspase();
-
 
 	///////////////////////////////////
 	/**         MAIN SCRIPT         **/
