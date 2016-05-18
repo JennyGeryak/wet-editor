@@ -473,7 +473,7 @@
 		var class_generator = new Char_Class_Generator('wet-');
 		var hotkey = new Module.getInstance();
 
-		hotkey.runFunction(scope.getStringKeyMap());
+		
 
 		// if controlling key pressed 
 		// need to disabled browser hotkeys 
@@ -561,11 +561,13 @@
 		// if key is pressed or relissed add event to singleton
 		if(condition == 'pressed')
 		{
+			hotkey.runFunction(scope.getStringKeyMap());
 			scope.keyDown(event);
 			// event.preventDefault(); event.stopPropagation(); 
 		}
 		else if(condition == 'relised')
 		{
+			hotkey.runFunction(scope.getStringKeyMap());
 			scope.keyUp(event);
 			// event.preventDefault(); event.stopPropagation(); 
 		}		
@@ -781,6 +783,8 @@
 
     	var key_assotiation = {'8':{ 'function_name':'backspase' }, '9':{'function_name':'tab'}};
 
+    	var options ;
+
     	function addFunction(key_combination, function_name)
     	{
     		key_assotiation[key_combination] = { 'function_name':function_name };
@@ -793,16 +797,28 @@
 
     	function runFunction(combination)
     	{
-    		if (combination>0)
+    		//console.log((this[key_assotiation[combination]]));
+    		if(combination > 0)
     		{
-    			this[key_assotiation[combination]['function_name']]()
-    		};
+	    		if (key_assotiation[combination] != undefined )
+	    		{
+	    			console.log('cool');
+	    			this[key_assotiation[combination]['function_name']]() || '';
+	    		};
+
+    		}
+    	}
+
+    	function setOptions(options)
+    	{
+    		options = options
     	}
 
     	return {
     		addFunction: addFunction,
     		dump: dump,
-    		runFunction: runFunction
+    		runFunction: runFunction,
+    		key_assotiation: key_assotiation
     	}
 
 		}
@@ -818,7 +834,7 @@
 	})()
 
 	Module.getInstance().backspase = function(options){
-		console.log('hello');
+		console.log('hey');
 	}
 
 	var module = new Module.getInstance();
