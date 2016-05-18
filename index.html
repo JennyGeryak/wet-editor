@@ -561,6 +561,10 @@
 		// if key is pressed or relissed add event to singleton
 		if(condition == 'pressed')
 		{
+			hotkey.setOptions({
+				'object': data,
+				'index': index
+			});
 			hotkey.runFunction(scope.getStringKeyMap());
 			scope.keyDown(event);
 			// event.preventDefault(); event.stopPropagation(); 
@@ -803,22 +807,23 @@
 	    		if (key_assotiation[combination] != undefined )
 	    		{
 	    			console.log('cool');
-	    			this[key_assotiation[combination]['function_name']]() || '';
+	    			this[key_assotiation[combination]['function_name']](options) || '';
 	    		};
 
     		}
     	}
 
-    	function setOptions(options)
+    	function setOptions(user_options)
     	{
-    		options = options
+    		options = user_options;
     	}
 
     	return {
     		addFunction: addFunction,
     		dump: dump,
     		runFunction: runFunction,
-    		key_assotiation: key_assotiation
+    		key_assotiation: key_assotiation,
+    		setOptions: setOptions
     	}
 
 		}
@@ -834,7 +839,12 @@
 	})()
 
 	Module.getInstance().backspase = function(options){
-		console.log('hey');
+		var active_char = document.getElementsByClassName('active')[0];
+		var previous_char = document.getElementsByClassName('active')[0].previousSibling;
+		var previous_char_original_class_name = document.getElementsByClassName('active')[0].previousSibling.className.trim();
+		active_char.parentNode.removeChild(active_char);
+		previous_char.className = previous_char_original_class_name + ' ' + 'active';
+
 	}
 
 	var module = new Module.getInstance();
