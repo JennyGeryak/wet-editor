@@ -19,8 +19,18 @@
 		opacity: 0;
 	}
 	.active{
-		border: 1px solid black; 
+		border-right: 1px solid black; 
 		min-width: 10px;
+	}
+	span{
+/*		display: inline-block;
+		min-width: 20px;*/
+	}
+	.wet-space{
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		/*height: 20px;*/
 	}
 	html{
 		font-family: 'Inconsolata', monospace;
@@ -461,6 +471,9 @@
 	{	
 		// initialization of new character class generator 
 		var class_generator = new Char_Class_Generator('wet-');
+		var hotkey = new Module.getInstance();
+
+		hotkey.runFunction();
 
 		// if controlling key pressed 
 		// need to disabled browser hotkeys 
@@ -688,7 +701,7 @@
 		/**
 			* @public
 			* @function
-			* @name keyUp
+			* @name getKeyMap
 			* @description return key map 
 			* @return {Array} - key map content
 			*/
@@ -697,10 +710,22 @@
 		  	return key_map.sort();
 		  }
 
+		 /**
+			* @public
+			* @function
+			* @name getStringKeyMap
+			* @description return key map like a string
+			* @return {String} - key map content
+			*/
+		  function getStringKeyMap()
+		  {
+		  	return key_map.sort().toString();
+		  }
+
 		/**
 			* @public
 			* @function
-			* @name keyUp
+			* @name clearKeyMap
 			* @description refreshing key map
 			*/
 		  function clearKeyMap()
@@ -712,7 +737,8 @@
 		    keyDown : keyDown,
 		    keyUp : keyUp,
 		    getKeyMap: getKeyMap,
-		    clearKeyMap: clearKeyMap
+		    clearKeyMap: clearKeyMap,
+		    getStringKeyMap: getStringKeyMap
 		  };
 
     }
@@ -756,9 +782,7 @@
     	function addFunction(key_combination, function_name)
     	{
     		key_assotiation.push({'key_combination': key_combination,
-    													'function_name': function_name})
-    		//key_assotiation[key_assotiation.length].key_combination = key_combination;
-    		//key_assotiation[key_assotiation.length].function_name = function_name;
+    													'function_name': function_name});
     	}
 
     	function dump()
@@ -766,9 +790,15 @@
     		console.log(key_assotiation);
     	}
 
+    	function runFunction(combination)
+    	{
+    		//this[key_assotiation[0].function_name]();
+    	}
+
     	return {
     		addFunction: addFunction,
-    		dump: dump
+    		dump: dump,
+    		runFunction: runFunction
     	}
 
 		}
@@ -783,17 +813,17 @@
     };
 	})()
 
-	Module.getInstance().deletes = function(){
-		console.log('1');
+	Module.getInstance().backspase = function(data, scope, index, event, condition){
+		console.log('hello');
 	}
 
 	var module = new Module.getInstance();
-	module.addFunction('2340', 'deletes');
-	module['deletes']();
-	module.deletes();
+	module.addFunction('8', 'backspase');
+	module['backspase']();
+	module.backspase();
 
 	var module2 = new Module.getInstance();
-	module2.deletes();
+	module2.backspase();
 
 
 	///////////////////////////////////
