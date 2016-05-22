@@ -1,7 +1,18 @@
-///////////////////////////////////
+  ///////////////////////////////////
 	/**         OBSERVERS           **/
 	///////////////////////////////////
-
+/**
+	* @name Key_Observer
+	* @author Ivan Kaduk
+	* @copyright Ivan Kaduk 2016.
+	* @class
+	* @classdesc it is reaction of observer on key event
+	* @param {Editor} data - getting main object
+	* @param {Key_Scope} scope - key map singelton 
+	* @param {int} index - index of current active editor element
+	* @param {event} event - object that contain event data
+	* @param {String} condition - condition of key: pressed or released 
+	*/
 	var Key_Observer = function(data, scope, index, event, condition)
 	{	
 		// initialization of new character class generator 

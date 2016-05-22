@@ -1,8 +1,10 @@
 {
   "name": "wet-editor",
   "version": "2.0.1",
+  "description":"html code editor",
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
     "gulp-uglifyjs": "^0.6.2"
   }
 }

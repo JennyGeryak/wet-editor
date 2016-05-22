@@ -10,6 +10,9 @@
 <dt><a href="#Observable">Observable</a></dt>
 <dd><p>standart subject for obsrver</p>
 </dd>
+<dt><a href="#Key_Observer">Key_Observer</a></dt>
+<dd><p>it is reaction of observer on key event</p>
+</dd>
 <dt><a href="#Key_Scope">Key_Scope</a></dt>
 <dd><p>it singelton which contain current key combinations</p>
 </dd>
@@ -52,9 +55,6 @@
 </dd>
 <dt><a href="#publish">publish(data, counter)</a></dt>
 <dd><p>calling observers constructors</p>
-</dd>
-<dt><a href="#Key_Observer">Key_Observer()</a></dt>
-<dd><p>OBSERVERS</p>
 </dd>
 <dt><a href="#keyDown">keyDown(e)</a></dt>
 <dd><p>catching code frome event and adding it to key map, on some action</p>
@@ -121,6 +121,26 @@ this class is returning string for elements class
 standart subject for obsrver
 
 **Kind**: global class  
+<a name="Key_Observer"></a>
+
+## Key_Observer
+it is reaction of observer on key event
+
+**Kind**: global class  
+**Author:** Ivan Kaduk  
+**Copyright**: Ivan Kaduk 2016.  
+<a name="new_Key_Observer_new"></a>
+
+### new Key_Observer(data, scope, index, event, condition)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>[Editor](#Editor)</code> | getting main object |
+| scope | <code>[Key_Scope](#Key_Scope)</code> | key map singelton |
+| index | <code>int</code> | index of current active editor element |
+| event | <code>event</code> | object that contain event data |
+| condition | <code>String</code> | condition of key: pressed or released |
+
 <a name="Key_Scope"></a>
 
 ## Key_Scope
@@ -233,12 +253,6 @@ calling observers constructors
 | data | <code>Object</code> | some objects collection to do some actions with |
 | counter | <code>int</code> | index of sub object in data collection |
 
-<a name="Key_Observer"></a>
-
-## Key_Observer()
-OBSERVERS
-
-**Kind**: global function  
 <a name="keyDown"></a>
 
 ## keyDown(e)
