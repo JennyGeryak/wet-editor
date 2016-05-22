@@ -27,6 +27,9 @@
 <dt><a href="#backspase">backspase</a></dt>
 <dd><p>this module need to emulate &quot;backspase&quot; key features</p>
 </dd>
+<dt><a href="#first">first</a></dt>
+<dd><p>MAIN SCRIPT</p>
+</dd>
 </dl>
 
 ## Functions
@@ -166,6 +169,12 @@ this module need to emulate "backspase" key features
 **Kind**: global variable  
 **Author:** Ivan Kaduk  
 **Copyright**: Ivan Kaduk 2016.  
+<a name="first"></a>
+
+## first
+MAIN SCRIPT
+
+**Kind**: global variable  
 <a name="mainClass"></a>
 
 ## mainClass(user_char)

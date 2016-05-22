@@ -917,3 +917,15 @@
 
 	var module = new Module.getInstance();
 	module.addFunction('8', 'backspase');
+
+	///////////////////////////////////
+	/**         MAIN SCRIPT         **/
+	///////////////////////////////////
+
+	var first = new Editor('someeditor', {
+		console:true
+	});
+
+	var second = new Editor('someeditor_another', {
+		console:false
+	});
