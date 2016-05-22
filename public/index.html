@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+<style>
+
+	#result span{
+		background: pink;
+		border-radius: 10px;
+		font-size: 34px;
+	}
+	.line{
+		border:1px solid #12aaee;
+	}
+	#editor{
+		opacity: 0;
+	}
+	.active{
+		border-right: 1px solid black; 
+		min-width: 10px;
+	}
+	span{
+/*		display: inline-block;
+		min-width: 20px;*/
+	}
+	.wet-space{
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		/*height: 20px;*/
+	}
+	.wet-character{
+		color: red;
+	}
+	html{
+		font-family: 'Inconsolata', monospace;
+/*		-moz-user-select: none;
+		-khtml-user-select: none;
+		user-select: none;   
+		    -webkit-user-select: none;
+    -ms-user-select: none;*/
+	}
+</style>
+<body>
+
+<div class="someeditor">
+	
+</div>
+
+<div class="someeditor">
+	
+</div>
+
+<div class="someeditor_another">
+	
+</div>
+</body>
+</html>
+<script src="app/app.min.js"></script>
+<script>
+
+	///////////////////////////////////
+	/**         MAIN SCRIPT         **/
+	///////////////////////////////////
+
+	var first = new Editor('someeditor', {
+		console:true
+	});
+
+	var second = new Editor('someeditor_another', {
+		console:false
+	});
+
+</script>
