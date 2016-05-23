@@ -15,3 +15,6 @@ In this early version it hase next features:
 - hetkey console;
 
 [demo](http://codepen.io/Ceditvodu/full/ZWgOrO/)
+
+![cc by nc sa](https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png)
+Format: ![cc by nc sa](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)
