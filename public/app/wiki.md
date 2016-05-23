@@ -97,6 +97,7 @@ this class is creating editor object
 **Extends:** <code>[Observable](#Observable)</code>  
 **Version**: 1.0.0  
 **Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
 <a name="new_Editor_new"></a>
 
@@ -117,6 +118,7 @@ this class is returning string for elements class
 
 **Kind**: global class  
 **Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
 <a name="Observable"></a>
 
@@ -131,6 +133,7 @@ it is reaction of observer on key event
 
 **Kind**: global class  
 **Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
 <a name="new_Key_Observer_new"></a>
 
@@ -152,6 +155,7 @@ it singelton which contain current key combinations
 **Kind**: global class  
 **Version**: 1.0.0  
 **Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
 <a name="Module"></a>
 
@@ -160,6 +164,7 @@ it is solution that helps to create additional mudules more easy and implement i
 
 **Kind**: global class  
 **Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
 <a name="backspase"></a>
 
@@ -168,6 +173,7 @@ this module need to emulate "backspase" key features
 
 **Kind**: global variable  
 **Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
 <a name="first"></a>
 

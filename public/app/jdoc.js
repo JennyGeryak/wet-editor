@@ -7,6 +7,7 @@
 	* @version 1.0.0
 	* @author Ivan Kaduk
 	* @copyright Ivan Kaduk 2016.
+	* @License cc-by-nc-sa 4.0
 	* @class
 	* @augments Observable
 	* @classdesc this class is creating editor object
@@ -172,6 +173,7 @@
 	* @name Char_Class_Generator
 	* @author Ivan Kaduk
 	* @copyright Ivan Kaduk 2016.
+	* @License cc-by-nc-sa 4.0
 	* @class
 	* @classdesc this class is returning string for elements class
 	* @example class_generator
@@ -402,6 +404,7 @@
 	* @name Key_Observer
 	* @author Ivan Kaduk
 	* @copyright Ivan Kaduk 2016.
+	* @License cc-by-nc-sa 4.0
 	* @class
 	* @classdesc it is reaction of observer on key event
 	* @param {Editor} data - getting main object
@@ -535,6 +538,7 @@
 	* @version 1.0.0
 	* @author Ivan Kaduk
 	* @copyright Ivan Kaduk 2016.
+	* @License cc-by-nc-sa 4.0
 	* @class
 	* @classdesc it singelton which contain current key combinations
 	* @example var key_scope = Key_Scope.getInstance();
@@ -707,6 +711,7 @@
     * @name Module
     * @author Ivan Kaduk
     * @copyright Ivan Kaduk 2016.
+		* @License cc-by-nc-sa 4.0
     * @class
     * @classdesc it is solution that helps to create additional mudules more easy and implement it to application
     * @example     Module.getInstance().modules_name = function(options)
@@ -828,6 +833,7 @@
   * @name backspase
   * @author Ivan Kaduk
   * @copyright Ivan Kaduk 2016.
+	* @License cc-by-nc-sa 4.0
   * @desc this module need to emulate "backspase" key features
   */
 	Module.getInstance().backspase = function(options){
