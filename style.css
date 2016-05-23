@@ -5,6 +5,7 @@
 	}
 	.line{
 		border:1px solid #12aaee;
+		min-height: 17px;
 	}
 	#editor{
 		opacity: 0;
