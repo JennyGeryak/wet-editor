@@ -6,6 +6,7 @@
     * @name Module
     * @author Ivan Kaduk
     * @copyright Ivan Kaduk 2016.
+		* @License cc-by-nc-sa 4.0
     * @class
     * @classdesc it is solution that helps to create additional mudules more easy and implement it to application
     * @example     Module.getInstance().modules_name = function(options)

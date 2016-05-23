@@ -5,6 +5,7 @@
 	* @name Char_Class_Generator
 	* @author Ivan Kaduk
 	* @copyright Ivan Kaduk 2016.
+	* @License cc-by-nc-sa 4.0
 	* @class
 	* @classdesc this class is returning string for elements class
 	* @example class_generator

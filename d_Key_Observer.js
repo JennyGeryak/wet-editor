@@ -5,6 +5,7 @@
 	* @name Key_Observer
 	* @author Ivan Kaduk
 	* @copyright Ivan Kaduk 2016.
+	* @License cc-by-nc-sa 4.0
 	* @class
 	* @classdesc it is reaction of observer on key event
 	* @param {Editor} data - getting main object

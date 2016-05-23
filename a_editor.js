@@ -7,6 +7,7 @@
 	* @version 1.0.0
 	* @author Ivan Kaduk
 	* @copyright Ivan Kaduk 2016.
+	* @License cc-by-nc-sa 4.0
 	* @class
 	* @augments Observable
 	* @classdesc this class is creating editor object
