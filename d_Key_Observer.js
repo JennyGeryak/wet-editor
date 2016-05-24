@@ -70,24 +70,31 @@
 		// if pressed key is not null 
 		if(data.symbol_buffer[index].value != '')
 		{
-			// deleting previose cursor 
-			deletePrevioseCursor();
+//			// deleting previose cursor 
+//			deletePrevioseCursor();
+//
+//			// creating span for regular character or symbol
+//			var symbol = document.createElement('span');
+//			symbol.origin_class_name = class_generator
+//																.setPrefix('wet-')
+//																.mainClass(data.symbol_buffer[index].value)
+//																.space()
+//																.subClass(data.symbol_buffer[index].value)
+//																.generate();
+//			symbol.className = symbol.origin_class_name + ' active';
+//			var symbol_content = document.createTextNode(data.symbol_buffer[index].value);
+//			symbol.appendChild(symbol_content);
 
-			// creating span for regular character or symbol
-			var symbol = document.createElement('span');
-			symbol.origin_class_name = class_generator
-																.setPrefix('wet-')
-																.mainClass(data.symbol_buffer[index].value)
-																.space()
-																.subClass(data.symbol_buffer[index].value)
-																.generate();
-			symbol.className = symbol.origin_class_name + ' active';
-			var symbol_content = document.createTextNode(data.symbol_buffer[index].value);
-			symbol.appendChild(symbol_content);
-
-			// adding character with a span tag and special class
-			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
-																														+ symbol.outerHTML;
+//			// adding character with a span tag and special class
+//			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
+//																														+ symbol.outerHTML;
+			var previouse_element = document.getElementsByClassName('active')[0];
+			if((previouse_element.className.split()[0] == 'wet-line-start')&&())
+			{
+				
+			}
+			data.line[index][data.current_line[index]].innerHTML += data.symbol_buffer[index].value;
+			
 			// clearing buffer
 			data.symbol_buffer[index].value = '';
 		}
