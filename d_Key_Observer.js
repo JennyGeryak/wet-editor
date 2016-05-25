@@ -89,14 +89,15 @@
 //			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
 //																														+ symbol.outerHTML;
 			var previouse_element = document.getElementsByClassName('active')[0];
-			if((previouse_element.className.split()[0] == 'wet-line-start')&&())
+			console.log(previouse_element.className.split(" ")[0]);
+			if((previouse_element.className.split(" ")[0] == 'wet-line-start')
+			&&(class_generator.mainClass(data.symbol_buffer[index].value).generate() == "character"))
 			{
-				
+				data.line[index][data.current_line[index]].innerHTML += '<span class="wet-word">' + data.symbol_buffer[index].value;
+
+				// clearing buffer
+				data.symbol_buffer[index].value = '';
 			}
-			data.line[index][data.current_line[index]].innerHTML += data.symbol_buffer[index].value;
-			
-			// clearing buffer
-			data.symbol_buffer[index].value = '';
 		}
 		// enter emulation, using adding new line
 		if(scope.getKeyMap() == 13 ) //  enter
