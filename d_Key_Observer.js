@@ -89,15 +89,30 @@
 //			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
 //																														+ symbol.outerHTML;
 			var previouse_element = document.getElementsByClassName('active')[0];
-			console.log(previouse_element.className.split(" ")[0]);
-			if((previouse_element.className.split(" ")[0] == 'wet-line-start')
-			&&(class_generator.mainClass(data.symbol_buffer[index].value).generate() == "character"))
+			var word = document.createElement('span');
+			word.className = 'wet-word';
+			if((previouse_element.className.split(" ")[0] == 'wet-line-start'))
 			{
-				data.line[index][data.current_line[index]].innerHTML += '<span class="wet-word">' + data.symbol_buffer[index].value;
-
+				previouse_element.className = 'wet-line-start';
+			}
+			if(class_generator.mainClass(data.symbol_buffer[index].value).generate() == "character")
+			{
+				var content = document.createTextNode(data.symbol_buffer[index].value);
+				var charecter_holder = document.createElement('span');
+				character_holder.className = class_generator
+																		.setPrefix('wet-')
+																		.mainClass(data.symbol_buffer[index].value)
+																		.space()
+																		.subClass(data.symbol_buffer[index].value)
+																		.generate() 
+																		+ 'active';
+				charecter_holder.appendChild(content)
+				word.appendChild(charecter_holder); 
+				data.line[index][data.current_line[index]].appendChild(word);
+				
+			}
 				// clearing buffer
 				data.symbol_buffer[index].value = '';
-			}
 		}
 		// enter emulation, using adding new line
 		if(scope.getKeyMap() == 13 ) //  enter
