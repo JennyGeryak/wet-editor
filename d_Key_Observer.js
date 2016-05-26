@@ -35,15 +35,21 @@
 		* @description it is need to delete previose cursor 
 		*/
 		function deletePrevioseCursor(){
-			if(document.getElementsByClassName('active')[0] != undefined){
-				var previose = document.getElementsByClassName('active')[0] || '';
-				var class_array = previose.className.split(" ");
-				previose.className = '';
-				for (var i = 0; i < class_array.length-1; i++) {
-					previose.className += class_array[i];
-					previose.className += ' ';
-
-				};
+					if(document.getElementsByClassName("active")[0] != undefined)
+					{
+						document.getElementsByClassName('active')[0].className = class_generator
+																																.setPrefix('wet-')
+																																.mainClass(document.getElementsByClassName('active')[0].innerHTML)
+																																.space()
+																																.subClass(document.getElementsByClassName('active')[0].innerHTML)
+																																.generate();
+					}
+		}
+		
+		function deletePrevioseParent(){
+			if(document.getElementsByClassName('parent')[0] != undefined)
+			{
+				document.getElementsByClassName('parent')[0].className = "wet-word";
 			}
 		}
 
@@ -64,52 +70,75 @@
 			// adding starting teg for a line 
 			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
 																														+ first_symbol.outerHTML;
-
 		}
 
 		// if pressed key is not null 
 		if(data.symbol_buffer[index].value != '')
 		{
-//			// deleting previose cursor 
-//			deletePrevioseCursor();
-//
-//			// creating span for regular character or symbol
-//			var symbol = document.createElement('span');
-//			symbol.origin_class_name = class_generator
-//																.setPrefix('wet-')
-//																.mainClass(data.symbol_buffer[index].value)
-//																.space()
-//																.subClass(data.symbol_buffer[index].value)
-//																.generate();
-//			symbol.className = symbol.origin_class_name + ' active';
-//			var symbol_content = document.createTextNode(data.symbol_buffer[index].value);
-//			symbol.appendChild(symbol_content);
-
-//			// adding character with a span tag and special class
-//			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
-//																														+ symbol.outerHTML;
 			var previouse_element = document.getElementsByClassName('active')[0];
-			var word = document.createElement('span');
-			word.className = 'wet-word';
-			if((previouse_element.className.split(" ")[0] == 'wet-line-start'))
+			var previouse_element_class = previouse_element ? previouse_element.className.split(" ")[0] : ''; 
+			if((previouse_element_class == 'wet-line-start'))
 			{
 				previouse_element.className = 'wet-line-start';
 			}
 			if(class_generator.mainClass(data.symbol_buffer[index].value).generate() == "character")
 			{
-				var content = document.createTextNode(data.symbol_buffer[index].value);
-				var charecter_holder = document.createElement('span');
-				character_holder.className = class_generator
-																		.setPrefix('wet-')
-																		.mainClass(data.symbol_buffer[index].value)
-																		.space()
-																		.subClass(data.symbol_buffer[index].value)
-																		.generate() 
-																		+ 'active';
-				charecter_holder.appendChild(content)
-				word.appendChild(charecter_holder); 
-				data.line[index][data.current_line[index]].appendChild(word);
+				if(document.getElementsByClassName('parent').length == 0)
+				{
+					
+					deletePrevioseCursor();
+					
+					var word = document.createElement('span');
+					word.className = 'wet-word parent';
+					var content = document.createTextNode(data.symbol_buffer[index].value);
+					var character_holder = document.createElement('span');
+					character_holder.className = class_generator
+																			.setPrefix('wet-')
+																			.mainClass(data.symbol_buffer[index].value)
+																			.space()
+																			.subClass(data.symbol_buffer[index].value)
+																			.generate() 
+																			+ 'active'; 
+					character_holder.appendChild(content);
+					word.appendChild(character_holder); 
+					data.line[index][data.current_line[index]].appendChild(word);
+				}
+				else
+				{
+					previouse_element.className = class_generator
+																				.setPrefix('wet-')
+																				.mainClass(data.symbol_buffer[index].value)
+																				.space()
+																				.subClass(data.symbol_buffer[index].value)
+																				.generate();
+					word = document.getElementsByClassName('parent')[0];
+					var content = document.createTextNode(data.symbol_buffer[index].value);
+					var character_holder = document.createElement('span');
+					character_holder.className = class_generator
+																			.setPrefix('wet-')
+																			.mainClass(data.symbol_buffer[index].value)
+																			.space()
+																			.subClass(data.symbol_buffer[index].value)
+																			.generate() 
+																			+ 'active'; 
+					character_holder.appendChild(content);
+					word.appendChild(character_holder); 
+				}
+			}
+			else if(scope.getKeyMap().indexOf(32) >= 0)
+			{
+				deletePrevioseCursor();
 				
+				deletePrevioseParent();
+				
+				var space = document.createElement('span');
+				space.className = class_generator
+														.setPrefix('wet-')
+														.subClass(" ")
+														.generate() 
+														+ ' active'; 
+				space.innerHTML = " ";
+				data.line[index][data.current_line[index]].appendChild(space);
 			}
 				// clearing buffer
 				data.symbol_buffer[index].value = '';
@@ -119,6 +148,9 @@
 		{
 			// deleting previose cursor
 			deletePrevioseCursor();
+			
+			deletePrevioseParent();
+			
 			// index of created line
 			data.current_line[index]++;
 			// adding new line
