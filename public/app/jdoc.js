@@ -434,15 +434,21 @@
 		* @description it is need to delete previose cursor 
 		*/
 		function deletePrevioseCursor(){
-			if(document.getElementsByClassName('active')[0] != undefined){
-				var previose = document.getElementsByClassName('active')[0] || '';
-				var class_array = previose.className.split(" ");
-				previose.className = '';
-				for (var i = 0; i < class_array.length-1; i++) {
-					previose.className += class_array[i];
-					previose.className += ' ';
-
-				};
+					if(document.getElementsByClassName("active")[0] != undefined)
+					{
+						document.getElementsByClassName('active')[0].className = class_generator
+																																.setPrefix('wet-')
+																																.mainClass(document.getElementsByClassName('active')[0].innerHTML)
+																																.space()
+																																.subClass(document.getElementsByClassName('active')[0].innerHTML)
+																																.generate();
+					}
+		}
+		
+		function deletePrevioseParent(){
+			if(document.getElementsByClassName('parent')[0] != undefined)
+			{
+				document.getElementsByClassName('parent')[0].className = "wet-word";
 			}
 		}
 
@@ -463,38 +469,87 @@
 			// adding starting teg for a line 
 			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
 																														+ first_symbol.outerHTML;
-
 		}
 
 		// if pressed key is not null 
 		if(data.symbol_buffer[index].value != '')
 		{
-			// deleting previose cursor 
-			deletePrevioseCursor();
-
-			// creating span for regular character or symbol
-			var symbol = document.createElement('span');
-			symbol.origin_class_name = class_generator
-																.setPrefix('wet-')
-																.mainClass(data.symbol_buffer[index].value)
-																.space()
-																.subClass(data.symbol_buffer[index].value)
-																.generate();
-			symbol.className = symbol.origin_class_name + ' active';
-			var symbol_content = document.createTextNode(data.symbol_buffer[index].value);
-			symbol.appendChild(symbol_content);
-
-			// adding character with a span tag and special class
-			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
-																														+ symbol.outerHTML;
-			// clearing buffer
-			data.symbol_buffer[index].value = '';
+			var previouse_element = document.getElementsByClassName('active')[0];
+			var previouse_element_class = previouse_element ? previouse_element.className.split(" ")[0] : ''; 
+			if((previouse_element_class == 'wet-line-start'))
+			{
+				previouse_element.className = 'wet-line-start';
+			}
+			if(class_generator.mainClass(data.symbol_buffer[index].value).generate() == "character")
+			{
+				if(document.getElementsByClassName('parent').length == 0)
+				{
+					
+					deletePrevioseCursor();
+					
+					var word = document.createElement('span');
+					word.className = 'wet-word parent';
+					var content = document.createTextNode(data.symbol_buffer[index].value);
+					var character_holder = document.createElement('span');
+					character_holder.className = class_generator
+																			.setPrefix('wet-')
+																			.mainClass(data.symbol_buffer[index].value)
+																			.space()
+																			.subClass(data.symbol_buffer[index].value)
+																			.generate() 
+																			+ 'active'; 
+					character_holder.appendChild(content);
+					word.appendChild(character_holder); 
+					data.line[index][data.current_line[index]].appendChild(word);
+				}
+				else
+				{
+					previouse_element.className = class_generator
+																				.setPrefix('wet-')
+																				.mainClass(data.symbol_buffer[index].value)
+																				.space()
+																				.subClass(data.symbol_buffer[index].value)
+																				.generate();
+					word = document.getElementsByClassName('parent')[0];
+					var content = document.createTextNode(data.symbol_buffer[index].value);
+					var character_holder = document.createElement('span');
+					character_holder.className = class_generator
+																			.setPrefix('wet-')
+																			.mainClass(data.symbol_buffer[index].value)
+																			.space()
+																			.subClass(data.symbol_buffer[index].value)
+																			.generate() 
+																			+ 'active'; 
+					character_holder.appendChild(content);
+					word.appendChild(character_holder); 
+				}
+			}
+			else if(scope.getKeyMap().indexOf(32) >= 0)
+			{
+				deletePrevioseCursor();
+				
+				deletePrevioseParent();
+				
+				var space = document.createElement('span');
+				space.className = class_generator
+														.setPrefix('wet-')
+														.subClass(" ")
+														.generate() 
+														+ ' active'; 
+				space.innerHTML = " ";
+				data.line[index][data.current_line[index]].appendChild(space);
+			}
+				// clearing buffer
+				data.symbol_buffer[index].value = '';
 		}
 		// enter emulation, using adding new line
 		if(scope.getKeyMap() == 13 ) //  enter
 		{
 			// deleting previose cursor
 			deletePrevioseCursor();
+			
+			deletePrevioseParent();
+			
 			// index of created line
 			data.current_line[index]++;
 			// adding new line
@@ -837,7 +892,9 @@
   * @desc this module need to emulate "backspase" key features
   */
 	Module.getInstance().backspase = function(options){
-
+		
+		var class_generator = new Char_Class_Generator('wet-');
+		
 		// getting active element that must be deleted
 		var active_char = document.getElementsByClassName('active')[0];
 
@@ -847,7 +904,7 @@
 		if(previous_char != null)
 		{
 			if(previous_char.className.split(' ')[0] == 'wet-line-start'){
-
+				
 				// getting original class name of the previous element
 				var previous_char_original_class_name = document.getElementsByClassName('active')[0].previousSibling.className.trim();
 
@@ -857,9 +914,22 @@
 				// making previous element to be an active 
 				previous_char.className = previous_char_original_class_name + ' ' + 'active';	
 			}
+			else if(previous_char.className.split(' ')[0] == 'wet-word')
+			{
+				previous_char.className = 'wet-word parent';
+				var previouse_word_char = previous_char.childNodes[previous_char.childNodes.length-1];
+				previouse_word_char.className = class_generator
+																				.setPrefix('wet-')
+																				.mainClass(previouse_word_char.innerHTML)
+																				.space()
+																				.subClass(previouse_word_char.innerHTML)
+																				.generate()
+																				+ ' active';
+				// deleting active element
+				active_char.parentNode.removeChild(active_char);
+			}
 			else
 			{
-
 				// getting original class name of the previous element
 				var previous_char_original_class_name = document.getElementsByClassName('active')[0].previousSibling.className.trim();
 
@@ -870,53 +940,65 @@
 				previous_char.className = previous_char_original_class_name + ' ' + 'active';	
 			}
 		}
+		else if((document.getElementsByClassName('parent')[0] != undefined)
+					&&(document.getElementsByClassName('parent')[0].previousSibling.className)!= 'wet-line-start')
+		{
+			var word = document.getElementsByClassName('parent')[0]; 
+			var before_word = word.previousSibling;
+			before_word.className = class_generator
+															.setPrefix('wet-')
+															.mainClass(before_word.innerHTML)
+															.space()
+															.subClass(before_word.innerHTML)
+															.generate()
+															+ ' active';
+			word.parentNode.removeChild(word);
+			
+		}		
+		else if((document.getElementsByClassName('parent')[0] != undefined)
+					&&(document.getElementsByClassName('parent')[0].previousSibling.className)== 'wet-line-start')
+		{
+			var word = document.getElementsByClassName('parent')[0]; 
+			var before_word = word.previousSibling;
+			before_word.className = 'wet-line-start active';
+			word.parentNode.removeChild(word);
+		}
 		else
 		{
-            // deleting a line and going to the previous
+      // deleting a line and going to the previous
 			if(active_char.className.split(" ")[0] == 'wet-line-start')
 			{
 				var parent_s = active_char.parentNode;
-                var previous_line = parent_s.previousSibling;
+        var previous_line = parent_s.previousSibling;
                 
-				console.log(previous_line);
-                if(previous_line != null)
-                {
-                    parent_s.parentNode.removeChild(parent_s);
-                    // !!!!!!!!!! change this.current_line 
-                    // deleting enter pseudo sign
-                    options.object.current_line[options.index] = options.object.current_line[options.index] - 1;
-                    console.log(previous_line.childNodes[previous_line.childNodes.length-1]);
-                    previous_line.childNodes[previous_line.childNodes.length-1].className = previous_line.childNodes[previous_line.childNodes.length-1].className + ' ' + 'active';
-                    
-                    // getting active element that must be deleted
-                    var active_char = document.getElementsByClassName('active')[0];
-                    // getting previose element thet will be active after key pressed
-                    var previous_char = document.getElementsByClassName('active')[0].previousSibling;
-                    if(previous_char != null)
-                    {
-                        if(previous_char.className.split(' ')[0] == 'wet-line-start')
-                        {
-                            // getting original class name of the previous element
-                            var previous_char_original_class_name = document.getElementsByClassName('active')[0].previousSibling.className.trim();
-                            // deleting active element
-                            active_char.parentNode.removeChild(active_char);
-
-                            // making previous element to be an active 
-                            previous_char.className = previous_char_original_class_name + ' ' + 'active';	
-                        }
-                        else
-                        {
-
-                            // getting original class name of the previous element
-                            var previous_char_original_class_name = document.getElementsByClassName('active')[0].previousSibling.className.trim();
-                            // deleting active element
-                            active_char.parentNode.removeChild(active_char);
-                            // making previous element to be an active 
-                            previous_char.className = previous_char_original_class_name + ' ' + 'active';	
-                        }
-                    }
-                }
-                
+        if(previous_line != null)
+        {
+					parent_s.parentNode.removeChild(parent_s);
+					// !!!!!!!!!! change this.current_line 
+					// deleting enter pseudo sign
+					options.object.current_line[options.index] = options.object.current_line[options.index] - 1;
+					previous_line.childNodes[previous_line.childNodes.length-1].className = previous_line.childNodes[previous_line.childNodes.length-1].className + ' ' + 'active';
+            
+					// getting active element that must be deleted
+          var active_char = document.getElementsByClassName('active')[0];
+          // getting previose element thet will be active after key pressed
+          var previous_char = document.getElementsByClassName('active')[0].previousSibling;
+          if(previous_char != null)
+          {
+						if(active_char.className.split(' ')[0] == 'wet-word')
+						{
+							active_char.className = 'wet-word parent';
+							active_char.childNodes[active_char.childNodes.length-1].className = class_generator
+																																											.setPrefix('wet-')
+																																											.mainClass(active_char.childNodes[active_char.childNodes.length-1].innerHTML)
+																																											.space()
+																																											.subClass(active_char.childNodes[active_char.childNodes.length-1].innerHTML)
+																																											.generate()
+																																											+ ' active';
+							
+						}
+          }
+        }        
 			}
 		}
 	}
