@@ -73,7 +73,10 @@
 		else if((document.getElementsByClassName('parent')[0] != undefined)
 					&&(document.getElementsByClassName('parent')[0].previousSibling.className)== 'wet-line-start')
 		{
-			console.log('sds');
+			var word = document.getElementsByClassName('parent')[0]; 
+			var before_word = word.previousSibling;
+			before_word.className = 'wet-line-start active';
+			word.parentNode.removeChild(word);
 		}
 		else
 		{
@@ -83,43 +86,33 @@
 				var parent_s = active_char.parentNode;
         var previous_line = parent_s.previousSibling;
                 
-				console.log(previous_line);
         if(previous_line != null)
         {
-            parent_s.parentNode.removeChild(parent_s);
-            // !!!!!!!!!! change this.current_line 
-            // deleting enter pseudo sign
-            options.object.current_line[options.index] = options.object.current_line[options.index] - 1;
-            console.log(previous_line.childNodes[previous_line.childNodes.length-1]);
-            previous_line.childNodes[previous_line.childNodes.length-1].className = previous_line.childNodes[previous_line.childNodes.length-1].className + ' ' + 'active';
+					parent_s.parentNode.removeChild(parent_s);
+					// !!!!!!!!!! change this.current_line 
+					// deleting enter pseudo sign
+					options.object.current_line[options.index] = options.object.current_line[options.index] - 1;
+					previous_line.childNodes[previous_line.childNodes.length-1].className = previous_line.childNodes[previous_line.childNodes.length-1].className + ' ' + 'active';
             
-            // getting active element that must be deleted
-            var active_char = document.getElementsByClassName('active')[0];
-            // getting previose element thet will be active after key pressed
-            var previous_char = document.getElementsByClassName('active')[0].previousSibling;
-            if(previous_char != null)
-            {
-                if(previous_char.className.split(' ')[0] == 'wet-line-start')
-                {
-                    // getting original class name of the previous element
-                    var previous_char_original_class_name = document.getElementsByClassName('active')[0].previousSibling.className.trim();
-                    // deleting active element
-                    active_char.parentNode.removeChild(active_char);
-
-                    // making previous element to be an active 
-                    previous_char.className = previous_char_original_class_name + ' ' + 'active';	
-                }
-                else
-                {
-
-                    // getting original class name of the previous element
-                    var previous_char_original_class_name = document.getElementsByClassName('active')[0].previousSibling.className.trim();
-                    // deleting active element
-                    active_char.parentNode.removeChild(active_char);
-                    // making previous element to be an active 
-                    previous_char.className = previous_char_original_class_name + ' ' + 'active';	
-                }
-            }
+					// getting active element that must be deleted
+          var active_char = document.getElementsByClassName('active')[0];
+          // getting previose element thet will be active after key pressed
+          var previous_char = document.getElementsByClassName('active')[0].previousSibling;
+          if(previous_char != null)
+          {
+						if(active_char.className.split(' ')[0] == 'wet-word')
+						{
+							active_char.className = 'wet-word parent';
+							active_char.childNodes[active_char.childNodes.length-1].className = class_generator
+																																											.setPrefix('wet-')
+																																											.mainClass(active_char.childNodes[active_char.childNodes.length-1].innerHTML)
+																																											.space()
+																																											.subClass(active_char.childNodes[active_char.childNodes.length-1].innerHTML)
+																																											.generate()
+																																											+ ' active';
+							
+						}
+          }
         }        
 			}
 		}
