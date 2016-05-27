@@ -131,9 +131,8 @@
 			// if you typing a space button:
 			else if(scope.getKeyMap().indexOf(32) >= 0)
 			{
-				
-				word = concrete_entity.getElementsByClassName('parent')[0];
 				// prepare previose element for next work
+				word = concrete_entity.getElementsByClassName('parent')[0];
 				
 				deletePrevioseCursor();
 				
@@ -162,7 +161,7 @@
 		if(scope.getKeyMap() == 13 ) //  enter
 		{
 			
-			// deleting previose cursor
+			// prepare previose element for next work
 			deletePrevioseCursor();
 			
 			word = concrete_entity.getElementsByClassName('parent')[0];
