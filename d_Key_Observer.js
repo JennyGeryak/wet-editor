@@ -18,41 +18,18 @@
 	{	
 		// initialization of new character class generator 
 		var class_generator = new Char_Class_Generator('wet-');
-		var hotkey = new Module.getInstance();
-
 		
+		// initialization of module that make action according pressed keys
+		var hotkey = new Module.getInstance();
+		
+		// initialization of words exloser 
+		var divider = new Divider();
 
 		// if controlling key pressed 
 		// need to disabled browser hotkeys 
 		if(scope.getKeyMap()[0] < '46'){//16
 			event.preventDefault(); event.stopPropagation(); 
 		}
-
-	/**
-		* @private
-		* @function
-		* @name deletePrevioseCursor
-		* @description it is need to delete previose cursor 
-		*/
-		function deletePrevioseCursor(){
-					if(document.getElementsByClassName("active")[0] != undefined)
-					{
-						document.getElementsByClassName('active')[0].className = class_generator
-																																.setPrefix('wet-')
-																																.mainClass(document.getElementsByClassName('active')[0].innerHTML)
-																																.space()
-																																.subClass(document.getElementsByClassName('active')[0].innerHTML)
-																																.generate();
-					}
-		}
-		
-		function deletePrevioseParent(){
-			if(document.getElementsByClassName('parent')[0] != undefined)
-			{
-				document.getElementsByClassName('parent')[0].className = "wet-word";
-			}
-		}
-
 
 		// if that key pressed on new line
 		if(data.line[index][data.current_line[index]].innerHTML == '')
@@ -75,23 +52,36 @@
 		// if pressed key is not null 
 		if(data.symbol_buffer[index].value != '')
 		{
+			// detecting previouse element with 'active' class name
 			var previouse_element = document.getElementsByClassName('active')[0];
 			var previouse_element_class = previouse_element ? previouse_element.className.split(" ")[0] : ''; 
+			
+			// this an exception element that dont have auto generative class 
+			// that is why whe need to give our own
 			if((previouse_element_class == 'wet-line-start'))
 			{
 				previouse_element.className = 'wet-line-start';
 			}
+			
+			// now we press an character button:
 			if(class_generator.mainClass(data.symbol_buffer[index].value).generate() == "character")
 			{
+				// but our word dont created
 				if(document.getElementsByClassName('parent').length == 0)
 				{
 					
+					// so we must to delete cursor on first
 					deletePrevioseCursor();
 					
+					// create a word object 
 					var word = document.createElement('span');
+					// say to it that it will be have a children in it
 					word.className = 'wet-word parent';
+					// childs content
 					var content = document.createTextNode(data.symbol_buffer[index].value);
+					// childs container
 					var character_holder = document.createElement('span');
+					// generating of character class 
 					character_holder.className = class_generator
 																			.setPrefix('wet-')
 																			.mainClass(data.symbol_buffer[index].value)
@@ -99,21 +89,29 @@
 																			.subClass(data.symbol_buffer[index].value)
 																			.generate() 
 																			+ 'active'; 
+					// adding new character in container
 					character_holder.appendChild(content);
+					// adding character object to the word 
 					word.appendChild(character_holder); 
+					// adding word to the line 
 					data.line[index][data.current_line[index]].appendChild(word);
 				}
 				else
 				{
+					// deactive previose char
 					previouse_element.className = class_generator
 																				.setPrefix('wet-')
 																				.mainClass(data.symbol_buffer[index].value)
 																				.space()
 																				.subClass(data.symbol_buffer[index].value)
 																				.generate();
+					// find ready for children word
 					word = document.getElementsByClassName('parent')[0];
+					// childs content
 					var content = document.createTextNode(data.symbol_buffer[index].value);
+					// childs container
 					var character_holder = document.createElement('span');
+					// generating of character class 
 					character_holder.className = class_generator
 																			.setPrefix('wet-')
 																			.mainClass(data.symbol_buffer[index].value)
@@ -121,28 +119,39 @@
 																			.subClass(data.symbol_buffer[index].value)
 																			.generate() 
 																			+ 'active'; 
+					// adding charecter to container
 					character_holder.appendChild(content);
+					// adding char object to the word
 					word.appendChild(character_holder); 
 				}
 			}
+			// if you typing a space button:
 			else if(scope.getKeyMap().indexOf(32) >= 0)
 			{
-				deletePrevioseCursor();
+				// prepare previose element for next work
+				divider.concat();
 				
+				deletePrevioseCursor();
+
 				deletePrevioseParent();
 				
+				// creating a space object
 				var space = document.createElement('span');
+				// generating a special class for it
 				space.className = class_generator
 														.setPrefix('wet-')
 														.subClass(" ")
 														.generate() 
 														+ ' active'; 
+				// adding space contant
 				space.innerHTML = " ";
+				// adding space objecto to an active line
 				data.line[index][data.current_line[index]].appendChild(space);
 			}
 				// clearing buffer
 				data.symbol_buffer[index].value = '';
 		}
+		
 		// enter emulation, using adding new line
 		if(scope.getKeyMap() == 13 ) //  enter
 		{
@@ -182,6 +191,47 @@
 		if(data.console[index] != undefined)
 		{
 			data.console[index].innerHTML = (scope.getKeyMap());
-
+		}
+		
+	/**
+		* @private
+		* @function
+		* @name deletePrevioseCursor
+		* @description it is need to delete previose cursor and it protect of making unnecessary multicursors
+		*/
+		function deletePrevioseCursor()
+		{
+			// element with class 'active' 
+			var active_element = document.getElementsByClassName("active")[0]; 
+			
+			// if element is exist than change his class to native without 'active' mark
+			if(active_element != undefined)
+			{
+				active_element.className = class_generator
+																	.setPrefix('wet-')
+																	.mainClass(active_element.innerHTML)
+																	.space()
+																	.subClass(active_element.innerHTML)
+																	.generate();
+			}
+		}
+		
+	/**
+		* @private
+		* @function
+		* @name deletePrevioseParent
+		* @description it is need to delete 'perent' class from object it gives oportunity to know in which exact container
+		* is word lie
+		*/
+		function deletePrevioseParent()
+		{
+			// active word 
+			var parent = document.getElementsByClassName('parent')[0];
+			
+			// make a standart class for word 
+			if(parent != undefined)
+			{
+				parent.className = "wet-word";
+			}
 		}
 	}
