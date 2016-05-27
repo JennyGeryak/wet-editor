@@ -22,6 +22,9 @@
 		// initialization of module that make action according pressed keys
 		var hotkey = new Module.getInstance();
 		
+		// current entity of editor
+		var concrete_entity = data.container[index];
+		
 		// initialization of words exloser 
 		var divider = new Divider();
 
@@ -53,7 +56,7 @@
 		if(data.symbol_buffer[index].value != '')
 		{
 			// detecting previouse element with 'active' class name
-			var previouse_element = document.getElementsByClassName('active')[0];
+			var previouse_element = concrete_entity.getElementsByClassName('active')[0];
 			var previouse_element_class = previouse_element ? previouse_element.className.split(" ")[0] : ''; 
 			
 			// this an exception element that dont have auto generative class 
@@ -67,7 +70,7 @@
 			if(class_generator.mainClass(data.symbol_buffer[index].value).generate() == "character")
 			{
 				// but our word dont created
-				if(document.getElementsByClassName('parent').length == 0)
+				if(concrete_entity.getElementsByClassName('parent').length == 0)
 				{
 					
 					// so we must to delete cursor on first
@@ -106,7 +109,7 @@
 																				.subClass(data.symbol_buffer[index].value)
 																				.generate();
 					// find ready for children word
-					word = document.getElementsByClassName('parent')[0];
+					word = concrete_entity.getElementsByClassName('parent')[0];
 					// childs content
 					var content = document.createTextNode(data.symbol_buffer[index].value);
 					// childs container
@@ -128,10 +131,13 @@
 			// if you typing a space button:
 			else if(scope.getKeyMap().indexOf(32) >= 0)
 			{
+				
+				word = concrete_entity.getElementsByClassName('parent')[0];
 				// prepare previose element for next work
-				divider.concat();
 				
 				deletePrevioseCursor();
+				
+				word.innerHTML = divider.concat(word);
 
 				deletePrevioseParent();
 				
@@ -152,11 +158,19 @@
 				data.symbol_buffer[index].value = '';
 		}
 		
-		// enter emulation, using adding new line
+		// 'enter' emulation, using adding new line
 		if(scope.getKeyMap() == 13 ) //  enter
 		{
+			
 			// deleting previose cursor
 			deletePrevioseCursor();
+			
+			word = concrete_entity.getElementsByClassName('parent')[0];
+			
+			if(word)
+			{
+				word.innerHTML = divider.concat(word);				
+			}
 			
 			deletePrevioseParent();
 			
@@ -202,7 +216,7 @@
 		function deletePrevioseCursor()
 		{
 			// element with class 'active' 
-			var active_element = document.getElementsByClassName("active")[0]; 
+			var active_element = concrete_entity.getElementsByClassName("active")[0]; 
 			
 			// if element is exist than change his class to native without 'active' mark
 			if(active_element != undefined)
@@ -226,7 +240,7 @@
 		function deletePrevioseParent()
 		{
 			// active word 
-			var parent = document.getElementsByClassName('parent')[0];
+			var parent = concrete_entity.getElementsByClassName('parent')[0];
 			
 			// make a standart class for word 
 			if(parent != undefined)
