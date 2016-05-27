@@ -1,5 +1,5 @@
 	///////////////////////////////////
-	/**         CUSTOM CLASS        **/
+	/*          CUSTOM CLASS         */
 	///////////////////////////////////
 /**
 	* @name Divider
@@ -9,6 +9,8 @@
 	* @License cc-by-nc-sa 4.0
 	* @class
 	* @classdesc this class is need to separating character by character or to concate them into one word
+	* @namespace Divider
+	* @constructs Divider
 	* @example word.innerHTML = divider.concat(word);
 	*/
 var Divider = (function()
@@ -17,10 +19,11 @@ var Divider = (function()
 	{
 		
 	/**
-		* @public
 		* @function
 		* @name divide
 		* @description separating word to a single characters in container
+		* @mamberof Divider
+		* @instance
 		* @param {Object} word - container that contain string with word that must be exploded
 		* @return {String} - string with html code that containe separated characters
 		*/
@@ -52,10 +55,11 @@ var Divider = (function()
 		}
 
 	/**
-		* @public
 		* @function
 		* @name concat
 		* @description joining all separate characters to a one string
+		* @mamberof Divider
+		* @instance
 		* @param {Object} word - container that contain separated characters with word that must be exploded
 		* @return {String} - string with word
 		*/

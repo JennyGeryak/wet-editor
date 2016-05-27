@@ -1,5 +1,5 @@
   ///////////////////////////////////
-	/**         OBSERVERS           **/
+	/*          OBSERVERS            */
 	///////////////////////////////////
 /**
 	* @name Key_Observer
@@ -8,6 +8,8 @@
 	* @License cc-by-nc-sa 4.0
 	* @class
 	* @classdesc it is reaction of observer on key event
+	* @namespace Key_Observer
+	* @constructs
 	* @param {Editor} data - getting main object
 	* @param {Key_Scope} scope - key map singelton 
 	* @param {int} index - index of current active editor element
@@ -211,6 +213,8 @@
 		* @function
 		* @name deletePrevioseCursor
 		* @description it is need to delete previose cursor and it protect of making unnecessary multicursors
+		* @mamberof Key_Observer
+		* @inner
 		*/
 		function deletePrevioseCursor()
 		{
@@ -235,6 +239,8 @@
 		* @name deletePrevioseParent
 		* @description it is need to delete 'perent' class from object it gives oportunity to know in which exact container
 		* is word lie
+		* @mamberof Key_Observer
+		* @inner
 		*/
 		function deletePrevioseParent()
 		{

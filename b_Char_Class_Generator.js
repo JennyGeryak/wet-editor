@@ -1,5 +1,5 @@
 	///////////////////////////////////
-	/**         BUILDER             **/
+	/*          BUILDER              */
 	///////////////////////////////////
 /**
 	* @name Char_Class_Generator
@@ -7,6 +7,8 @@
 	* @copyright Ivan Kaduk 2016.
 	* @License cc-by-nc-sa 4.0
 	* @class
+	* @namespace Char_Class_Generator
+	* @constructs 
 	* @classdesc this class is returning string for elements class
 	* @example class_generator
 						.setPrefix('wet-')
@@ -26,6 +28,8 @@
 		* @public
 		* @function
 		* @name mainClass
+		* @mamberof Char_Class_Generator
+		* @instance
 		* @description adding main class
 		* @param {String} user_char - char from cher buffer 
 		*/
@@ -60,6 +64,8 @@
 		* @public
 		* @function
 		* @name subClass
+		* @mamberof Char_Class_Generator
+		* @instance
 		* @description adding subclass to main 
 		* @param {String} user_char - char from cher buffer 
 		*/
@@ -127,6 +133,8 @@
 		* @public
 		* @function
 		* @name setPrefix
+		* @mamberof Char_Class_Generator
+		* @instance
 		* @description setting prefix, which will be adding to every class
 		* @param {String} user_prefix - prefix for class
 		*/
@@ -140,6 +148,8 @@
 		* @public
 		* @function
 		* @name space
+		* @mamberof Char_Class_Generator
+		* @instance
 		* @description addpace between classes
 		*/
 		function space()
@@ -152,6 +162,8 @@
 		* @public
 		* @function
 		* @name generate
+		* @mamberof Char_Class_Generator
+		* @instance
 		* @description builder function
 		*/
 		function generate()

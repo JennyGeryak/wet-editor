@@ -19,74 +19,23 @@
 <dt><a href="#Module">Module</a></dt>
 <dd><p>it is solution that helps to create additional mudules more easy and implement it to application</p>
 </dd>
-</dl>
-
-## Members
-
-<dl>
-<dt><a href="#backspase">backspase</a></dt>
-<dd><p>this module need to emulate &quot;backspase&quot; key features</p>
-</dd>
-<dt><a href="#first">first</a></dt>
-<dd><p>MAIN SCRIPT</p>
+<dt><a href="#Divider">Divider</a></dt>
+<dd><p>this class is need to separating character by character or to concate them into one word</p>
 </dd>
 </dl>
 
-## Functions
+<a name="subscribe"></a>
 
-<dl>
-<dt><a href="#mainClass">mainClass(user_char)</a></dt>
-<dd><p>adding main class</p>
-</dd>
-<dt><a href="#subClass">subClass(user_char)</a></dt>
-<dd><p>adding subclass to main</p>
-</dd>
-<dt><a href="#setPrefix">setPrefix(user_prefix)</a></dt>
-<dd><p>setting prefix, which will be adding to every class</p>
-</dd>
-<dt><a href="#space">space()</a></dt>
-<dd><p>addpace between classes</p>
-</dd>
-<dt><a href="#generate">generate()</a></dt>
-<dd><p>builder function</p>
-</dd>
-<dt><a href="#subscribe">subscribe(observer)</a></dt>
-<dd><p>for subscribing observers</p>
-</dd>
-<dt><a href="#unsubscribe">unsubscribe(observer)</a></dt>
-<dd><p>for unsubscribing observers</p>
-</dd>
-<dt><a href="#publish">publish(data, counter)</a></dt>
-<dd><p>calling observers constructors</p>
-</dd>
-<dt><a href="#keyDown">keyDown(e)</a></dt>
-<dd><p>catching code frome event and adding it to key map, on some action</p>
-</dd>
-<dt><a href="#keyUp">keyUp(e)</a></dt>
-<dd><p>catching code frome event and removing it to key map, on some action</p>
-</dd>
-<dt><a href="#getKeyMap">getKeyMap()</a> ⇒ <code>Array</code></dt>
-<dd><p>return key map</p>
-</dd>
-<dt><a href="#getStringKeyMap">getStringKeyMap()</a> ⇒ <code>String</code></dt>
-<dd><p>return key map like a string</p>
-</dd>
-<dt><a href="#clearKeyMap">clearKeyMap()</a></dt>
-<dd><p>refreshing key map</p>
-</dd>
-<dt><a href="#addFunction">addFunction(key_combination, function_name)</a></dt>
-<dd><p>this method need for adding new functions and hotkeys for them</p>
-</dd>
-<dt><a href="#dump">dump()</a> ⇒ <code>Array</code></dt>
-<dd><p>list of all hotkeys and functions</p>
-</dd>
-<dt><a href="#runFunction">runFunction(combination)</a></dt>
-<dd><p>this function initializing the function according pressed hotkey</p>
-</dd>
-<dt><a href="#setOptions">setOptions(user_options)</a></dt>
-<dd><p>adding arguments before function will be initialized</p>
-</dd>
-</dl>
+## .subscribe(observer)
+for subscribing observers
+
+**Kind**: instance function  
+**Access:** public  
+**Mamberof**: Observable  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| observer | <code>Object</code> | object wich containe observer instans |
 
 <a name="Editor"></a>
 
@@ -120,12 +69,94 @@ this class is returning string for elements class
 **Author:** Ivan Kaduk  
 **License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
+<a name="mainClass"></a>
+
+## .mainClass(user_char)
+adding main class
+
+**Kind**: instance function  
+**Access:** public  
+**Mamberof**: Char_Class_Generator  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| user_char | <code>String</code> | char from cher buffer |
+
+<a name="subClass"></a>
+
+## .subClass(user_char)
+adding subclass to main
+
+**Kind**: instance function  
+**Access:** public  
+**Mamberof**: Char_Class_Generator  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| user_char | <code>String</code> | char from cher buffer |
+
+<a name="setPrefix"></a>
+
+## .setPrefix(user_prefix)
+setting prefix, which will be adding to every class
+
+**Kind**: instance function  
+**Access:** public  
+**Mamberof**: Char_Class_Generator  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| user_prefix | <code>String</code> | prefix for class |
+
+<a name="space"></a>
+
+## .space()
+addpace between classes
+
+**Kind**: instance function  
+**Access:** public  
+**Mamberof**: Char_Class_Generator  
+<a name="generate"></a>
+
+## .generate()
+builder function
+
+**Kind**: instance function  
+**Access:** public  
+**Mamberof**: Char_Class_Generator  
 <a name="Observable"></a>
 
 ## Observable
 standart subject for obsrver
 
 **Kind**: global class  
+<a name="unsubscribe"></a>
+
+## .unsubscribe(observer)
+for unsubscribing observers
+
+**Kind**: instance function  
+**Access:** public  
+**Mamberof**: Observable  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| observer | <code>Object</code> | object wich containe observer instans |
+
+<a name="publish"></a>
+
+## .publish(data, counter)
+calling observers constructors
+
+**Kind**: instance function  
+**Access:** public  
+**Mamberof**: Observable  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>Object</code> | some objects collection to do some actions with |
+| counter | <code>int</code> | index of sub object in data collection |
+
 <a name="Key_Observer"></a>
 
 ## Key_Observer
@@ -157,6 +188,58 @@ it singelton which contain current key combinations
 **Author:** Ivan Kaduk  
 **License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
+<a name="keyDown"></a>
+
+## .keyDown(e)
+catching code frome event and adding it to key map, on some action
+
+**Kind**: instance function  
+**Access:** public  
+**Mamberof**: Key_Scope  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| e | <code>object</code> | event which contain code of pressed button |
+
+<a name="keyUp"></a>
+
+## .keyUp(e)
+catching code frome event and removing it to key map, on some action
+
+**Kind**: instance function  
+**Access:** public  
+**Mamberof**: Key_Scope  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| e | <code>object</code> | event which contain code of pressed button |
+
+<a name="getKeyMap"></a>
+
+## .getKeyMap() ⇒ <code>Array</code>
+return key map
+
+**Kind**: instance function  
+**Returns**: <code>Array</code> - - key map content  
+**Access:** public  
+**Mamberof**: Key_Scope  
+<a name="getStringKeyMap"></a>
+
+## .getStringKeyMap() ⇒ <code>String</code>
+return key map like a string
+
+**Kind**: instance function  
+**Returns**: <code>String</code> - - key map content  
+**Access:** public  
+**Mamberof**: Key_Scope  
+<a name="clearKeyMap"></a>
+
+## .clearKeyMap()
+refreshing key map
+
+**Kind**: instance function  
+**Access:** public  
+**Mamberof**: Key_Scope  
 <a name="Module"></a>
 
 ## Module
@@ -166,162 +249,23 @@ it is solution that helps to create additional mudules more easy and implement i
 **Author:** Ivan Kaduk  
 **License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
-<a name="backspase"></a>
+<a name="Module+backspase"></a>
 
-## backspase
+### module.backspase()
 this module need to emulate "backspase" key features
 
-**Kind**: global variable  
+**Kind**: instance method of <code>[Module](#Module)</code>  
 **Author:** Ivan Kaduk  
 **License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
-<a name="first"></a>
-
-## first
-MAIN SCRIPT
-
-**Kind**: global variable  
-<a name="mainClass"></a>
-
-## mainClass(user_char)
-adding main class
-
-**Kind**: global function  
-**Access:** public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| user_char | <code>String</code> | char from cher buffer |
-
-<a name="subClass"></a>
-
-## subClass(user_char)
-adding subclass to main
-
-**Kind**: global function  
-**Access:** public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| user_char | <code>String</code> | char from cher buffer |
-
-<a name="setPrefix"></a>
-
-## setPrefix(user_prefix)
-setting prefix, which will be adding to every class
-
-**Kind**: global function  
-**Access:** public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| user_prefix | <code>String</code> | prefix for class |
-
-<a name="space"></a>
-
-## space()
-addpace between classes
-
-**Kind**: global function  
-**Access:** public  
-<a name="generate"></a>
-
-## generate()
-builder function
-
-**Kind**: global function  
-**Access:** public  
-<a name="subscribe"></a>
-
-## subscribe(observer)
-for subscribing observers
-
-**Kind**: global function  
-**Access:** public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| observer | <code>Object</code> | object wich containe observer instans |
-
-<a name="unsubscribe"></a>
-
-## unsubscribe(observer)
-for unsubscribing observers
-
-**Kind**: global function  
-**Access:** public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| observer | <code>Object</code> | object wich containe observer instans |
-
-<a name="publish"></a>
-
-## publish(data, counter)
-calling observers constructors
-
-**Kind**: global function  
-**Access:** public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| data | <code>Object</code> | some objects collection to do some actions with |
-| counter | <code>int</code> | index of sub object in data collection |
-
-<a name="keyDown"></a>
-
-## keyDown(e)
-catching code frome event and adding it to key map, on some action
-
-**Kind**: global function  
-**Access:** public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| e | <code>object</code> | event which contain code of pressed button |
-
-<a name="keyUp"></a>
-
-## keyUp(e)
-catching code frome event and removing it to key map, on some action
-
-**Kind**: global function  
-**Access:** public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| e | <code>object</code> | event which contain code of pressed button |
-
-<a name="getKeyMap"></a>
-
-## getKeyMap() ⇒ <code>Array</code>
-return key map
-
-**Kind**: global function  
-**Returns**: <code>Array</code> - - key map content  
-**Access:** public  
-<a name="getStringKeyMap"></a>
-
-## getStringKeyMap() ⇒ <code>String</code>
-return key map like a string
-
-**Kind**: global function  
-**Returns**: <code>String</code> - - key map content  
-**Access:** public  
-<a name="clearKeyMap"></a>
-
-## clearKeyMap()
-refreshing key map
-
-**Kind**: global function  
-**Access:** public  
 <a name="addFunction"></a>
 
-## addFunction(key_combination, function_name)
+## .addFunction(key_combination, function_name)
 this method need for adding new functions and hotkeys for them
 
-**Kind**: global function  
+**Kind**: instance function  
 **Access:** public  
+**Mamberof**: Module  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -330,19 +274,21 @@ this method need for adding new functions and hotkeys for them
 
 <a name="dump"></a>
 
-## dump() ⇒ <code>Array</code>
+## .dump() ⇒ <code>Array</code>
 list of all hotkeys and functions
 
-**Kind**: global function  
+**Kind**: instance function  
 **Returns**: <code>Array</code> - - array of hotkeys and functions  
 **Access:** public  
+**Mamberof**: Module  
 <a name="runFunction"></a>
 
-## runFunction(combination)
+## .runFunction(combination)
 this function initializing the function according pressed hotkey
 
-**Kind**: global function  
+**Kind**: instance function  
 **Access:** public  
+**Mamberof**: Module  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -350,13 +296,50 @@ this function initializing the function according pressed hotkey
 
 <a name="setOptions"></a>
 
-## setOptions(user_options)
+## .setOptions(user_options)
 adding arguments before function will be initialized
 
-**Kind**: global function  
+**Kind**: instance function  
 **Access:** public  
+**Mamberof**: Module  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | user_options | <code>Array</code> | array of arguments for function |
+
+<a name="Divider"></a>
+
+## Divider
+this class is need to separating character by character or to concate them into one word
+
+**Kind**: global class  
+**Version**: 1.0.0  
+**Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
+**Copyright**: Ivan Kaduk 2016.  
+<a name="divide"></a>
+
+## .divide(word) ⇒ <code>String</code>
+separating word to a single characters in container
+
+**Kind**: instance function  
+**Returns**: <code>String</code> - - string with html code that containe separated characters  
+**Mamberof**: Divider  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| word | <code>Object</code> | container that contain string with word that must be exploded |
+
+<a name="concat"></a>
+
+## .concat(word) ⇒ <code>String</code>
+joining all separate characters to a one string
+
+**Kind**: instance function  
+**Returns**: <code>String</code> - - string with word  
+**Mamberof**: Divider  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| word | <code>Object</code> | container that contain separated characters with word that must be exploded |
 

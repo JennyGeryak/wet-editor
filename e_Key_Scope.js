@@ -1,5 +1,5 @@
 	///////////////////////////////////
-	/**         SINGELTON           **/
+	/*          SINGELTON            */
 	///////////////////////////////////
 
 /**
@@ -10,6 +10,8 @@
 	* @License cc-by-nc-sa 4.0
 	* @class
 	* @classdesc it singelton which contain current key combinations
+	* @namespace Key_Scope
+	* @constructs Key_Scope
 	* @example var key_scope = Key_Scope.getInstance();
 	*/
 	var Key_Scope = (function () {
@@ -33,6 +35,8 @@
 			* @function
 			* @name addKeyToMap
 			* @description adding key code to key map
+			* @mamberof Key_Scope
+			* @instance
 			* @param {int} key - key code frome key event
 			*/
 		  function addKeyToMap(key) {
@@ -62,6 +66,8 @@
 			* @function
 			* @name removeKeyFromMap
 			* @description removing key code to key map
+			* @mamberof Key_Scope
+			* @instance
 			* @param {int} key - key code frome key event
 			*/
 		  function removeKeyFromMap(key) {
@@ -79,6 +85,8 @@
 			* @function
 			* @name keyDown
 			* @description catching code frome event and adding it to key map, on some action 
+			* @mamberof Key_Scope
+			* @instance
 			* @param {object} e - event which contain code of pressed button
 			*/
 		  function keyDown(e)  {
@@ -101,6 +109,8 @@
 			* @function
 			* @name keyUp
 			* @description catching code frome event and removing it to key map, on some action 
+			* @mamberof Key_Scope
+			* @instance
 			* @param {object} e - event which contain code of pressed button
 			*/
 		  function keyUp(e) {
@@ -123,6 +133,8 @@
 			* @function
 			* @name getKeyMap
 			* @description return key map 
+			* @mamberof Key_Scope
+			* @instance
 			* @return {Array} - key map content
 			*/
 		  function getKeyMap()
@@ -135,6 +147,8 @@
 			* @function
 			* @name getStringKeyMap
 			* @description return key map like a string
+			* @mamberof Key_Scope
+			* @instance
 			* @return {String} - key map content
 			*/
 		  function getStringKeyMap()
@@ -147,6 +161,8 @@
 			* @function
 			* @name clearKeyMap
 			* @description refreshing key map
+			* @mamberof Key_Scope
+			* @instance
 			*/
 		  function clearKeyMap()
 		  {

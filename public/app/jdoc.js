@@ -1,6 +1,6 @@
 'use strict'
 	///////////////////////////////////
-	/**         MAIN CLASS          **/
+	/*          MAIN CLASS           */
 	///////////////////////////////////
 /**
 	* @name Editor
@@ -9,14 +9,15 @@
 	* @copyright Ivan Kaduk 2016.
 	* @License cc-by-nc-sa 4.0
 	* @class
+	* @namespace Editor
 	* @augments Observable
+	* @constructs
 	* @classdesc this class is creating editor object
 	* @example var spoiler = new Spoiler('spoiler','opened', 1);
 	* @param {String} className - class of div wich containe spoiler child elements.
 	*/
 	var Editor = (function()
 	{
-		// constructor
 		function Editor(name, options){
 			if(name != undefined)
 			{
@@ -167,7 +168,7 @@
 
 	})()
 	///////////////////////////////////
-	/**         BUILDER             **/
+	/*          BUILDER              */
 	///////////////////////////////////
 /**
 	* @name Char_Class_Generator
@@ -175,6 +176,8 @@
 	* @copyright Ivan Kaduk 2016.
 	* @License cc-by-nc-sa 4.0
 	* @class
+	* @namespace Char_Class_Generator
+	* @constructs 
 	* @classdesc this class is returning string for elements class
 	* @example class_generator
 						.setPrefix('wet-')
@@ -194,6 +197,8 @@
 		* @public
 		* @function
 		* @name mainClass
+		* @mamberof Char_Class_Generator
+		* @instance
 		* @description adding main class
 		* @param {String} user_char - char from cher buffer 
 		*/
@@ -228,6 +233,8 @@
 		* @public
 		* @function
 		* @name subClass
+		* @mamberof Char_Class_Generator
+		* @instance
 		* @description adding subclass to main 
 		* @param {String} user_char - char from cher buffer 
 		*/
@@ -295,6 +302,8 @@
 		* @public
 		* @function
 		* @name setPrefix
+		* @mamberof Char_Class_Generator
+		* @instance
 		* @description setting prefix, which will be adding to every class
 		* @param {String} user_prefix - prefix for class
 		*/
@@ -308,6 +317,8 @@
 		* @public
 		* @function
 		* @name space
+		* @mamberof Char_Class_Generator
+		* @instance
 		* @description addpace between classes
 		*/
 		function space()
@@ -320,6 +331,8 @@
 		* @public
 		* @function
 		* @name generate
+		* @mamberof Char_Class_Generator
+		* @instance
 		* @description builder function
 		*/
 		function generate()
@@ -336,15 +349,18 @@
 		}
 	}
 	///////////////////////////////////
-	/**         OBSERVABLE          **/
+	/*         OBSERVABLE            */
 	///////////////////////////////////
 
 /**
 	* @name Observable
 	* @class
 	* @classdesc standart subject for obsrver 
+	* @namespace Observable
+	* @constructs 
 	* @example this.subscribe({some observer});
 	*/
+
 	var Observable = function()
 	{
 
@@ -355,6 +371,8 @@
 		* @function
 		* @name subscribe
 		* @description for subscribing observers
+		* @mamberof Observable
+		* @instance
 		* @param {Object} observer - object wich containe observer instans
 		*/
 		this.subscribe = function(observer)
@@ -367,6 +385,8 @@
 		* @function
 		* @name unsubscribe
 		* @description for unsubscribing observers
+		* @mamberof Observable
+		* @instance
 		* @param {Object} observer - object wich containe observer instans
 		*/
 		this.unsubscribe = function(observer)
@@ -386,6 +406,8 @@
 		* @function
 		* @name publish
 		* @description calling observers constructors
+		* @mamberof Observable
+		* @instance
 		* @param {Object} data - some objects collection to do some actions with
 		* @param {int} counter - index of sub object in data collection
 		*/
@@ -398,7 +420,7 @@
 
 	}
   ///////////////////////////////////
-	/**         OBSERVERS           **/
+	/*          OBSERVERS            */
 	///////////////////////////////////
 /**
 	* @name Key_Observer
@@ -407,6 +429,8 @@
 	* @License cc-by-nc-sa 4.0
 	* @class
 	* @classdesc it is reaction of observer on key event
+	* @namespace Key_Observer
+	* @constructs
 	* @param {Editor} data - getting main object
 	* @param {Key_Scope} scope - key map singelton 
 	* @param {int} index - index of current active editor element
@@ -417,41 +441,21 @@
 	{	
 		// initialization of new character class generator 
 		var class_generator = new Char_Class_Generator('wet-');
-		var hotkey = new Module.getInstance();
-
 		
+		// initialization of module that make action according pressed keys
+		var hotkey = new Module.getInstance();
+		
+		// current entity of editor
+		var concrete_entity = data.container[index];
+		
+		// initialization of words exloser 
+		var divider = new Divider();
 
 		// if controlling key pressed 
 		// need to disabled browser hotkeys 
 		if(scope.getKeyMap()[0] < '46'){//16
 			event.preventDefault(); event.stopPropagation(); 
 		}
-
-	/**
-		* @private
-		* @function
-		* @name deletePrevioseCursor
-		* @description it is need to delete previose cursor 
-		*/
-		function deletePrevioseCursor(){
-					if(document.getElementsByClassName("active")[0] != undefined)
-					{
-						document.getElementsByClassName('active')[0].className = class_generator
-																																.setPrefix('wet-')
-																																.mainClass(document.getElementsByClassName('active')[0].innerHTML)
-																																.space()
-																																.subClass(document.getElementsByClassName('active')[0].innerHTML)
-																																.generate();
-					}
-		}
-		
-		function deletePrevioseParent(){
-			if(document.getElementsByClassName('parent')[0] != undefined)
-			{
-				document.getElementsByClassName('parent')[0].className = "wet-word";
-			}
-		}
-
 
 		// if that key pressed on new line
 		if(data.line[index][data.current_line[index]].innerHTML == '')
@@ -474,23 +478,36 @@
 		// if pressed key is not null 
 		if(data.symbol_buffer[index].value != '')
 		{
-			var previouse_element = document.getElementsByClassName('active')[0];
+			// detecting previouse element with 'active' class name
+			var previouse_element = concrete_entity.getElementsByClassName('active')[0];
 			var previouse_element_class = previouse_element ? previouse_element.className.split(" ")[0] : ''; 
+			
+			// this an exception element that dont have auto generative class 
+			// that is why whe need to give our own
 			if((previouse_element_class == 'wet-line-start'))
 			{
 				previouse_element.className = 'wet-line-start';
 			}
+			
+			// now we press an character button:
 			if(class_generator.mainClass(data.symbol_buffer[index].value).generate() == "character")
 			{
-				if(document.getElementsByClassName('parent').length == 0)
+				// but our word dont created
+				if(concrete_entity.getElementsByClassName('parent').length == 0)
 				{
 					
+					// so we must to delete cursor on first
 					deletePrevioseCursor();
 					
+					// create a word object 
 					var word = document.createElement('span');
+					// say to it that it will be have a children in it
 					word.className = 'wet-word parent';
+					// childs content
 					var content = document.createTextNode(data.symbol_buffer[index].value);
+					// childs container
 					var character_holder = document.createElement('span');
+					// generating of character class 
 					character_holder.className = class_generator
 																			.setPrefix('wet-')
 																			.mainClass(data.symbol_buffer[index].value)
@@ -498,21 +515,29 @@
 																			.subClass(data.symbol_buffer[index].value)
 																			.generate() 
 																			+ 'active'; 
+					// adding new character in container
 					character_holder.appendChild(content);
+					// adding character object to the word 
 					word.appendChild(character_holder); 
+					// adding word to the line 
 					data.line[index][data.current_line[index]].appendChild(word);
 				}
 				else
 				{
+					// deactive previose char
 					previouse_element.className = class_generator
 																				.setPrefix('wet-')
 																				.mainClass(data.symbol_buffer[index].value)
 																				.space()
 																				.subClass(data.symbol_buffer[index].value)
 																				.generate();
-					word = document.getElementsByClassName('parent')[0];
+					// find ready for children word
+					word = concrete_entity.getElementsByClassName('parent')[0];
+					// childs content
 					var content = document.createTextNode(data.symbol_buffer[index].value);
+					// childs container
 					var character_holder = document.createElement('span');
+					// generating of character class 
 					character_holder.className = class_generator
 																			.setPrefix('wet-')
 																			.mainClass(data.symbol_buffer[index].value)
@@ -520,33 +545,54 @@
 																			.subClass(data.symbol_buffer[index].value)
 																			.generate() 
 																			+ 'active'; 
+					// adding charecter to container
 					character_holder.appendChild(content);
+					// adding char object to the word
 					word.appendChild(character_holder); 
 				}
 			}
+			// if you typing a space button:
 			else if(scope.getKeyMap().indexOf(32) >= 0)
 			{
+				// prepare previose element for next work
+				word = concrete_entity.getElementsByClassName('parent')[0];
+				
 				deletePrevioseCursor();
 				
+				word.innerHTML = divider.concat(word);
+
 				deletePrevioseParent();
 				
+				// creating a space object
 				var space = document.createElement('span');
+				// generating a special class for it
 				space.className = class_generator
 														.setPrefix('wet-')
 														.subClass(" ")
 														.generate() 
 														+ ' active'; 
+				// adding space contant
 				space.innerHTML = " ";
+				// adding space objecto to an active line
 				data.line[index][data.current_line[index]].appendChild(space);
 			}
 				// clearing buffer
 				data.symbol_buffer[index].value = '';
 		}
-		// enter emulation, using adding new line
+		
+		// 'enter' emulation, using adding new line
 		if(scope.getKeyMap() == 13 ) //  enter
 		{
-			// deleting previose cursor
+			
+			// prepare previose element for next work
 			deletePrevioseCursor();
+			
+			word = concrete_entity.getElementsByClassName('parent')[0];
+			
+			if(word)
+			{
+				word.innerHTML = divider.concat(word);				
+			}
 			
 			deletePrevioseParent();
 			
@@ -581,11 +627,56 @@
 		if(data.console[index] != undefined)
 		{
 			data.console[index].innerHTML = (scope.getKeyMap());
-
+		}
+		
+	/**
+		* @private
+		* @function
+		* @name deletePrevioseCursor
+		* @description it is need to delete previose cursor and it protect of making unnecessary multicursors
+		* @mamberof Key_Observer
+		* @inner
+		*/
+		function deletePrevioseCursor()
+		{
+			// element with class 'active' 
+			var active_element = concrete_entity.getElementsByClassName("active")[0]; 
+			
+			// if element is exist than change his class to native without 'active' mark
+			if(active_element != undefined)
+			{
+				active_element.className = class_generator
+																	.setPrefix('wet-')
+																	.mainClass(active_element.innerHTML)
+																	.space()
+																	.subClass(active_element.innerHTML)
+																	.generate();
+			}
+		}
+		
+	/**
+		* @private
+		* @function
+		* @name deletePrevioseParent
+		* @description it is need to delete 'perent' class from object it gives oportunity to know in which exact container
+		* is word lie
+		* @mamberof Key_Observer
+		* @inner
+		*/
+		function deletePrevioseParent()
+		{
+			// active word 
+			var parent = concrete_entity.getElementsByClassName('parent')[0];
+			
+			// make a standart class for word 
+			if(parent != undefined)
+			{
+				parent.className = "wet-word";
+			}
 		}
 	}
 	///////////////////////////////////
-	/**         SINGELTON           **/
+	/*          SINGELTON            */
 	///////////////////////////////////
 
 /**
@@ -596,6 +687,8 @@
 	* @License cc-by-nc-sa 4.0
 	* @class
 	* @classdesc it singelton which contain current key combinations
+	* @namespace Key_Scope
+	* @constructs Key_Scope
 	* @example var key_scope = Key_Scope.getInstance();
 	*/
 	var Key_Scope = (function () {
@@ -619,6 +712,8 @@
 			* @function
 			* @name addKeyToMap
 			* @description adding key code to key map
+			* @mamberof Key_Scope
+			* @instance
 			* @param {int} key - key code frome key event
 			*/
 		  function addKeyToMap(key) {
@@ -648,6 +743,8 @@
 			* @function
 			* @name removeKeyFromMap
 			* @description removing key code to key map
+			* @mamberof Key_Scope
+			* @instance
 			* @param {int} key - key code frome key event
 			*/
 		  function removeKeyFromMap(key) {
@@ -665,6 +762,8 @@
 			* @function
 			* @name keyDown
 			* @description catching code frome event and adding it to key map, on some action 
+			* @mamberof Key_Scope
+			* @instance
 			* @param {object} e - event which contain code of pressed button
 			*/
 		  function keyDown(e)  {
@@ -687,6 +786,8 @@
 			* @function
 			* @name keyUp
 			* @description catching code frome event and removing it to key map, on some action 
+			* @mamberof Key_Scope
+			* @instance
 			* @param {object} e - event which contain code of pressed button
 			*/
 		  function keyUp(e) {
@@ -709,6 +810,8 @@
 			* @function
 			* @name getKeyMap
 			* @description return key map 
+			* @mamberof Key_Scope
+			* @instance
 			* @return {Array} - key map content
 			*/
 		  function getKeyMap()
@@ -721,6 +824,8 @@
 			* @function
 			* @name getStringKeyMap
 			* @description return key map like a string
+			* @mamberof Key_Scope
+			* @instance
 			* @return {String} - key map content
 			*/
 		  function getStringKeyMap()
@@ -733,6 +838,8 @@
 			* @function
 			* @name clearKeyMap
 			* @description refreshing key map
+			* @mamberof Key_Scope
+			* @instance
 			*/
 		  function clearKeyMap()
 		  {
@@ -759,7 +866,7 @@
     };
 	})();
 	///////////////////////////////////
-	/**         SINGLETON		    **/
+	/*           SINGLETON		       */
 	///////////////////////////////////	
 
 /**
@@ -769,6 +876,8 @@
 		* @License cc-by-nc-sa 4.0
     * @class
     * @classdesc it is solution that helps to create additional mudules more easy and implement it to application
+		* @namespace Module
+		* @constructs Module
     * @example     Module.getInstance().modules_name = function(options)
                     {
                         // some code
@@ -778,8 +887,6 @@
                     module.addFunction('8', 'modules_name');
     *
     */
-
-
 	var Module = (function()
 	{
 		var instance;
@@ -812,6 +919,8 @@
         * @function
         * @name addFunction
         * @description this method need for adding new functions and hotkeys for them
+				* @mamberof Module
+				* @instance
         * @param {String} key_combination - string of the key combination
         * @param {String} function_name - function which will be added to a module
         */
@@ -825,6 +934,8 @@
         * @function
         * @name dump
         * @description list of all hotkeys and functions
+				* @mamberof Module
+				* @instance
         * @return {Array} - array of hotkeys and functions
         */
     	function dump()
@@ -838,6 +949,8 @@
         * @function
         * @name runFunction
         * @description this function initializing the function according pressed hotkey
+				* @mamberof Module
+				* @instance
         * @param {String} combination - combination of keys converted to a string 
         */
     	function runFunction(combination)
@@ -857,6 +970,8 @@
         * @function
         * @name setOptions
         * @description adding arguments before function will be initialized
+				* @mamberof Module
+				* @instance
         * @param {Array} user_options - array of arguments for function
         */
     	function setOptions(user_options)
@@ -883,30 +998,137 @@
         }
     };
 	})()
+	///////////////////////////////////
+	/*          CUSTOM CLASS         */
+	///////////////////////////////////
+/**
+	* @name Divider
+	* @version 1.0.0
+	* @author Ivan Kaduk
+	* @copyright Ivan Kaduk 2016.
+	* @License cc-by-nc-sa 4.0
+	* @class
+	* @classdesc this class is need to separating character by character or to concate them into one word
+	* @namespace Divider
+	* @constructs Divider
+	* @example word.innerHTML = divider.concat(word);
+	*/
+var Divider = (function()
+{
+	function Divider()
+	{
+		
+	/**
+		* @function
+		* @name divide
+		* @description separating word to a single characters in container
+		* @mamberof Divider
+		* @instance
+		* @param {Object} word - container that contain string with word that must be exploded
+		* @return {String} - string with html code that containe separated characters
+		*/
+		this.divide = function(word)
+		{
+			content = word.innerHTML;
+			
+			var final_content = '';
+			
+			var array_of_chars = content.split('');
+			
+			var class_generator = new Char_Class_Generator('wet-');
+			
+			for(var i = 0; i < array_of_chars.length; i++)
+			{
+				final_content += '<span class="'
+												+ class_generator
+													.setPrefix('wet-')
+													.mainClass(array_of_chars[i])
+													.space()
+													.subClass(array_of_chars[i])
+													.generate()
+												+ '">'
+												+ array_of_chars[i]
+												+ '</span>';
+			}
+			
+			return final_content;
+		}
+
+	/**
+		* @function
+		* @name concat
+		* @description joining all separate characters to a one string
+		* @mamberof Divider
+		* @instance
+		* @param {Object} word - container that contain separated characters with word that must be exploded
+		* @return {String} - string with word
+		*/
+		this.concat = function(word)
+		{
+			content = word.innerHTML;
+			
+			// thanks for Human Being http://stackoverflow.com/users/1835198/human-being 
+			// http://stackoverflow.com/questions/13911681/remove-html-tags-from-a-javascript-string
+			var rex = /(<([^>]+)>)/ig;
+			
+    	content = content.replace(rex , "");
+			
+			return content;
+		}
+	}
+	
+	return Divider;
+})()
+
+	///////////////////////////////////
+	/*           MAIN SCRIPT         */
+	///////////////////////////////////
+
+	var first = new Editor('someeditor', {
+		console:true
+	});
+
+	var second = new Editor('someeditor_another', {
+		console:false
+	});
+
 	
 /**
-  * @name backspase
+  * @function backspase
   * @author Ivan Kaduk
   * @copyright Ivan Kaduk 2016.
 	* @License cc-by-nc-sa 4.0
   * @desc this module need to emulate "backspase" key features
+	* @memberof Module
+	* @instance
   */
 	Module.getInstance().backspase = function(options){
 		
 		var class_generator = new Char_Class_Generator('wet-');
 		
+		var concrete_entity = options.object.container[options.index];
+		
+		var divider = new Divider();
+		
 		// getting active element that must be deleted
-		var active_char = document.getElementsByClassName('active')[0];
+		var active_char = concrete_entity.getElementsByClassName('active')[0];
 
 		// getting previose element thet will be active after key pressed
-		var previous_char = document.getElementsByClassName('active')[0].previousSibling;
-
+		var previous_char = concrete_entity.getElementsByClassName('active')[0].previousSibling;
+		
+		// anylizing what before active element
+		// and if it has previouse elements:  
 		if(previous_char != null)
 		{
-			if(previous_char.className.split(' ')[0] == 'wet-line-start'){
-				
+			// if previouse element is start of line:
+			if(previous_char.className.split(' ')[0] == 'wet-line-start')
+			{
 				// getting original class name of the previous element
-				var previous_char_original_class_name = document.getElementsByClassName('active')[0].previousSibling.className.trim();
+				var previous_char_original_class_name = concrete_entity
+																								.getElementsByClassName('active')[0]
+																								.previousSibling
+																								.className
+																								.trim();
 
 				// deleting active element
 				active_char.parentNode.removeChild(active_char);
@@ -914,10 +1136,21 @@
 				// making previous element to be an active 
 				previous_char.className = previous_char_original_class_name + ' ' + 'active';	
 			}
+			// if it is a word:
 			else if(previous_char.className.split(' ')[0] == 'wet-word')
 			{
+				// saing that this word now is parent
 				previous_char.className = 'wet-word parent';
-				var previouse_word_char = previous_char.childNodes[previous_char.childNodes.length-1];
+				
+				word = concrete_entity.getElementsByClassName('parent')[0];
+				// explode one word to a diferent characters 
+				word.innerHTML = divider.divide(word);
+				
+				// take last character in this word
+				var previouse_word_char = previous_char
+																	.childNodes[previous_char.childNodes.length-1];
+				
+				// making previouse character as active one
 				previouse_word_char.className = class_generator
 																				.setPrefix('wet-')
 																				.mainClass(previouse_word_char.innerHTML)
@@ -931,7 +1164,11 @@
 			else
 			{
 				// getting original class name of the previous element
-				var previous_char_original_class_name = document.getElementsByClassName('active')[0].previousSibling.className.trim();
+				var previous_char_original_class_name = concrete_entity
+																								.getElementsByClassName('active')[0]
+																								.previousSibling
+																								.className
+																								.trim();
 
 				// deleting active element
 				active_char.parentNode.removeChild(active_char);
@@ -940,10 +1177,11 @@
 				previous_char.className = previous_char_original_class_name + ' ' + 'active';	
 			}
 		}
-		else if((document.getElementsByClassName('parent')[0] != undefined)
-					&&(document.getElementsByClassName('parent')[0].previousSibling.className)!= 'wet-line-start')
+		// deleting word when it not on start of line
+		else if((concrete_entity.getElementsByClassName('parent')[0] != undefined)
+					&&(concrete_entity.getElementsByClassName('parent')[0].previousSibling.className != 'wet-line-start'))
 		{
-			var word = document.getElementsByClassName('parent')[0]; 
+			var word = concrete_entity.getElementsByClassName('parent')[0]; 
 			var before_word = word.previousSibling;
 			before_word.className = class_generator
 															.setPrefix('wet-')
@@ -955,10 +1193,11 @@
 			word.parentNode.removeChild(word);
 			
 		}		
-		else if((document.getElementsByClassName('parent')[0] != undefined)
-					&&(document.getElementsByClassName('parent')[0].previousSibling.className)== 'wet-line-start')
+		// deleting word when it is on start of line
+		else if((concrete_entity.getElementsByClassName('parent')[0] != undefined)
+					&&(concrete_entity.getElementsByClassName('parent')[0].previousSibling.className == 'wet-line-start'))
 		{
-			var word = document.getElementsByClassName('parent')[0]; 
+			var word = concrete_entity.getElementsByClassName('parent')[0]; 
 			var before_word = word.previousSibling;
 			before_word.className = 'wet-line-start active';
 			word.parentNode.removeChild(word);
@@ -975,14 +1214,27 @@
         {
 					parent_s.parentNode.removeChild(parent_s);
 					// !!!!!!!!!! change this.current_line 
-					// deleting enter pseudo sign
+					// deleting 'enter' pseudo sign
 					options.object.current_line[options.index] = options.object.current_line[options.index] - 1;
-					previous_line.childNodes[previous_line.childNodes.length-1].className = previous_line.childNodes[previous_line.childNodes.length-1].className + ' ' + 'active';
-            
+					
+					// last word on previouse line
+					word = previous_line.childNodes[previous_line.childNodes.length-1];
+					
+					// if last element in previouse line not a word
+					if(word.className.split(" ")[0] != 'wet-signifier')
+					{
+						// exploded content
+						word.innerHTML = divider.divide(word);
+					}
+					
+					// make active last char of word 
+					previous_line.childNodes[previous_line.childNodes.length-1].className = previous_line
+																																									.childNodes[previous_line.childNodes.length-1]
+																																									.className + ' ' + 'active';            
 					// getting active element that must be deleted
-          var active_char = document.getElementsByClassName('active')[0];
+          var active_char = concrete_entity.getElementsByClassName('active')[0];
           // getting previose element thet will be active after key pressed
-          var previous_char = document.getElementsByClassName('active')[0].previousSibling;
+          var previous_char = concrete_entity.getElementsByClassName('active')[0].previousSibling;
           if(previous_char != null)
           {
 						if(active_char.className.split(' ')[0] == 'wet-word')
@@ -1005,15 +1257,3 @@
 
 	var module = new Module.getInstance();
 	module.addFunction('8', 'backspase');
-
-	///////////////////////////////////
-	/**         MAIN SCRIPT         **/
-	///////////////////////////////////
-
-	var first = new Editor('someeditor', {
-		console:true
-	});
-
-	var second = new Editor('someeditor_another', {
-		console:false
-	});

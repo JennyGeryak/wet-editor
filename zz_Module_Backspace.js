@@ -1,10 +1,12 @@
 	
 /**
-  * @name backspase
+  * @function backspase
   * @author Ivan Kaduk
   * @copyright Ivan Kaduk 2016.
 	* @License cc-by-nc-sa 4.0
   * @desc this module need to emulate "backspase" key features
+	* @memberof Module
+	* @instance
   */
 	Module.getInstance().backspase = function(options){
 		

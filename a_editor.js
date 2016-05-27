@@ -1,6 +1,6 @@
 'use strict'
 	///////////////////////////////////
-	/**         MAIN CLASS          **/
+	/*          MAIN CLASS           */
 	///////////////////////////////////
 /**
 	* @name Editor
@@ -9,14 +9,15 @@
 	* @copyright Ivan Kaduk 2016.
 	* @License cc-by-nc-sa 4.0
 	* @class
+	* @namespace Editor
 	* @augments Observable
+	* @constructs
 	* @classdesc this class is creating editor object
 	* @example var spoiler = new Spoiler('spoiler','opened', 1);
 	* @param {String} className - class of div wich containe spoiler child elements.
 	*/
 	var Editor = (function()
 	{
-		// constructor
 		function Editor(name, options){
 			if(name != undefined)
 			{

@@ -1,13 +1,16 @@
 	///////////////////////////////////
-	/**         OBSERVABLE          **/
+	/*         OBSERVABLE            */
 	///////////////////////////////////
 
 /**
 	* @name Observable
 	* @class
 	* @classdesc standart subject for obsrver 
+	* @namespace Observable
+	* @constructs 
 	* @example this.subscribe({some observer});
 	*/
+
 	var Observable = function()
 	{
 
@@ -18,6 +21,8 @@
 		* @function
 		* @name subscribe
 		* @description for subscribing observers
+		* @mamberof Observable
+		* @instance
 		* @param {Object} observer - object wich containe observer instans
 		*/
 		this.subscribe = function(observer)
@@ -30,6 +35,8 @@
 		* @function
 		* @name unsubscribe
 		* @description for unsubscribing observers
+		* @mamberof Observable
+		* @instance
 		* @param {Object} observer - object wich containe observer instans
 		*/
 		this.unsubscribe = function(observer)
@@ -49,6 +56,8 @@
 		* @function
 		* @name publish
 		* @description calling observers constructors
+		* @mamberof Observable
+		* @instance
 		* @param {Object} data - some objects collection to do some actions with
 		* @param {int} counter - index of sub object in data collection
 		*/

@@ -1,5 +1,5 @@
 	///////////////////////////////////
-	/**         SINGLETON		    **/
+	/*           SINGLETON		       */
 	///////////////////////////////////	
 
 /**
@@ -9,6 +9,8 @@
 		* @License cc-by-nc-sa 4.0
     * @class
     * @classdesc it is solution that helps to create additional mudules more easy and implement it to application
+		* @namespace Module
+		* @constructs Module
     * @example     Module.getInstance().modules_name = function(options)
                     {
                         // some code
@@ -18,8 +20,6 @@
                     module.addFunction('8', 'modules_name');
     *
     */
-
-
 	var Module = (function()
 	{
 		var instance;
@@ -52,6 +52,8 @@
         * @function
         * @name addFunction
         * @description this method need for adding new functions and hotkeys for them
+				* @mamberof Module
+				* @instance
         * @param {String} key_combination - string of the key combination
         * @param {String} function_name - function which will be added to a module
         */
@@ -65,6 +67,8 @@
         * @function
         * @name dump
         * @description list of all hotkeys and functions
+				* @mamberof Module
+				* @instance
         * @return {Array} - array of hotkeys and functions
         */
     	function dump()
@@ -78,6 +82,8 @@
         * @function
         * @name runFunction
         * @description this function initializing the function according pressed hotkey
+				* @mamberof Module
+				* @instance
         * @param {String} combination - combination of keys converted to a string 
         */
     	function runFunction(combination)
@@ -97,6 +103,8 @@
         * @function
         * @name setOptions
         * @description adding arguments before function will be initialized
+				* @mamberof Module
+				* @instance
         * @param {Array} user_options - array of arguments for function
         */
     	function setOptions(user_options)

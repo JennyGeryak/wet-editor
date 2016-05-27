@@ -1,6 +1,6 @@
 
 	///////////////////////////////////
-	/**         MAIN SCRIPT         **/
+	/*           MAIN SCRIPT         */
 	///////////////////////////////////
 
 	var first = new Editor('someeditor', {
