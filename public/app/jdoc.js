@@ -1503,7 +1503,7 @@ var Divider = (function()
 		var divider = new Divider();
 		
 		// prepare previose element for next work
-		word = concrete_entity.getElementsByClassName('parent')[0];
+		var word = concrete_entity.getElementsByClassName('parent')[0];
 				
 		this.deletePrevioseCursor(concrete_entity);
 		
