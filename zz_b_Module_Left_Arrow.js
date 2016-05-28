@@ -5,6 +5,8 @@
   * @copyright Ivan Kaduk 2016.
 	* @License cc-by-nc-sa 4.0
   * @desc this module need to emulate "left arrow" key features
+	* @param {object} options.object - entity of editors object
+	* @param {int} options.index - index of current editor element on document
 	* @memberof Module
 	* @instance
   */

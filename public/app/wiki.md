@@ -249,6 +249,11 @@ it is solution that helps to create additional mudules more easy and implement i
 **Author:** Ivan Kaduk  
 **License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
+
+* [Module](#Module)
+    * [.backspase()](#Module+backspase)
+    * [.left_arrow()](#Module+left_arrow)
+
 <a name="Module+backspase"></a>
 
 ### module.backspase()
@@ -258,6 +263,27 @@ this module need to emulate "backspase" key features
 **Author:** Ivan Kaduk  
 **License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options.object | <code>object</code> | entity of editors object |
+| options.index | <code>int</code> | index of current editor element on document |
+
+<a name="Module+left_arrow"></a>
+
+### module.left_arrow()
+this module need to emulate "left arrow" key features
+
+**Kind**: instance method of <code>[Module](#Module)</code>  
+**Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
+**Copyright**: Ivan Kaduk 2016.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options.object | <code>object</code> | entity of editors object |
+| options.index | <code>int</code> | index of current editor element on document |
+
 <a name="addFunction"></a>
 
 ## .addFunction(key_combination, function_name)
