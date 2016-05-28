@@ -28,7 +28,7 @@ var Divider = (function()
 		*/
 		this.divide = function(word)
 		{
-			content = word.innerHTML;
+			var content = word.innerHTML;
 			
 			var final_content = '';
 			
@@ -63,7 +63,7 @@ var Divider = (function()
 		*/
 		this.concat = function(word)
 		{
-			content = word.innerHTML;
+			var content = word.innerHTML;
 			
 			// thanks for Human Being http://stackoverflow.com/users/1835198/human-being 
 			// http://stackoverflow.com/questions/13911681/remove-html-tags-from-a-javascript-string

@@ -127,12 +127,12 @@
 					this.symbol_buffer[i].object = this;
 					this.symbol_buffer[i].index = i;
 					this.symbol_buffer[i].key_scope = Key_Scope.getInstance();
-					this.symbol_buffer[i].onkeydown = function(e)
+					this.symbol_buffer[i].onkeydown = function(event)
 					{
 						// observer innitialithation 
 						if(Observable != undefined)
 						{
-							this.object.publish(this.object, this.key_scope, this.index, e, 'pressed');
+							this.object.publish(this.object, this.key_scope, this.index, event, 'pressed');
 						}
 					};
 
@@ -140,11 +140,11 @@
 					* @event symbol_buffer#onkeyup
 					* @param {object} e - event wich will contain key code
 					*/
-					this.symbol_buffer[i].onkeyup = function(e)
+					this.symbol_buffer[i].onkeyup = function(event)
 					{
 						if(Observable != undefined)
 						{
-							this.object.publish(this.object, this.key_scope, this.index, e, 'relised');
+							this.object.publish(this.object, this.key_scope, this.index, event, 'relised');
 						}
 					};
 
@@ -199,7 +199,7 @@
 		* @name mainClass
 		* @mamberof Char_Class_Generator
 		* @instance
-		* @description adding main class
+		* @desc adding main class
 		* @param {String} user_char - char from cher buffer 
 		*/
 		function mainClass(user_char)
@@ -235,7 +235,7 @@
 		* @name subClass
 		* @mamberof Char_Class_Generator
 		* @instance
-		* @description adding subclass to main 
+		* @desc adding subclass to main 
 		* @param {String} user_char - char from cher buffer 
 		*/
 		function subClass(user_char)
@@ -304,7 +304,7 @@
 		* @name setPrefix
 		* @mamberof Char_Class_Generator
 		* @instance
-		* @description setting prefix, which will be adding to every class
+		* @desc setting prefix, which will be adding to every class
 		* @param {String} user_prefix - prefix for class
 		*/
 		function setPrefix(user_prefix)
@@ -319,7 +319,7 @@
 		* @name space
 		* @mamberof Char_Class_Generator
 		* @instance
-		* @description addpace between classes
+		* @desc addpace between classes
 		*/
 		function space()
 		{
@@ -333,7 +333,7 @@
 		* @name generate
 		* @mamberof Char_Class_Generator
 		* @instance
-		* @description builder function
+		* @desc builder function
 		*/
 		function generate()
 		{
@@ -370,7 +370,7 @@
 		* @public
 		* @function
 		* @name subscribe
-		* @description for subscribing observers
+		* @desc for subscribing observers
 		* @mamberof Observable
 		* @instance
 		* @param {Object} observer - object wich containe observer instans
@@ -384,7 +384,7 @@
 		* @public
 		* @function
 		* @name unsubscribe
-		* @description for unsubscribing observers
+		* @desc for unsubscribing observers
 		* @mamberof Observable
 		* @instance
 		* @param {Object} observer - object wich containe observer instans
@@ -405,7 +405,7 @@
 		* @public
 		* @function
 		* @name publish
-		* @description calling observers constructors
+		* @desc calling observers constructors
 		* @mamberof Observable
 		* @instance
 		* @param {Object} data - some objects collection to do some actions with
@@ -633,7 +633,7 @@
 		* @private
 		* @function
 		* @name deletePrevioseCursor
-		* @description it is need to delete previose cursor and it protect of making unnecessary multicursors
+		* @desc it is need to delete previose cursor and it protect of making unnecessary multicursors
 		* @mamberof Key_Observer
 		* @inner
 		*/
@@ -658,7 +658,7 @@
 		* @private
 		* @function
 		* @name deletePrevioseParent
-		* @description it is need to delete 'perent' class from object it gives oportunity to know in which exact container
+		* @desc it is need to delete 'perent' class from object it gives oportunity to know in which exact container
 		* is word lie
 		* @mamberof Key_Observer
 		* @inner
@@ -711,7 +711,7 @@
 			* @private
 			* @function
 			* @name addKeyToMap
-			* @description adding key code to key map
+			* @desc adding key code to key map
 			* @mamberof Key_Scope
 			* @instance
 			* @param {int} key - key code frome key event
@@ -742,7 +742,7 @@
 			* @private
 			* @function
 			* @name removeKeyFromMap
-			* @description removing key code to key map
+			* @desc removing key code to key map
 			* @mamberof Key_Scope
 			* @instance
 			* @param {int} key - key code frome key event
@@ -761,7 +761,7 @@
 			* @public
 			* @function
 			* @name keyDown
-			* @description catching code frome event and adding it to key map, on some action 
+			* @desc catching code frome event and adding it to key map, on some action 
 			* @mamberof Key_Scope
 			* @instance
 			* @param {object} e - event which contain code of pressed button
@@ -785,7 +785,7 @@
 			* @public
 			* @function
 			* @name keyUp
-			* @description catching code frome event and removing it to key map, on some action 
+			* @desc catching code frome event and removing it to key map, on some action 
 			* @mamberof Key_Scope
 			* @instance
 			* @param {object} e - event which contain code of pressed button
@@ -809,7 +809,7 @@
 			* @public
 			* @function
 			* @name getKeyMap
-			* @description return key map 
+			* @desc return key map 
 			* @mamberof Key_Scope
 			* @instance
 			* @return {Array} - key map content
@@ -823,7 +823,7 @@
 			* @public
 			* @function
 			* @name getStringKeyMap
-			* @description return key map like a string
+			* @desc return key map like a string
 			* @mamberof Key_Scope
 			* @instance
 			* @return {String} - key map content
@@ -837,7 +837,7 @@
 			* @public
 			* @function
 			* @name clearKeyMap
-			* @description refreshing key map
+			* @desc refreshing key map
 			* @mamberof Key_Scope
 			* @instance
 			*/
@@ -917,7 +917,7 @@
     /**
         * @public
         * @function addFunction
-        * @description this method need for adding new functions and hotkeys for them
+        * @desc this method need for adding new functions and hotkeys for them
 				* @mamberof Module
 				* @instance
         * @param {String} key_combination - string of the key combination
@@ -931,7 +931,7 @@
     /**
         * @public
         * @function dump
-        * @description list of all hotkeys and functions
+        * @desc list of all hotkeys and functions
 				* @mamberof Module
 				* @instance
         * @return {Array} - array of hotkeys and functions
@@ -945,7 +945,7 @@
     /**
         * @public
         * @function runFunction
-        * @description this function initializing the function according pressed hotkey
+        * @desc this function initializing the function according pressed hotkey
 				* @mamberof Module
 				* @instance
         * @param {String} combination - combination of keys converted to a string 
@@ -965,7 +965,7 @@
     /**
         * @public
         * @function setOptions
-        * @description adding arguments before function will be initialized
+        * @desc adding arguments before function will be initialized
 				* @mamberof Module
 				* @instance
         * @param {Array} user_options - array of arguments for function
@@ -1024,7 +1024,7 @@ var Divider = (function()
 		*/
 		this.divide = function(word)
 		{
-			content = word.innerHTML;
+			var content = word.innerHTML;
 			
 			var final_content = '';
 			
@@ -1051,7 +1051,7 @@ var Divider = (function()
 
 	/**
 		* @function concat
-		* @description joining all separate characters to a one string
+		* @desc joining all separate characters to a one string
 		* @mamberof Divider
 		* @instance
 		* @param {Object} word - container that contain separated characters with word that must be exploded
@@ -1059,7 +1059,7 @@ var Divider = (function()
 		*/
 		this.concat = function(word)
 		{
-			content = word.innerHTML;
+			var content = word.innerHTML;
 			
 			// thanks for Human Being http://stackoverflow.com/users/1835198/human-being 
 			// http://stackoverflow.com/questions/13911681/remove-html-tags-from-a-javascript-string

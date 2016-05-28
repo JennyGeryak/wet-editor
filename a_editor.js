@@ -127,12 +127,12 @@
 					this.symbol_buffer[i].object = this;
 					this.symbol_buffer[i].index = i;
 					this.symbol_buffer[i].key_scope = Key_Scope.getInstance();
-					this.symbol_buffer[i].onkeydown = function(e)
+					this.symbol_buffer[i].onkeydown = function(event)
 					{
 						// observer innitialithation 
 						if(Observable != undefined)
 						{
-							this.object.publish(this.object, this.key_scope, this.index, e, 'pressed');
+							this.object.publish(this.object, this.key_scope, this.index, event, 'pressed');
 						}
 					};
 
@@ -140,11 +140,11 @@
 					* @event symbol_buffer#onkeyup
 					* @param {object} e - event wich will contain key code
 					*/
-					this.symbol_buffer[i].onkeyup = function(e)
+					this.symbol_buffer[i].onkeyup = function(event)
 					{
 						if(Observable != undefined)
 						{
-							this.object.publish(this.object, this.key_scope, this.index, e, 'relised');
+							this.object.publish(this.object, this.key_scope, this.index, event, 'relised');
 						}
 					};
 
