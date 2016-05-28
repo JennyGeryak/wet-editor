@@ -138,7 +138,10 @@
 				
 				deletePrevioseCursor();
 				
-				word.innerHTML = divider.concat(word);
+				if(word != undefined)
+				{
+					word.innerHTML = divider.concat(word);
+				}
 
 				deletePrevioseParent();
 				
@@ -147,6 +150,8 @@
 				// generating a special class for it
 				space.className = class_generator
 														.setPrefix('wet-')
+														.mainClass(" ")
+														.space()
 														.subClass(" ")
 														.generate() 
 														+ ' active'; 
