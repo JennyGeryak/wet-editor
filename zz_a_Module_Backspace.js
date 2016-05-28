@@ -10,6 +10,7 @@
   */
 	Module.getInstance().backspase = function(options){
 		
+		// standart block of initialization of dependencies		
 		var class_generator = new Char_Class_Generator('wet-');
 		
 		var concrete_entity = options.object.container[options.index];
