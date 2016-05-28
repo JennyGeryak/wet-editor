@@ -4,7 +4,7 @@
 	///////////////////////////////////
 /**
 	* @name Editor
-	* @version 1.0.0
+	* @version 1.0.1
 	* @author Ivan Kaduk
 	* @copyright Ivan Kaduk 2016.
 	* @License cc-by-nc-sa 4.0

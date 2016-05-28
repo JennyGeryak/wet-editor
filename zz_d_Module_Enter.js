@@ -22,7 +22,7 @@
 		// prepare previose element for next work
 		this.deletePrevioseCursor(concrete_entity);
 			
-		word = concrete_entity.getElementsByClassName('parent')[0];
+		var word = concrete_entity.getElementsByClassName('parent')[0];
 			
 		if(word)
 		{

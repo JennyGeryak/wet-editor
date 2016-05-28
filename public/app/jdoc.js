@@ -4,7 +4,7 @@
 	///////////////////////////////////
 /**
 	* @name Editor
-	* @version 1.0.0
+	* @version 1.0.1
 	* @author Ivan Kaduk
 	* @copyright Ivan Kaduk 2016.
 	* @License cc-by-nc-sa 4.0
@@ -1562,7 +1562,7 @@ var Divider = (function()
 		// prepare previose element for next work
 		this.deletePrevioseCursor(concrete_entity);
 			
-		word = concrete_entity.getElementsByClassName('parent')[0];
+		var word = concrete_entity.getElementsByClassName('parent')[0];
 			
 		if(word)
 		{
