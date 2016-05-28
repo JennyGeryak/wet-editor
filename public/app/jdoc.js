@@ -559,7 +559,10 @@
 				
 				deletePrevioseCursor();
 				
-				word.innerHTML = divider.concat(word);
+				if(word != undefined)
+				{
+					word.innerHTML = divider.concat(word);
+				}
 
 				deletePrevioseParent();
 				
@@ -568,6 +571,8 @@
 				// generating a special class for it
 				space.className = class_generator
 														.setPrefix('wet-')
+														.mainClass(" ")
+														.space()
 														.subClass(" ")
 														.generate() 
 														+ ' active'; 
@@ -1059,15 +1064,22 @@ var Divider = (function()
 		*/
 		this.concat = function(word)
 		{
-			var content = word.innerHTML;
-			
-			// thanks for Human Being http://stackoverflow.com/users/1835198/human-being 
-			// http://stackoverflow.com/questions/13911681/remove-html-tags-from-a-javascript-string
-			var rex = /(<([^>]+)>)/ig;
-			
-    	content = content.replace(rex , "");
-			
-			return content;
+			if(word != undefined)
+			{
+				var content = word.innerHTML;
+
+				// thanks for Human Being http://stackoverflow.com/users/1835198/human-being 
+				// http://stackoverflow.com/questions/13911681/remove-html-tags-from-a-javascript-string
+				var rex = /(<([^>]+)>)/ig;
+
+				content = content.replace(rex , "");
+
+				return content;
+			}
+			else
+			{
+				return '';
+			}
 		}
 	}
 	
