@@ -24,10 +24,10 @@
 </dd>
 </dl>
 
-<a name="subscribe"></a>
+<a name="unsubscribe"></a>
 
-## .subscribe(observer)
-for subscribing observers
+## .unsubscribe(observer)
+for unsubscribing observers
 
 **Kind**: instance function  
 **Access:** public  
@@ -130,10 +130,10 @@ builder function
 standart subject for obsrver
 
 **Kind**: global class  
-<a name="unsubscribe"></a>
+<a name="subscribe"></a>
 
-## .unsubscribe(observer)
-for unsubscribing observers
+## .subscribe(observer)
+for subscribing observers
 
 **Kind**: instance function  
 **Access:** public  
@@ -253,6 +253,8 @@ it is solution that helps to create additional mudules more easy and implement i
 * [Module](#Module)
     * [.backspase()](#Module+backspase)
     * [.left_arrow()](#Module+left_arrow)
+    * [.backspase()](#Module+backspase)
+    * [.enter()](#Module+enter)
 
 <a name="Module+backspase"></a>
 
@@ -273,6 +275,36 @@ this module need to emulate "backspase" key features
 
 ### module.left_arrow()
 this module need to emulate "left arrow" key features
+
+**Kind**: instance method of <code>[Module](#Module)</code>  
+**Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
+**Copyright**: Ivan Kaduk 2016.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options.object | <code>object</code> | entity of editors object |
+| options.index | <code>int</code> | index of current editor element on document |
+
+<a name="Module+backspase"></a>
+
+### module.backspase()
+this module need to emulate "space" key features
+
+**Kind**: instance method of <code>[Module](#Module)</code>  
+**Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
+**Copyright**: Ivan Kaduk 2016.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options.object | <code>object</code> | entity of editors object |
+| options.index | <code>int</code> | index of current editor element on document |
+
+<a name="Module+enter"></a>
+
+### module.enter()
+this module need to emulate "enter" key features
 
 **Kind**: instance method of <code>[Module](#Module)</code>  
 **Author:** Ivan Kaduk  

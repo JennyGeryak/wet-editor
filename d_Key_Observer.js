@@ -35,7 +35,7 @@
 		if(scope.getKeyMap()[0] < '46'){//16
 			event.preventDefault(); event.stopPropagation(); 
 		}
-
+		
 		// if that key pressed on new line
 		if(data.line[index][data.current_line[index]].innerHTML == '')
 		{
@@ -72,12 +72,11 @@
 			if(class_generator.mainClass(data.symbol_buffer[index].value).generate() == "character")
 			{
 				// but our word dont created
+				// then we will create it
 				if(concrete_entity.getElementsByClassName('parent').length == 0)
 				{
-					
-					// so we must to delete cursor on first
-					deletePrevioseCursor();
-					
+					// geting activ character after what we planing to paste new one
+					var active_char = concrete_entity.getElementsByClassName('active')[0];
 					// create a word object 
 					var word = document.createElement('span');
 					// say to it that it will be have a children in it
@@ -97,12 +96,17 @@
 					// adding new character in container
 					character_holder.appendChild(content);
 					// adding character object to the word 
-					word.appendChild(character_holder); 
+					word.appendChild(character_holder);
+					// so we must to delete cursor on first
+					deletePrevioseCursor();
 					// adding word to the line 
 					data.line[index][data.current_line[index]].appendChild(word);
 				}
 				else
 				{
+					
+					// geting activ character after what we planing to paste new one
+					var active_char = concrete_entity.getElementsByClassName('active')[0];
 					// deactive previose char
 					previouse_element.className = class_generator
 																				.setPrefix('wet-')
@@ -126,69 +130,27 @@
 																			+ 'active'; 
 					// adding charecter to container
 					character_holder.appendChild(content);
-					// adding char object to the word
-					word.appendChild(character_holder); 
+					
+					// so we must to delete cursor on first
+					deletePrevioseCursor();
+					
+					// if cursor lie on the end of word we simpli adding char in the ond of word
+					if(active_char.nextSibling == null)
+					{
+						word.appendChild(character_holder);
+					}
+					// if cursore lie in the middle of word, we adding after active element 
+					else if(active_char.nextSibling != null)
+					{
+						active_char.parentNode.insertBefore(character_holder,active_char.nextSibling);
+					}
 				}
 			}
-			// if you typing a space button:
-			else if(scope.getKeyMap().indexOf(32) >= 0)
-			{
-				// prepare previose element for next work
-				word = concrete_entity.getElementsByClassName('parent')[0];
-				
-				deletePrevioseCursor();
-				
-				if(word != undefined)
-				{
-					word.innerHTML = divider.concat(word);
-				}
-
-				deletePrevioseParent();
-				
-				// creating a space object
-				var space = document.createElement('span');
-				// generating a special class for it
-				space.className = class_generator
-														.setPrefix('wet-')
-														.mainClass(" ")
-														.space()
-														.subClass(" ")
-														.generate() 
-														+ ' active'; 
-				// adding space contant
-				space.innerHTML = " ";
-				// adding space objecto to an active line
-				data.line[index][data.current_line[index]].appendChild(space);
-			}
-				// clearing buffer
-				data.symbol_buffer[index].value = '';
+			
+			// clearing buffer
+			data.symbol_buffer[index].value = '';
 		}
-		
-		// 'enter' emulation, using adding new line
-		if(scope.getKeyMap() == 13 ) //  enter
-		{
 			
-			// prepare previose element for next work
-			deletePrevioseCursor();
-			
-			word = concrete_entity.getElementsByClassName('parent')[0];
-			
-			if(word)
-			{
-				word.innerHTML = divider.concat(word);				
-			}
-			
-			deletePrevioseParent();
-			
-			// index of created line
-			data.current_line[index]++;
-			// adding new line
-			data.line[index][data.current_line[index]] = document.createElement('div');
-			data.line[index][data.current_line[index]].className = 'line';
-			data.line[index][data.current_line[index]].setAttribute('line_number', data.current_line[index]);
-			data.work_space[index].appendChild(data.line[index][data.current_line[index]]);
-		}
-	
 		// if key is pressed or relissed add event to singleton
 		if(condition == 'pressed')
 		{
