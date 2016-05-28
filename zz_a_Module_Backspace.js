@@ -144,11 +144,15 @@
           var active_char = concrete_entity.getElementsByClassName('active')[0];
           // getting previose element thet will be active after key pressed
           var previous_char = concrete_entity.getElementsByClassName('active')[0].previousSibling;
+					// if we have previouse element:
           if(previous_char != null)
           {
+						// if previouse element is word:
 						if(active_char.className.split(' ')[0] == 'wet-word')
 						{
+							// marking it as parent
 							active_char.className = 'wet-word parent';
+							// generating class for the last child in it
 							active_char.childNodes[active_char.childNodes.length-1].className = class_generator
 																																											.setPrefix('wet-')
 																																											.mainClass(active_char.childNodes[active_char.childNodes.length-1].innerHTML)

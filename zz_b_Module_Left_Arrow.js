@@ -19,7 +19,7 @@
 		
 		var divider = new Divider();
 		
-		// getting active element that must be deleted
+		// getting active element that must be deactivated
 		var active_char = concrete_entity.getElementsByClassName('active')[0];
 
 		// getting previose element thet will be active after key pressed
@@ -33,7 +33,7 @@
 			if(previous_char.className.split(' ')[0] == 'wet-line-start')
 			{
 
-				// deleting active element
+				// deactivating active element
 				active_char.className = class_generator
 																.setPrefix('wet-')
 																.mainClass(active_char.innerHTML)
@@ -57,6 +57,7 @@
 				previous_char.className = 'wet-word parent';
 				
 				word = concrete_entity.getElementsByClassName('parent')[0];
+				
 				// explode one word to a diferent characters 
 				word.innerHTML = divider.divide(word);
 				
@@ -72,13 +73,13 @@
 																				.subClass(previouse_word_char.innerHTML)
 																				.generate()
 																				+ ' active';
-				// deleting active element
-								active_char.className = class_generator
-																.setPrefix('wet-')
-																.mainClass(active_char.innerHTML)
-																.space()
-																.subClass(active_char.innerHTML)
-																.generate();
+				// deactivate active element
+				active_char.className = class_generator
+												.setPrefix('wet-')
+												.mainClass(active_char.innerHTML)
+												.space()
+												.subClass(active_char.innerHTML)
+												.generate();
 			}
 			else
 			{
@@ -89,19 +90,19 @@
 																								.className
 																								.trim();
 
-				// deleting active element
-								active_char.className = class_generator
-																.setPrefix('wet-')
-																.mainClass(active_char.innerHTML)
-																.space()
-																.subClass(active_char.innerHTML)
-																.generate();
+				// deactivate active element
+				active_char.className = class_generator
+												.setPrefix('wet-')
+												.mainClass(active_char.innerHTML)
+												.space()
+												.subClass(active_char.innerHTML)
+												.generate();
 
 				// making previous element to be an active 
 				previous_char.className = previous_char_original_class_name + ' ' + 'active';	
 			}
 		}
-		// deleting word when it not on start of line
+		// deactivate word when it not on start of line
 		else if((concrete_entity.getElementsByClassName('parent')[0] != undefined)
 					&&(concrete_entity.getElementsByClassName('parent')[0].previousSibling.className != 'wet-line-start'))
 		{
@@ -114,60 +115,52 @@
 															.subClass(before_word.innerHTML)
 															.generate()
 															+ ' active';
-											active_char.className = class_generator
-																.setPrefix('wet-')
-																.mainClass(active_char.innerHTML)
-																.space()
-																.subClass(active_char.innerHTML)
-																.generate();
+			active_char.className = class_generator
+															.setPrefix('wet-')
+															.mainClass(active_char.innerHTML)
+															.space()
+															.subClass(active_char.innerHTML)
+															.generate();
 			word.innerHTML = divider.concat(word);	
-			word.className = 'wet-word';
-//			word.parentNode.removeChild(word);
-			
-			
+			word.className = 'wet-word';			
 		}		
-		// deleting word when it is on start of line
+		// deactivate word when it is on start of line
 		else if((concrete_entity.getElementsByClassName('parent')[0] != undefined)
 					&&(concrete_entity.getElementsByClassName('parent')[0].previousSibling.className == 'wet-line-start'))
 		{
 			var word = concrete_entity.getElementsByClassName('parent')[0]; 
 			var before_word = word.previousSibling;
 			before_word.className = 'wet-line-start active';
-			
-														active_char.className = class_generator
-																.setPrefix('wet-')
-																.mainClass(active_char.innerHTML)
-																.space()
-																.subClass(active_char.innerHTML)
-																.generate();
+			active_char.className = class_generator
+															.setPrefix('wet-')
+															.mainClass(active_char.innerHTML)
+															.space()
+															.subClass(active_char.innerHTML)
+															.generate();
 			word.innerHTML = divider.concat(word);
 			word.className = 'wet-word';
-//			word.parentNode.removeChild(word);
 		}
 		else
 		{
-      // deleting a line and going to the previous
+      // deactivate a line and going to the previous line
 			if(active_char.className.split(" ")[0] == 'wet-line-start')
 			{
 				var parent_s = active_char.parentNode;
         var previous_line = parent_s.previousSibling;
-				
-				console.log('cool')
                 
         if(previous_line != null)
         {
 					parent_s.parentNode.removeChild(parent_s);
 					// !!!!!!!!!! change this.current_line 
-					// deleting 'enter' pseudo sign
+					// deactivate 'enter' pseudo sign
 					options.object.current_line[options.index] = options.object.current_line[options.index] - 1;
-					
-					// last word on previouse line
+
 					word = previous_line.childNodes[previous_line.childNodes.length-1];
 					
 					// if last element in previouse line not a word
 					if(word.className.split(" ")[0] != 'wet-signifier')
 					{
-						// exploded content
+						// explode content
 						word.innerHTML = divider.divide(word);
 					}
 					
@@ -175,12 +168,14 @@
 					previous_line.childNodes[previous_line.childNodes.length-1].className = previous_line
 																																									.childNodes[previous_line.childNodes.length-1]
 																																									.className + ' ' + 'active';            
-					// getting active element that must be deleted
+					// getting active element that must be deactivated
           var active_char = concrete_entity.getElementsByClassName('active')[0];
           // getting previose element thet will be active after key pressed
           var previous_char = concrete_entity.getElementsByClassName('active')[0].previousSibling;
+					// if we are not at start of previouse line:
           if(previous_char != null)
           {
+						// if the last entity of line is word 
 						if(active_char.className.split(' ')[0] == 'wet-word')
 						{
 							active_char.className = 'wet-word parent';
@@ -195,10 +190,6 @@
 						}
           }
         }
-				else if(previous_line == undefined)
-				{
-				 console.log('cool')		
-				}
 			}
 		}
 	}

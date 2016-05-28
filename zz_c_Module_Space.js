@@ -23,13 +23,15 @@
 		word = concrete_entity.getElementsByClassName('parent')[0];
 				
 		this.deletePrevioseCursor(concrete_entity);
-				
+		
+		// if we are in parent word:
+		// MUST BE FIXED BECAUSE IT PUSHING OUT SPACE
 		if(word != undefined)
-				{
-					word.innerHTML = divider.concat(word);
-				}
+		{
+			word.innerHTML = divider.concat(word);
+		}
 
-				this.deletePrevioseParent(concrete_entity);
+		this.deletePrevioseParent(concrete_entity);
 				
 		// creating a space object
 		var space = document.createElement('span');

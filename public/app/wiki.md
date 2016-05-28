@@ -44,7 +44,7 @@ this class is creating editor object
 
 **Kind**: global class  
 **Extends:** <code>[Observable](#Observable)</code>  
-**Version**: 1.0.0  
+**Version**: 1.0.1  
 **Author:** Ivan Kaduk  
 **License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  

@@ -23,7 +23,9 @@
 		this.deletePrevioseCursor(concrete_entity);
 			
 		var word = concrete_entity.getElementsByClassName('parent')[0];
-			
+		
+		// if we are in parent word:
+		// MUST BE FIXED BECAUSE IT PUSHING OUT ENTER SIGN
 		if(word)
 		{
 			word.innerHTML = divider.concat(word);				
