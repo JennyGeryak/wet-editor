@@ -12,7 +12,9 @@ In this early version it hase next features:
 - text adding;
 - backspace button emulation;
 - enter button emulation;
-- hetkey console;
+- space button emulation;
+- left arrow emulation;
+- hetkey console.
 
 [demo](http://codepen.io/Ceditvodu/full/ZWgOrO/)
 
