@@ -30,7 +30,7 @@
 		* @name mainClass
 		* @mamberof Char_Class_Generator
 		* @instance
-		* @description adding main class
+		* @desc adding main class
 		* @param {String} user_char - char from cher buffer 
 		*/
 		function mainClass(user_char)
@@ -66,7 +66,7 @@
 		* @name subClass
 		* @mamberof Char_Class_Generator
 		* @instance
-		* @description adding subclass to main 
+		* @desc adding subclass to main 
 		* @param {String} user_char - char from cher buffer 
 		*/
 		function subClass(user_char)
@@ -135,7 +135,7 @@
 		* @name setPrefix
 		* @mamberof Char_Class_Generator
 		* @instance
-		* @description setting prefix, which will be adding to every class
+		* @desc setting prefix, which will be adding to every class
 		* @param {String} user_prefix - prefix for class
 		*/
 		function setPrefix(user_prefix)
@@ -150,7 +150,7 @@
 		* @name space
 		* @mamberof Char_Class_Generator
 		* @instance
-		* @description addpace between classes
+		* @desc addpace between classes
 		*/
 		function space()
 		{
@@ -164,7 +164,7 @@
 		* @name generate
 		* @mamberof Char_Class_Generator
 		* @instance
-		* @description builder function
+		* @desc builder function
 		*/
 		function generate()
 		{

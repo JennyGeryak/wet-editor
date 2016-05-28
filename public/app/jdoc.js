@@ -916,8 +916,7 @@
 
     /**
         * @public
-        * @function
-        * @name addFunction
+        * @function addFunction
         * @description this method need for adding new functions and hotkeys for them
 				* @mamberof Module
 				* @instance
@@ -931,8 +930,7 @@
 
     /**
         * @public
-        * @function
-        * @name dump
+        * @function dump
         * @description list of all hotkeys and functions
 				* @mamberof Module
 				* @instance
@@ -946,8 +944,7 @@
 
     /**
         * @public
-        * @function
-        * @name runFunction
+        * @function runFunction
         * @description this function initializing the function according pressed hotkey
 				* @mamberof Module
 				* @instance
@@ -967,8 +964,7 @@
 
     /**
         * @public
-        * @function
-        * @name setOptions
+        * @function setOptions
         * @description adding arguments before function will be initialized
 				* @mamberof Module
 				* @instance
@@ -1019,13 +1015,12 @@ var Divider = (function()
 	{
 		
 	/**
-		* @function
-		* @name divide
-		* @description separating word to a single characters in container
-		* @mamberof Divider
-		* @instance
+		* @function divide 
+		* @desc separating word to a single characters in container
 		* @param {Object} word - container that contain string with word that must be exploded
 		* @return {String} - string with html code that containe separated characters
+		* @mamberof Divider
+		* @instance
 		*/
 		this.divide = function(word)
 		{
@@ -1055,8 +1050,7 @@ var Divider = (function()
 		}
 
 	/**
-		* @function
-		* @name concat
+		* @function concat
 		* @description joining all separate characters to a one string
 		* @mamberof Divider
 		* @instance

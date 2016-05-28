@@ -49,9 +49,8 @@
 
     /**
         * @public
-        * @function
-        * @name addFunction
-        * @description this method need for adding new functions and hotkeys for them
+        * @function addFunction
+        * @desc this method need for adding new functions and hotkeys for them
 				* @mamberof Module
 				* @instance
         * @param {String} key_combination - string of the key combination
@@ -64,9 +63,8 @@
 
     /**
         * @public
-        * @function
-        * @name dump
-        * @description list of all hotkeys and functions
+        * @function dump
+        * @desc list of all hotkeys and functions
 				* @mamberof Module
 				* @instance
         * @return {Array} - array of hotkeys and functions
@@ -79,9 +77,8 @@
 
     /**
         * @public
-        * @function
-        * @name runFunction
-        * @description this function initializing the function according pressed hotkey
+        * @function runFunction
+        * @desc this function initializing the function according pressed hotkey
 				* @mamberof Module
 				* @instance
         * @param {String} combination - combination of keys converted to a string 
@@ -100,9 +97,8 @@
 
     /**
         * @public
-        * @function
-        * @name setOptions
-        * @description adding arguments before function will be initialized
+        * @function setOptions
+        * @desc adding arguments before function will be initialized
 				* @mamberof Module
 				* @instance
         * @param {Array} user_options - array of arguments for function

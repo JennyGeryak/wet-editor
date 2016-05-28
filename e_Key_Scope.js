@@ -34,7 +34,7 @@
 			* @private
 			* @function
 			* @name addKeyToMap
-			* @description adding key code to key map
+			* @desc adding key code to key map
 			* @mamberof Key_Scope
 			* @instance
 			* @param {int} key - key code frome key event
@@ -65,7 +65,7 @@
 			* @private
 			* @function
 			* @name removeKeyFromMap
-			* @description removing key code to key map
+			* @desc removing key code to key map
 			* @mamberof Key_Scope
 			* @instance
 			* @param {int} key - key code frome key event
@@ -84,7 +84,7 @@
 			* @public
 			* @function
 			* @name keyDown
-			* @description catching code frome event and adding it to key map, on some action 
+			* @desc catching code frome event and adding it to key map, on some action 
 			* @mamberof Key_Scope
 			* @instance
 			* @param {object} e - event which contain code of pressed button
@@ -108,7 +108,7 @@
 			* @public
 			* @function
 			* @name keyUp
-			* @description catching code frome event and removing it to key map, on some action 
+			* @desc catching code frome event and removing it to key map, on some action 
 			* @mamberof Key_Scope
 			* @instance
 			* @param {object} e - event which contain code of pressed button
@@ -132,7 +132,7 @@
 			* @public
 			* @function
 			* @name getKeyMap
-			* @description return key map 
+			* @desc return key map 
 			* @mamberof Key_Scope
 			* @instance
 			* @return {Array} - key map content
@@ -146,7 +146,7 @@
 			* @public
 			* @function
 			* @name getStringKeyMap
-			* @description return key map like a string
+			* @desc return key map like a string
 			* @mamberof Key_Scope
 			* @instance
 			* @return {String} - key map content
@@ -160,7 +160,7 @@
 			* @public
 			* @function
 			* @name clearKeyMap
-			* @description refreshing key map
+			* @desc refreshing key map
 			* @mamberof Key_Scope
 			* @instance
 			*/

@@ -212,7 +212,7 @@
 		* @private
 		* @function
 		* @name deletePrevioseCursor
-		* @description it is need to delete previose cursor and it protect of making unnecessary multicursors
+		* @desc it is need to delete previose cursor and it protect of making unnecessary multicursors
 		* @mamberof Key_Observer
 		* @inner
 		*/
@@ -237,7 +237,7 @@
 		* @private
 		* @function
 		* @name deletePrevioseParent
-		* @description it is need to delete 'perent' class from object it gives oportunity to know in which exact container
+		* @desc it is need to delete 'perent' class from object it gives oportunity to know in which exact container
 		* is word lie
 		* @mamberof Key_Observer
 		* @inner

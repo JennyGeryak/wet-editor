@@ -19,13 +19,12 @@ var Divider = (function()
 	{
 		
 	/**
-		* @function
-		* @name divide
-		* @description separating word to a single characters in container
-		* @mamberof Divider
-		* @instance
+		* @function divide 
+		* @desc separating word to a single characters in container
 		* @param {Object} word - container that contain string with word that must be exploded
 		* @return {String} - string with html code that containe separated characters
+		* @mamberof Divider
+		* @instance
 		*/
 		this.divide = function(word)
 		{
@@ -55,9 +54,8 @@ var Divider = (function()
 		}
 
 	/**
-		* @function
-		* @name concat
-		* @description joining all separate characters to a one string
+		* @function concat
+		* @desc joining all separate characters to a one string
 		* @mamberof Divider
 		* @instance
 		* @param {Object} word - container that contain separated characters with word that must be exploded

@@ -20,7 +20,7 @@
 		* @public
 		* @function
 		* @name subscribe
-		* @description for subscribing observers
+		* @desc for subscribing observers
 		* @mamberof Observable
 		* @instance
 		* @param {Object} observer - object wich containe observer instans
@@ -34,7 +34,7 @@
 		* @public
 		* @function
 		* @name unsubscribe
-		* @description for unsubscribing observers
+		* @desc for unsubscribing observers
 		* @mamberof Observable
 		* @instance
 		* @param {Object} observer - object wich containe observer instans
@@ -55,7 +55,7 @@
 		* @public
 		* @function
 		* @name publish
-		* @description calling observers constructors
+		* @desc calling observers constructors
 		* @mamberof Observable
 		* @instance
 		* @param {Object} data - some objects collection to do some actions with
