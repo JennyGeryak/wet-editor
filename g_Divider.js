@@ -80,6 +80,21 @@ var Divider = (function()
 				return '';
 			}
 		}
+		
+	/**
+		* @function bisect
+		* @desc divide a massive of characters in the word to two parts
+		* @mamberof Divider
+		* @instance
+		* @param {Object} word - container that contain separated characters with word that must be exploded
+		* @return {Array} - string with word
+		*/
+		this.bisect = function(word)
+		{
+			
+		}
+		
+		
 	}
 	
 	return Divider;
