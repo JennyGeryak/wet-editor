@@ -91,10 +91,28 @@ var Divider = (function()
 		*/
 		this.bisect = function(word)
 		{
-			
+			var result = new Array();
+			result[0] = '';
+			result[1] = '';
+			var j = 0;
+			if(word != undefined)
+			{
+				for(var i=0; i<=(word.childNodes.length-1); i++)
+				{
+					some = word.childNodes[i].className.split(' ').indexOf('active');
+					result[j] += word.childNodes[i].outerHTML;
+					if(some >= 0)
+					{
+						j=1;
+					}
+				}
+				return result;				
+			}
+			else
+			{
+				return result;
+			}
 		}
-		
-		
 	}
 	
 	return Divider;

@@ -40,6 +40,7 @@
 					break;
 				}
 			}
+			// var i = Array.prototype.indexOf.call(e.childNodes, someChildEl);  > ie9
 		}
 		else
 		{
@@ -72,6 +73,13 @@
 			space.innerHTML = " ";
 			// adding space objecto to an active line
 			options.object.line[options.index][options.object.current_line[options.index]].appendChild(space);
+		}
+		else
+		{
+			if(word != undefined)
+			{
+				console.log(divider.bisect(word));
+			}
 		}
 
 	}
