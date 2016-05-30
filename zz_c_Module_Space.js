@@ -23,12 +23,11 @@
     var word = concrete_entity.getElementsByClassName('parent')[0];
 
     var active_char = concrete_entity.getElementsByClassName('active')[0];
+
   
     var active_char_index = 0;
   
     var chars = active_char.parentElement.childNodes.length || false;
-    
-    console.log(active_char.parentElement.childNodes.length);
     
     // creating a space object
     var space = document.createElement('span');
@@ -51,28 +50,27 @@
       // searching a position ow the word 
       for(var i=0; i<active_char.parentElement.childNodes.length-1; i++)
       {
-        active_char_index++;
         var char_class = active_char.parentElement.childNodes[i].className;
         var char_classes = char_class.split(" ");
         if(char_classes.indexOf('active') >= 0)
         {
           break;
         }
+        active_char_index++;
       }
       // var i = Array.prototype.indexOf.call(e.childNodes, someChildEl);  > ie9
     }
     // active element is not in the word
     else
     {
-    active_char_index = false;
+      active_char_index = false;
     }
     
     // if cursor is in the end of word:
-    if(active_char_index == (chars))
+    if(active_char_index == (chars-1))
     {
-      console.log(active_char_index);
       this.deletePrevioseCursor(concrete_entity);
-    
+      
       // if we are in parent word:
       if(word != undefined)
       {
@@ -82,10 +80,10 @@
       this.deletePrevioseParent(concrete_entity);
         
       // adding space objecto to an active line
-      options.object.line[options.index][options.object.current_line[options.index]].appendChild(space);
+      word.parentNode.insertBefore(space ,word.nextSibling);
     }
     // if cursor is not at the end of word or if it on preend element:
-    else if((active_char_index != (chars-1))||(active_char_index == chars-1))
+    else if((active_char_index < (chars-1))|(active_char_index == 1))
     {
       if(word != undefined)
       {
@@ -112,6 +110,8 @@
       
         // paste last part of word after space as independent word
         active_char.parentNode.insertBefore(second_part_word ,active_char.nextSibling);
+        
+        this.deletePrevioseParent(concrete_entity);
       }
     }
   }

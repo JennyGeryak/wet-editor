@@ -19,30 +19,37 @@
     
     var divider = new Divider();
     
-    // prepare previose element for next work
-    
-    this.deletePrevioseCursor(concrete_entity);
-    
     var word = concrete_entity.getElementsByClassName('parent')[0];
     
+    var active_char = concrete_entity.getElementsByClassName('active')[0];
+        
     // if we are in parent word:
-    if(word) 
+    if(active_char.parentNode.className.split(" ").indexOf('parent') >= 0)
     {
-      word.innerHTML = divider.concat(word);
+      console.log(active_char.parentNode.className.split(" ").indexOf('parent'));
     }
-    
-    this.deletePrevioseParent(concrete_entity);
-    
-    // index of created line
-    
-    options.object.current_line[options.index]++;
-    // adding new line
-    
-    options.object.line[options.index][options.object.current_line[options.index]] = document.createElement('div');
-    options.object.line[options.index][options.object.current_line[options.index]].className = 'line';
-    options.object.line[options.index][options.object.current_line[options.index]].setAttribute('line_number', options.object.current_line[options.index]);
-    options.object.work_space[options.index].appendChild(options.object.line[options.index][options.object.current_line[options.index]]);
+    else
+    {
+      this.deletePrevioseCursor(concrete_entity);
+      
+      if(word) 
+      {
+        word.innerHTML = divider.concat(word);
+      }
+
+      this.deletePrevioseParent(concrete_entity);
+
+      // index of created line
+
+      options.object.current_line[options.index]++;
+      // adding new line
+
+      options.object.line[options.index][options.object.current_line[options.index]] = document.createElement('div');
+      options.object.line[options.index][options.object.current_line[options.index]].className = 'line';
+      options.object.line[options.index][options.object.current_line[options.index]].setAttribute('line_number', options.object.current_line[options.index]);
+      options.object.work_space[options.index].appendChild(options.object.line[options.index][options.object.current_line[options.index]]);
+    }
   }
   
-	var module = new Module.getInstance();
-	module.addFunction('13', 'enter');
+  var module = new Module.getInstance();
+  module.addFunction('13', 'enter');

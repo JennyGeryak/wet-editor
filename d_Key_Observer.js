@@ -60,6 +60,8 @@
 			// detecting previouse element with 'active' class name
 			var previouse_element = concrete_entity.getElementsByClassName('active')[0];
 			var previouse_element_class = previouse_element ? previouse_element.className.split(" ")[0] : ''; 
+      
+      var next_element = concrete_entity.getElementsByClassName('active')[0].nextSibling;
 			
 			// this an exception element that dont have auto generative class 
 			// that is why whe need to give our own
@@ -72,39 +74,65 @@
 			if(class_generator.mainClass(data.symbol_buffer[index].value).generate() == "character")
 			{
 				// but our word dont created
-				// then we will create it
+				// then we will create it:
 				if(concrete_entity.getElementsByClassName('parent').length == 0)
 				{
-					// geting activ character after what we planing to paste new one
-					var active_char = concrete_entity.getElementsByClassName('active')[0];
-					// create a word object 
-					var word = document.createElement('span');
-					// say to it that it will be have a children in it
-					word.className = 'wet-word parent';
-					// childs content
-					var content = document.createTextNode(data.symbol_buffer[index].value);
-					// childs container
-					var character_holder = document.createElement('span');
-					// generating of character class 
-					character_holder.className = class_generator
-																			.setPrefix('wet-')
-																			.mainClass(data.symbol_buffer[index].value)
-																			.space()
-																			.subClass(data.symbol_buffer[index].value)
-																			.generate() 
-																			+ 'active'; 
-					// adding new character in container
-					character_holder.appendChild(content);
-					// adding character object to the word 
-					word.appendChild(character_holder);
-					// so we must to delete cursor on first
-					deletePrevioseCursor();
-					// adding word to the line 
-					data.line[index][data.current_line[index]].appendChild(word);
+          if(next_element == null)
+          {
+            // geting activ character after what we planing to paste new one
+            var active_char = concrete_entity.getElementsByClassName('active')[0];
+            // create a word object 
+            var word = document.createElement('span');
+            // say to it that it will be have a children in it
+            word.className = 'wet-word parent';
+            // childs content
+            var content = document.createTextNode(data.symbol_buffer[index].value);
+            // childs container
+            var character_holder = document.createElement('span');
+            // generating of character class 
+            character_holder.className = class_generator
+                                        .setPrefix('wet-')
+                                        .mainClass(data.symbol_buffer[index].value)
+                                        .space()
+                                        .subClass(data.symbol_buffer[index].value)
+                                        .generate() 
+                                        + 'active'; 
+            // adding new character in container
+            character_holder.appendChild(content);
+            // adding character object to the word 
+            word.appendChild(character_holder);
+            // so we must to delete cursor on first
+            deletePrevioseCursor();
+            // adding word to the line 
+            data.line[index][data.current_line[index]].appendChild(word);
+          }
+          // if we before a word
+          else if((next_element != null)&&(next_element.className.split(" ").indexOf('wet-word') >= 0))
+          {
+            var word_before_active = concrete_entity.getElementsByClassName('active')[0].nextSibling;
+            var content_of_word = divider.divide(word_before_active);
+            var content = document.createTextNode(data.symbol_buffer[index].value);
+            // childs container
+            var character_holder = document.createElement('span');
+            // generating of character class 
+            character_holder.className = class_generator
+                                        .setPrefix('wet-')
+                                        .mainClass(data.symbol_buffer[index].value)
+                                        .space()
+                                        .subClass(data.symbol_buffer[index].value)
+                                        .generate() 
+                                        + 'active'; 
+            // adding new character in container
+            character_holder.appendChild(content);
+            // adding character object to the word 
+            word_before_active.innerHTML = character_holder.outerHTML + content_of_word;
+            word_before_active.className = "wet-word parent";
+            deletePrevioseCursor();
+          }
 				}
+        // if we in the word
 				else
 				{
-					
 					// geting activ character after what we planing to paste new one
 					var active_char = concrete_entity.getElementsByClassName('active')[0];
 					// deactive previose char
