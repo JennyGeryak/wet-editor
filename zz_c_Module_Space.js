@@ -21,7 +21,7 @@
   
   // prepare previose element for next work
   var word = concrete_entity.getElementsByClassName('parent')[0];
-  
+
   var active_char = concrete_entity.getElementsByClassName('active')[0];
   
   var active_char_index = 0;
@@ -49,16 +49,19 @@
   if(active_char_index == (chars-1))
   {
     this.deletePrevioseCursor(concrete_entity);
+    
     // if we are in parent word:
     // MUST BE FIXED BECAUSE IT PUSHING OUT SPACE
     if(word != undefined)
     {
       word.innerHTML = divider.concat(word);
     }
+    
     this.deletePrevioseParent(concrete_entity);
     
     // creating a space object
     var space = document.createElement('span');
+    
     // generating a special class for it
     space.className = class_generator
                       .setPrefix('wet-')
@@ -70,6 +73,7 @@
     
     // adding space contant
     space.innerHTML = " ";
+    
     // adding space objecto to an active line
     options.object.line[options.index][options.object.current_line[options.index]].appendChild(space);
   }
