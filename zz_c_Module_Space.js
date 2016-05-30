@@ -31,7 +31,7 @@
   if(chars != false)
   {
     for(var i=0; i<active_char.parentElement.childNodes.length-1; i++)
-  	{
+    {
       active_char_index++;
       var char_class = active_char.parentElement.childNodes[i].className;
       var char_classes = char_class.split(" ");
