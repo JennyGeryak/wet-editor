@@ -27,9 +27,28 @@
   var active_char_index = 0;
   
   var chars = active_char.parentElement.childNodes.length || false;
+    
+  console.log(active_char.parentElement.childNodes.length);
+    
+  // creating a space object
+  var space = document.createElement('span');
+    
+  // generating a special class for it
+  space.className = class_generator
+                    .setPrefix('wet-')
+                    .mainClass(" ")
+                    .space()
+                    .subClass(" ")  
+                    .generate() 
+                    + ' active';
+    
+  // adding space contant
+  space.innerHTML = " ";
   
+  // if we in the word:
   if(chars != false)
   {
+    // searching a position ow the word 
     for(var i=0; i<active_char.parentElement.childNodes.length-1; i++)
     {
       active_char_index++;
@@ -42,50 +61,78 @@
     }
     // var i = Array.prototype.indexOf.call(e.childNodes, someChildEl);  > ie9
   }
+  // active element is not in the word
   else
   {
     active_char_index = false;
   }
-  if(active_char_index == (chars-1))
+    
+  // if cursor is in the end of word:
+  if(active_char_index == (chars))
   {
+    console.log(active_char_index);
     this.deletePrevioseCursor(concrete_entity);
     
     // if we are in parent word:
-    // MUST BE FIXED BECAUSE IT PUSHING OUT SPACE
     if(word != undefined)
     {
       word.innerHTML = divider.concat(word);
     }
     
     this.deletePrevioseParent(concrete_entity);
-    
-    // creating a space object
-    var space = document.createElement('span');
-    
-    // generating a special class for it
-    space.className = class_generator
-                      .setPrefix('wet-')
-                      .mainClass(" ")
-                      .space()
-                      .subClass(" ")  
-                      .generate() 
-                      + ' active';
-    
-    // adding space contant
-    space.innerHTML = " ";
-    
+        
     // adding space objecto to an active line
     options.object.line[options.index][options.object.current_line[options.index]].appendChild(space);
   }
-  else
+  // if cursor is not at the end of word or if it on preend element:
+  else if((active_char_index != (chars-1))||(active_char_index == chars-1))
   {
     if(word != undefined)
     {
-      var two_parts_of_word = divider.bisect(word)[0];
-      word.innerHTML = two_parts_of_word;
-      console.log(word, two_parts_of_word);
+      // divide word in to two other
+      var two_parts_of_word = divider.bisect(word);
+      
+      var first_part_word = document.createElement('span');
+      first_part_word.className = 'wet-word';
+      first_part_word.innerHTML = two_parts_of_word[0];
+      
+      var second_part_word = document.createElement('span');
+      second_part_word.className = 'wet-word';
+      second_part_word.innerHTML = two_parts_of_word[1];
+      second_part_word.innerHTML = divider.concat(second_part_word);
+      
+      // add space after word
+      word.parentNode.insertBefore(space ,word.nextSibling);
+      
+      // change words content to a first part that was before a cursor
+      word.innerHTML = divider.concat(first_part_word);
+      
+      // renew active alement for space after word
+      active_char = concrete_entity.getElementsByClassName('active')[0];
+      
+      // paste last part of word after space as independent word
+      active_char.parentNode.insertBefore(second_part_word ,active_char.nextSibling);
     }
   }
 }
+  
 var module = new Module.getInstance();
 module.addFunction('32', 'space');
+
+  /////////////////////////////////
+  //       SNIPETS LIBRARY       //
+  /////////////////////////////////
+
+//  // the way to find position of active element
+//
+//    for(var i=0; i<active_char.parentElement.childNodes.length-1; i++)
+//    {
+//      active_char_index++;
+//      var char_class = active_char.parentElement.childNodes[i].className;
+//      var char_classes = char_class.split(" ");
+//      if(char_classes.indexOf('active') >= 0)
+//      {
+//        break;
+//      }
+//    }
+//    // var i = Array.prototype.indexOf.call(e.childNodes, someChildEl);  > ie9

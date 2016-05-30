@@ -49,7 +49,7 @@
 			var first_symbol_content = document.createTextNode(' ');
 			first_symbol.appendChild(first_symbol_content);
 
-			// adding starting teg for a line 
+			// adding starting tag for a line 
 			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
 																														+ first_symbol.outerHTML;
 		}
@@ -142,6 +142,7 @@
 					// if cursore lie in the middle of word, we adding after active element 
 					else if(active_char.nextSibling != null)
 					{
+            // cool string for adding something after active elements 
 						active_char.parentNode.insertBefore(character_holder,active_char.nextSibling);
 					}
 				}
@@ -221,3 +222,10 @@
 			}
 		}
 	}
+  
+  /////////////////////////////////
+  //       SNIPETS LIBRARY       //
+  /////////////////////////////////
+  
+  // 1. cool string for adding something after active elements 
+  // active_char.parentNode.insertBefore(character_holder,active_char.nextSibling);
