@@ -78,11 +78,14 @@
 		{
 			if(word != undefined)
 			{
-				console.log(divider.bisect(word));
+				var two_parts_of_word = divider.bisect(word)[0];
+				word.innerHTML = two_parts_of_word;
+				console.log(word, two_parts_of_word);
 			}
 		}
 
 	}
+
 	
 
 	var module = new Module.getInstance();
