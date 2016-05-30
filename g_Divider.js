@@ -99,7 +99,7 @@ var Divider = (function()
 			{
 				for(var i=0; i<=(word.childNodes.length-1); i++)
 				{
-					some = word.childNodes[i].className.split(' ').indexOf('active');
+					var some = word.childNodes[i].className.split(' ').indexOf('active');
 					result[j] += word.childNodes[i].outerHTML;
 					if(some >= 0)
 					{

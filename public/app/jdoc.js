@@ -470,7 +470,7 @@
 			var first_symbol_content = document.createTextNode(' ');
 			first_symbol.appendChild(first_symbol_content);
 
-			// adding starting teg for a line 
+			// adding starting tag for a line 
 			data.line[index][data.current_line[index]].innerHTML = data.line[index][data.current_line[index]].innerHTML 
 																														+ first_symbol.outerHTML;
 		}
@@ -481,6 +481,8 @@
 			// detecting previouse element with 'active' class name
 			var previouse_element = concrete_entity.getElementsByClassName('active')[0];
 			var previouse_element_class = previouse_element ? previouse_element.className.split(" ")[0] : ''; 
+      
+      var next_element = concrete_entity.getElementsByClassName('active')[0].nextSibling;
 			
 			// this an exception element that dont have auto generative class 
 			// that is why whe need to give our own
@@ -493,39 +495,65 @@
 			if(class_generator.mainClass(data.symbol_buffer[index].value).generate() == "character")
 			{
 				// but our word dont created
-				// then we will create it
+				// then we will create it:
 				if(concrete_entity.getElementsByClassName('parent').length == 0)
 				{
-					// geting activ character after what we planing to paste new one
-					var active_char = concrete_entity.getElementsByClassName('active')[0];
-					// create a word object 
-					var word = document.createElement('span');
-					// say to it that it will be have a children in it
-					word.className = 'wet-word parent';
-					// childs content
-					var content = document.createTextNode(data.symbol_buffer[index].value);
-					// childs container
-					var character_holder = document.createElement('span');
-					// generating of character class 
-					character_holder.className = class_generator
-																			.setPrefix('wet-')
-																			.mainClass(data.symbol_buffer[index].value)
-																			.space()
-																			.subClass(data.symbol_buffer[index].value)
-																			.generate() 
-																			+ 'active'; 
-					// adding new character in container
-					character_holder.appendChild(content);
-					// adding character object to the word 
-					word.appendChild(character_holder);
-					// so we must to delete cursor on first
-					deletePrevioseCursor();
-					// adding word to the line 
-					data.line[index][data.current_line[index]].appendChild(word);
+          if(next_element == null)
+          {
+            // geting activ character after what we planing to paste new one
+            var active_char = concrete_entity.getElementsByClassName('active')[0];
+            // create a word object 
+            var word = document.createElement('span');
+            // say to it that it will be have a children in it
+            word.className = 'wet-word parent';
+            // childs content
+            var content = document.createTextNode(data.symbol_buffer[index].value);
+            // childs container
+            var character_holder = document.createElement('span');
+            // generating of character class 
+            character_holder.className = class_generator
+                                        .setPrefix('wet-')
+                                        .mainClass(data.symbol_buffer[index].value)
+                                        .space()
+                                        .subClass(data.symbol_buffer[index].value)
+                                        .generate() 
+                                        + 'active'; 
+            // adding new character in container
+            character_holder.appendChild(content);
+            // adding character object to the word 
+            word.appendChild(character_holder);
+            // so we must to delete cursor on first
+            deletePrevioseCursor();
+            // adding word to the line 
+            data.line[index][data.current_line[index]].appendChild(word);
+          }
+          // if we before a word
+          else if((next_element != null)&&(next_element.className.split(" ").indexOf('wet-word') >= 0))
+          {
+            var word_before_active = concrete_entity.getElementsByClassName('active')[0].nextSibling;
+            var content_of_word = divider.divide(word_before_active);
+            var content = document.createTextNode(data.symbol_buffer[index].value);
+            // childs container
+            var character_holder = document.createElement('span');
+            // generating of character class 
+            character_holder.className = class_generator
+                                        .setPrefix('wet-')
+                                        .mainClass(data.symbol_buffer[index].value)
+                                        .space()
+                                        .subClass(data.symbol_buffer[index].value)
+                                        .generate() 
+                                        + 'active'; 
+            // adding new character in container
+            character_holder.appendChild(content);
+            // adding character object to the word 
+            word_before_active.innerHTML = character_holder.outerHTML + content_of_word;
+            word_before_active.className = "wet-word parent";
+            deletePrevioseCursor();
+          }
 				}
+        // if we in the word
 				else
 				{
-					
 					// geting activ character after what we planing to paste new one
 					var active_char = concrete_entity.getElementsByClassName('active')[0];
 					// deactive previose char
@@ -563,6 +591,7 @@
 					// if cursore lie in the middle of word, we adding after active element 
 					else if(active_char.nextSibling != null)
 					{
+            // cool string for adding something after active elements 
 						active_char.parentNode.insertBefore(character_holder,active_char.nextSibling);
 					}
 				}
@@ -642,6 +671,13 @@
 			}
 		}
 	}
+  
+  /////////////////////////////////
+  //       SNIPETS LIBRARY       //
+  /////////////////////////////////
+  
+  // 1. cool string for adding something after active elements 
+  // active_char.parentNode.insertBefore(character_holder,active_char.nextSibling);
 	///////////////////////////////////
 	/*          SINGELTON            */
 	///////////////////////////////////
@@ -1094,6 +1130,39 @@ var Divider = (function()
 				return '';
 			}
 		}
+		
+	/**
+		* @function bisect
+		* @desc divide a massive of characters in the word to two parts
+		* @mamberof Divider
+		* @instance
+		* @param {Object} word - container that contain separated characters with word that must be exploded
+		* @return {Array} - string with word
+		*/
+		this.bisect = function(word)
+		{
+			var result = new Array();
+			result[0] = '';
+			result[1] = '';
+			var j = 0;
+			if(word != undefined)
+			{
+				for(var i=0; i<=(word.childNodes.length-1); i++)
+				{
+					var some = word.childNodes[i].className.split(' ').indexOf('active');
+					result[j] += word.childNodes[i].outerHTML;
+					if(some >= 0)
+					{
+						j=1;
+					}
+				}
+				return result;				
+			}
+			else
+			{
+				return result;
+			}
+		}
 	}
 	
 	return Divider;
@@ -1486,101 +1555,191 @@ var Divider = (function()
   * @function backspase
   * @author Ivan Kaduk
   * @copyright Ivan Kaduk 2016.
-	* @License cc-by-nc-sa 4.0
+  * @license cc-by-nc-sa 4.0
   * @desc this module need to emulate "space" key features
-	* @param {object} options.object - entity of editors object
-	* @param {int} options.index - index of current editor element on document
-	* @memberof Module
-	* @instance
+  * @param {object} options.object - entity of editors object
+  * @param {int} options.index - index of current editor element on document
+  * @memberof Module
+  * @instance
   */
-	Module.getInstance().space = function(options)
-	{
-		// standart block of initialization of dependencies		
-		var class_generator = new Char_Class_Generator('wet-');
-		
-		var concrete_entity = options.object.container[options.index];
-		
-		var divider = new Divider();
-		
-		// prepare previose element for next work
-		var word = concrete_entity.getElementsByClassName('parent')[0];
-				
-		this.deletePrevioseCursor(concrete_entity);
-		
-		// if we are in parent word:
-		// MUST BE FIXED BECAUSE IT PUSHING OUT SPACE
-		if(word != undefined)
-		{
-			word.innerHTML = divider.concat(word);
-		}
+  Module.getInstance().space = function(options)
+  {
+    // standart block of initialization of dependencies 
+    var class_generator = new Char_Class_Generator('wet-');
+  
+    var concrete_entity = options.object.container[options.index];
+  
+    var divider = new Divider();
+  
+    // prepare previose element for next work
+    var word = concrete_entity.getElementsByClassName('parent')[0];
 
-		this.deletePrevioseParent(concrete_entity);
-				
-		// creating a space object
-		var space = document.createElement('span');
-		// generating a special class for it
-		space.className = class_generator
-												.setPrefix('wet-')
-												.mainClass(" ")
-												.space()
-												.subClass(" ")
-												.generate() 
-												+ ' active'; 
-		// adding space contant
-		space.innerHTML = " ";
-		// adding space objecto to an active line
-		options.object.line[options.index][options.object.current_line[options.index]].appendChild(space);
-	}
-	
+    var active_char = concrete_entity.getElementsByClassName('active')[0];
 
-	var module = new Module.getInstance();
-	module.addFunction('32', 'space');
+  
+    var active_char_index = 0;
+  
+    var chars = active_char.parentElement.childNodes.length || false;
+    
+    // creating a space object
+    var space = document.createElement('span');
+    
+    // generating a special class for it
+    space.className = class_generator
+                      .setPrefix('wet-')
+                      .mainClass(" ")
+                      .space()
+                      .subClass(" ")  
+                      .generate() 
+                      + ' active';
+    
+    // adding space contant
+    space.innerHTML = " ";
+  
+    // if we in the word:
+    if(chars != false)
+    {
+      // searching a position ow the word 
+      for(var i=0; i<active_char.parentElement.childNodes.length-1; i++)
+      {
+        var char_class = active_char.parentElement.childNodes[i].className;
+        var char_classes = char_class.split(" ");
+        if(char_classes.indexOf('active') >= 0)
+        {
+          break;
+        }
+        active_char_index++;
+      }
+      // var i = Array.prototype.indexOf.call(e.childNodes, someChildEl);  > ie9
+    }
+    // active element is not in the word
+    else
+    {
+      active_char_index = false;
+    }
+    
+    // if cursor is in the end of word:
+    if(active_char_index == (chars-1))
+    {
+      this.deletePrevioseCursor(concrete_entity);
+      
+      // if we are in parent word:
+      if(word != undefined)
+      {
+        word.innerHTML = divider.concat(word);
+      }
+    
+      this.deletePrevioseParent(concrete_entity);
+        
+      // adding space objecto to an active line
+      word.parentNode.insertBefore(space ,word.nextSibling);
+    }
+    // if cursor is not at the end of word or if it on preend element:
+    else if((active_char_index < (chars-1))|(active_char_index == 1))
+    {
+      if(word != undefined)
+      {
+        // divide word in to two other
+        var two_parts_of_word = divider.bisect(word);
+      
+        var first_part_word = document.createElement('span');
+        first_part_word.className = 'wet-word';
+        first_part_word.innerHTML = two_parts_of_word[0];
+      
+        var second_part_word = document.createElement('span');
+        second_part_word.className = 'wet-word';
+        second_part_word.innerHTML = two_parts_of_word[1];
+        second_part_word.innerHTML = divider.concat(second_part_word);
+      
+        // add space after word
+        word.parentNode.insertBefore(space ,word.nextSibling);
+      
+        // change words content to a first part that was before a cursor
+        word.innerHTML = divider.concat(first_part_word);
+      
+        // renew active alement for space after word
+        active_char = concrete_entity.getElementsByClassName('active')[0];
+      
+        // paste last part of word after space as independent word
+        active_char.parentNode.insertBefore(second_part_word ,active_char.nextSibling);
+        
+        this.deletePrevioseParent(concrete_entity);
+      }
+    }
+  }
+  
+  var module = new Module.getInstance();
+  module.addFunction('32', 'space');
+
+  /////////////////////////////////
+  //       SNIPETS LIBRARY       //
+  /////////////////////////////////
+
+//  // the way to find position of active element
+//
+//    for(var i=0; i<active_char.parentElement.childNodes.length-1; i++)
+//    {
+//      active_char_index++;
+//      var char_class = active_char.parentElement.childNodes[i].className;
+//      var char_classes = char_class.split(" ");
+//      if(char_classes.indexOf('active') >= 0)
+//      {
+//        break;
+//      }
+//    }
+//    // var i = Array.prototype.indexOf.call(e.childNodes, someChildEl);  > ie9
 	
 /**
   * @function enter
   * @author Ivan Kaduk
   * @copyright Ivan Kaduk 2016.
-	* @License cc-by-nc-sa 4.0
+  * @license cc-by-nc-sa 4.0
   * @desc this module need to emulate "enter" key features
-	* @param {object} options.object - entity of editors object
-	* @param {int} options.index - index of current editor element on document
-	* @memberof Module
-	* @instance
+  * @param {object} options.object - entity of editors object
+  * @param {int} options.index - index of current editor element on document
+  * @memberof Module
+  * @instance
   */
-	Module.getInstance().enter = function(options)
-	{
-		// standart block of initialization of dependencies		
-		var class_generator = new Char_Class_Generator('wet-');
-		
-		var concrete_entity = options.object.container[options.index];
-		
-		var divider = new Divider();
-		
-		// prepare previose element for next work
-		this.deletePrevioseCursor(concrete_entity);
-			
-		var word = concrete_entity.getElementsByClassName('parent')[0];
-		
-		// if we are in parent word:
-		// MUST BE FIXED BECAUSE IT PUSHING OUT ENTER SIGN
-		if(word)
-		{
-			word.innerHTML = divider.concat(word);				
-		}
-			
-		this.deletePrevioseParent(concrete_entity);
-			
-		// index of created line
-		options.object.current_line[options.index]++;
-		console.log(options.object);
-		// adding new line
-		var line = options.object.line[options.index][options.object.current_line[options.index]];
-		options.object.line[options.index][options.object.current_line[options.index]] = document.createElement('div');
-		options.object.line[options.index][options.object.current_line[options.index]].className = 'line';
-		options.object.line[options.index][options.object.current_line[options.index]].setAttribute('line_number', options.object.current_line[options.index]);
-		options.object.work_space[options.index].appendChild(options.object.line[options.index][options.object.current_line[options.index]]);
-	}
-	
+  Module.getInstance().enter = function(options)
+  {
+    // standart block of initialization of dependencies		
+    var class_generator = new Char_Class_Generator('wet-');
+    
+    var concrete_entity = options.object.container[options.index];
+    
+    var divider = new Divider();
+    
+    var word = concrete_entity.getElementsByClassName('parent')[0];
+    
+    var active_char = concrete_entity.getElementsByClassName('active')[0];
+        
+    // if we are in parent word:
+    if(active_char.parentNode.className.split(" ").indexOf('parent') >= 0)
+    {
+      console.log(active_char.parentNode.className.split(" ").indexOf('parent'));
+    }
+    else
+    {
+      this.deletePrevioseCursor(concrete_entity);
+      
+      if(word) 
+      {
+        word.innerHTML = divider.concat(word);
+      }
 
-	var module = new Module.getInstance();
-	module.addFunction('13', 'enter');
+      this.deletePrevioseParent(concrete_entity);
+
+      // index of created line
+
+      options.object.current_line[options.index]++;
+      // adding new line
+
+      options.object.line[options.index][options.object.current_line[options.index]] = document.createElement('div');
+      options.object.line[options.index][options.object.current_line[options.index]].className = 'line';
+      options.object.line[options.index][options.object.current_line[options.index]].setAttribute('line_number', options.object.current_line[options.index]);
+      options.object.work_space[options.index].appendChild(options.object.line[options.index][options.object.current_line[options.index]]);
+    }
+  }
+  
+  var module = new Module.getInstance();
+  module.addFunction('13', 'enter');
