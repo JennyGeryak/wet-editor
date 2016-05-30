@@ -39,53 +39,49 @@
       {
         break;
       }
-		}
-			// var i = Array.prototype.indexOf.call(e.childNodes, someChildEl);  > ie9
+    }
+    // var i = Array.prototype.indexOf.call(e.childNodes, someChildEl);  > ie9
   }
   else
-	{
-		active_char_index = false;
-	}
-	if(active_char_index == (chars-1))
-	{
-		this.deletePrevioseCursor(concrete_entity);
+  {
+    active_char_index = false;
+  }
+  if(active_char_index == (chars-1))
+  {
+    this.deletePrevioseCursor(concrete_entity);
     // if we are in parent word:
-		// MUST BE FIXED BECAUSE IT PUSHING OUT SPACE
-		if(word != undefined)
-		{
+    // MUST BE FIXED BECAUSE IT PUSHING OUT SPACE
+    if(word != undefined)
+    {
       word.innerHTML = divider.concat(word);
-		}
-
+    }
     this.deletePrevioseParent(concrete_entity);
-
+    
     // creating a space object
-		var space = document.createElement('span');
-		// generating a special class for it
-		space.className = class_generator
+    var space = document.createElement('span');
+    // generating a special class for it
+    space.className = class_generator
                       .setPrefix('wet-')
                       .mainClass(" ")
                       .space()
                       .subClass(" ")  
                       .generate() 
-                      + ' active'; 
-		// adding space contant
+                      + ' active';
+    
+    // adding space contant
     space.innerHTML = " ";
-		// adding space objecto to an active line
-		options.object.line[options.index][options.object.current_line[options.index]].appendChild(space);
+    // adding space objecto to an active line
+    options.object.line[options.index][options.object.current_line[options.index]].appendChild(space);
   }
-	else
-	{
-		if(word != undefined)
-		{
-			var two_parts_of_word = divider.bisect(word)[0];
-			word.innerHTML = two_parts_of_word;
-			console.log(word, two_parts_of_word);
-		}
-	}
-
+  else
+  {
+    if(word != undefined)
+    {
+      var two_parts_of_word = divider.bisect(word)[0];
+      word.innerHTML = two_parts_of_word;
+      console.log(word, two_parts_of_word);
+    }
+  }
 }
-
-	
-
 var module = new Module.getInstance();
 module.addFunction('32', 'space');
