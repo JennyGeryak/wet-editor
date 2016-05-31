@@ -25,11 +25,11 @@
 		var active_char = director.getCursorEntity('active');
 
 		// getting previose element thet will be active after key pressed
-		var previous_char = director.getBeforeCursorEntity(active_char);
+		var previous_entity = director.getBeforeCursorEntity(active_char);
 		
 		// anylizing what before active element
 		// and if it has previouse elements:  
-		if(previous_char)
+		if(previous_entity)
 		{
 			// if previouse element is start of line:
 			if(director.isCursorFirstOnALine('active'))
@@ -41,17 +41,17 @@
 																								.className
 																								.trim();
 
-				// deleting active element
+				// deleting active element 
 				active_char.parentNode.removeChild(active_char);
 
 				// making previous element to be an active 
-				previous_char.className = previous_char_original_class_name + ' ' + 'active';	
+				previous_entity.className = previous_char_original_class_name + ' ' + 'active';	
 			}
 			// if it is a word:
-			else if(previous_char.className.split(' ')[0] == 'wet-word')
+			else if(director.isCursorBeforeWord('active'))
 			{
 				// saing that this word now is parent
-				previous_char.className = 'wet-word parent';
+				director.makeItParentWord(previous_entity);
 				
 				word = concrete_entity.getElementsByClassName('parent')[0];
 				// explode one word to a diferent characters 

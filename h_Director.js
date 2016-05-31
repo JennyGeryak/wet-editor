@@ -137,18 +137,17 @@ var Director = (function()
   /**
 		* @function isCursorBeforeWord 
 		* @desc searching for an previouse cursor element
-		* @param {Array} cursor_marker - marker of active element
+		* @param {object} cursor_marker - marker of active element
     * @return {bool} - entity of previouse for active element
 		* @mamberof Director
 		* @instance
 		*/
-    this.isCursorFirstOnALine = function(cursor_marker)
+    this.isCursorBeforeWord = function(cursor_entity)
     { 
-      var active_char = this.getCursorEntity(cursor_marker);
       
-      var previouse_char = active_char.previousSibling || false;
+      var previouse_char = cursor_entity.previousSibling || false;
       
-      if(previouse_char.className.split(" ").indexOf("wet-line-start") >= 0)
+      if(previouse_char.className.split(" ").indexOf("wet-word") >= 0)
       {
         return true;
       }
@@ -157,7 +156,27 @@ var Director = (function()
         return false;
       }
 
-    } 
+    }
+    
+  /**
+		* @function isCursorBeforeWord 
+		* @desc searching for an previouse cursor element
+		* @param {object} cursor_marker - marker of active element
+    * @return {bool} - entity of previouse for active element
+		* @mamberof Director
+		* @instance
+		*/
+    this.makeItParentWord = function(before_entity)
+    { 
+      if(before_entity)
+      {
+        before_entity.className = 'wet-word parent';
+      }
+      else
+      {
+        
+      }
+    }
     
     
   }  
