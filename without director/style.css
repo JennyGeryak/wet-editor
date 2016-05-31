@@ -1,0 +1,50 @@
+	#result span{
+		background: pink;
+		border-radius: 10px;
+		font-size: 34px;
+	}
+	.line{
+		border:1px solid #12aaee;
+		min-height: 17px;
+	}
+	#editor{
+		opacity: 0;
+	}
+	.active{
+		border-right: 1px solid black; 
+		min-width: 10px;
+	}
+	span{
+/*		display: inline-block;
+		min-width: 20px;*/
+	}
+	.wet-space{
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		/*height: 20px;*/
+	}
+	.wet-character{
+		color: #aa0000;
+	}
+.result{
+		background: #1477B2;
+}
+	html{
+		font-family: 'Inconsolata', monospace;
+/*		-moz-user-select: none;
+		-khtml-user-select: none;
+		user-select: none;   
+		    -webkit-user-select: none;
+    -ms-user-select: none;*/
+		
+	}
+body{
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+}
+html{
+		background: #36B4FF;
+}
+
