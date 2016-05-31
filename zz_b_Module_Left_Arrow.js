@@ -150,7 +150,8 @@
                 
         if(previous_line != null)
         {
-					parent_s.parentNode.removeChild(parent_s);
+					//parent_s.parentNode.removeChild(parent_s);
+          this.deletePrevioseCursor(concrete_entity);
 					// !!!!!!!!!! change this.current_line 
 					// deactivate 'enter' pseudo sign
 					options.object.current_line[options.index] = options.object.current_line[options.index] - 1;

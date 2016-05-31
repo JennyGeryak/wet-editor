@@ -220,12 +220,20 @@
 			// if element is exist than change his class to native without 'active' mark
 			if(active_element != undefined)
 			{
-				active_element.className = class_generator
-																	.setPrefix('wet-')
-																	.mainClass(active_element.innerHTML)
-																	.space()
-																	.subClass(active_element.innerHTML)
-																	.generate();
+        if(active_element.className.split(" ").indexOf('wet-line-start') >= 0)
+        {
+          active_element.className = 'wet-line-start';
+        }
+        else
+        {
+          active_element.className = class_generator
+                                    .setPrefix('wet-')
+                                    .mainClass(active_element.innerHTML)
+                                    .space()
+                                    .subClass(active_element.innerHTML)
+                                    .generate();
+          
+        }
 			}
 		}
 		

@@ -26,8 +26,9 @@
     // if we are in parent word:
     if(active_char.parentNode.className.split(" ").indexOf('parent') >= 0)
     {
-      console.log(active_char.parentNode.className.split(" ").indexOf('parent'));
+      
     }
+    // if we are not in parent word:
     else
     {
       this.deletePrevioseCursor(concrete_entity);

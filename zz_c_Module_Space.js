@@ -80,7 +80,7 @@
       this.deletePrevioseParent(concrete_entity);
         
       // adding space objecto to an active line
-      word.parentNode.insertBefore(space ,word.nextSibling);
+      word.parentNode.insertBefore(space, word.nextSibling);
     }
     // if cursor is not at the end of word or if it on preend element:
     else if((active_char_index < (chars-1))|(active_char_index == 1))
