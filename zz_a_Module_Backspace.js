@@ -25,7 +25,7 @@
 		var active_char = director.getCursorEntity('active');
 
 		// getting previose element thet will be active after key pressed
-		var previous_entity = director.getBeforeCursorEntity(active_char);
+		var previous_entity = director.getBeforeEntity(active_char);
 		
 		// anylizing what before active element
 		// and if it has previouse elements:  
@@ -42,88 +42,78 @@
 																								.trim();
 
 				// deleting active element 
-				active_char.parentNode.removeChild(active_char);
+				director.delete(active_char);
 
 				// making previous element to be an active 
-				previous_entity.className = previous_char_original_class_name + ' ' + 'active';	
+				previous_entity.className = 'wet-line-start' + ' ' + 'active';	
 			}
-			// if it is a word:
-			else if(director.isCursorBeforeWord('active'))
+			// if before element is a word:
+			else if(director.isCursorBeforeWord(active_char))
 			{
 				// saing that this word now is parent
 				director.makeItParentWord(previous_entity);
 				
-				word = concrete_entity.getElementsByClassName('parent')[0];
+				word = director.getParentWord();
 				// explode one word to a diferent characters 
 				word.innerHTML = divider.divide(word);
 				
 				// take last character in this word
-				var previouse_word_char = previous_char
-																	.childNodes[previous_char.childNodes.length-1];
+				var previouse_word_char = director.getLastElementInWord(word);
 				
 				// making previouse character as active one
-				previouse_word_char.className = class_generator
-																				.setPrefix('wet-')
-																				.mainClass(previouse_word_char.innerHTML)
-																				.space()
-																				.subClass(previouse_word_char.innerHTML)
-																				.generate()
-																				+ ' active';
+        director.activate(previouse_word_char);
+        
 				// deleting active element
-				active_char.parentNode.removeChild(active_char);
+				director.delete(active_char);
 			}
+      // if it simply deliting an elements in the word
 			else
 			{
-				// getting original class name of the previous element
-				var previous_char_original_class_name = concrete_entity
-																								.getElementsByClassName('active')[0]
-																								.previousSibling
-																								.className
-																								.trim();
-
 				// deleting active element
-				active_char.parentNode.removeChild(active_char);
+				director.delete(active_char);
 
 				// making previous element to be an active 
-				previous_char.className = previous_char_original_class_name + ' ' + 'active';	
+        director.activate(previous_entity);
 			}
 		}
 		// deleting word when it not on start of line
-		else if((concrete_entity.getElementsByClassName('parent')[0] != undefined)
-					&&(concrete_entity.getElementsByClassName('parent')[0].previousSibling.className != 'wet-line-start'))
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!
+		else if((director.getParentWord() != false)
+					&&(director.getParentWord().previousSibling.className != 'wet-line-start'))
 		{
-			var word = concrete_entity.getElementsByClassName('parent')[0]; 
-			var before_word = word.previousSibling;
-			before_word.className = class_generator
-															.setPrefix('wet-')
-															.mainClass(before_word.innerHTML)
-															.space()
-															.subClass(before_word.innerHTML)
-															.generate()
-															+ ' active';
-			word.parentNode.removeChild(word);
+			var word = director.getParentWord(); 
+      
+			var before_word = director.getBeforeEntity(word);
+      
+      director.activate(before_word);
+      
+			director.delete(word);
 			
 		}		
 		// deleting word when it is on start of line
-		else if((concrete_entity.getElementsByClassName('parent')[0] != undefined)
-					&&(concrete_entity.getElementsByClassName('parent')[0].previousSibling.className == 'wet-line-start'))
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		else if((director.getParentWord() != false)
+					&&(director.getParentWord().previousSibling.className == 'wet-line-start'))
 		{
-			var word = concrete_entity.getElementsByClassName('parent')[0]; 
-			var before_word = word.previousSibling;
+			var word = director.getParentWord(); 
+      
+			var before_word = director.getBeforeEntity(word);
+      
 			before_word.className = 'wet-line-start active';
-			word.parentNode.removeChild(word);
+      
+			director.delete(word);
 		}
 		else
 		{
       // deleting a line and going to the previous
-			if(active_char.className.split(" ")[0] == 'wet-line-start')
+			if(director.isStart(active_char))
 			{
 				var parent_s = active_char.parentNode;
-        var previous_line = parent_s.previousSibling;
+        var previous_line = director.getBeforeEntity(parent_s);
                 
-        if(previous_line != null)
+        if(previous_line != false)
         {
-					parent_s.parentNode.removeChild(parent_s);
+					director.delete(parent_s);
 					// !!!!!!!!!! change this.current_line 
 					// deleting 'enter' pseudo sign
 					options.object.current_line[options.index] = options.object.current_line[options.index] - 1;
@@ -143,13 +133,13 @@
 																																									.childNodes[previous_line.childNodes.length-1]
 																																									.className + ' ' + 'active';            
 					// getting active element that must be deleted
-          var active_char = concrete_entity.getElementsByClassName('active')[0];
+          var active_char = director.getCursorEntity('active');
           // getting previose element thet will be active after key pressed
-          var previous_char = concrete_entity.getElementsByClassName('active')[0].previousSibling;
+          var previous_char = director.getBeforeEntity(active_char);
 					// if we have previouse element:
-          if(previous_char != null)
+          if(previous_char != false)
           {
-						// if previouse element is word:
+						// if active element is word:
 						if(active_char.className.split(' ')[0] == 'wet-word')
 						{
 							// marking it as parent

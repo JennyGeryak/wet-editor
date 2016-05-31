@@ -18,6 +18,8 @@ var Director = (function()
 	function Director(concrete_entity)
 	{
 		this.concrete_entity = concrete_entity;
+    
+    this.class_generator = new Char_Class_Generator("wet-");
 	/**
 		* @function deletePreviouseCursor 
 		* @desc separating word to a single characters in container
@@ -83,6 +85,7 @@ var Director = (function()
       }
       else
       {
+        console.log('getCursorEntity - has error');
         return false;
       }
     }
@@ -95,13 +98,13 @@ var Director = (function()
 		* @mamberof Director
 		* @instance
 		*/
-    this.getBeforeCursorEntity = function(cursor_entity)
+    this.getBeforeEntity = function(entity)
     {      
-      var previouse_char = cursor_entity.previousSibling || false;
+      var previouse = entity.previousSibling || false;
       
-      if(previouse_char)
+      if(previouse)
       {
-        return previouse_char;
+        return previouse;
       }
       else
       {
@@ -145,9 +148,10 @@ var Director = (function()
     this.isCursorBeforeWord = function(cursor_entity)
     { 
       
-      var previouse_char = cursor_entity.previousSibling || false;
+      var previouse_char = cursor_entity.previousSibling;
+      var index = previouse_char.className.split(" ").indexOf("wet-word");
       
-      if(previouse_char.className.split(" ").indexOf("wet-word") >= 0)
+      if(index >= 0)
       {
         return true;
       }
@@ -172,12 +176,118 @@ var Director = (function()
       {
         before_entity.className = 'wet-word parent';
       }
+    }
+  
+  /**
+		* @function getParentWord 
+		* @desc searching for an parent word
+    * @return {object} - entity of parent word
+		* @mamberof Director
+		* @instance
+		*/
+    this.getParentWord = function()
+    { 
+      var parent = this
+                  .concrete_entity
+                  .getElementsByClassName('parent')[0] 
+                  || false;
+      if(parent)
+      {
+        return parent;
+      }
       else
       {
-        
+        return false;
       }
     }
     
+  /**
+		* @function getLastElementOfWord 
+		* @desc searching for an last element of word
+    * @return {object} - entity of last element of word
+		* @mamberof Director
+		* @instance
+		*/
+    this.getLastElementInWord = function(word)
+    { 
+      var element = word.childNodes[word.childNodes.length-1] || false;
+      
+      if(element)
+      {
+        return element;
+      }
+      else
+      {
+        return false;
+      }
+    }
+    
+  /**
+		* @function activate 
+		* @desc activate a cursor for an element
+    * @param {object} element - html element for wich will be generated class name with "active" ending
+		* @mamberof Director
+		* @instance
+		*/
+    this.activate = function(element)
+    { 
+      if(element)
+      {
+        console.log(element.innerHTML);
+        element.className = this.class_generator
+                                .setPrefix('wet-')
+                                .mainClass(element.innerHTML)
+                                .space()
+                                .subClass(element.innerHTML)
+                                .generate()
+                                + ' active';  
+      }
+      else
+      {
+        console.log('activate - has error');
+        return false;
+      }
+    }
+    
+  /**
+		* @function delete 
+		* @desc delete some element
+    * @param {object} element - html element wich will be deleted
+		* @mamberof Director
+		* @instance
+		*/
+    this.delete = function(element)
+    { 
+      element.parentNode.removeChild(element);
+    }
+    
+  /**
+		* @function isStart 
+		* @desc chacking element is it start one
+    * @param {object} element - html for checking
+    * @return {bool} - is it start element or not
+		* @mamberof Director
+		* @instance
+		*/
+    this.isStart = function(element)
+    { 
+      if(element)
+      {
+        if(element.className.split(" ")[0] == 'wet-line-start')
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
     
   }  
   return Director;
