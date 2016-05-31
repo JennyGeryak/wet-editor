@@ -41,6 +41,19 @@ var Director = (function()
                                   .generate();
       }
     }
+    
+	/**
+		* @function isThereAnyActiveWords 
+		* @desc inspect editor for an active words
+		* @param {Array} word_active_marker - marker of word that is active
+    * @return {bool} - if we have some active word 
+		* @mamberof Director
+		* @instance
+		*/
+    this.isThereAnyActiveWords(word_active_marker){
+      
+      active_char.parentNode.className.split(" ").indexOf('parent') >= 0
+    }
   }
   
   return Director;

@@ -66,21 +66,32 @@
       active_char_index = false;
     }
     
-    // if cursor is in the end of word:
+    // if cursor is in the end of:
     if(active_char_index == (chars-1))
     {
-      this.deletePrevioseCursor(concrete_entity);
-      
-      // if we are in parent word:
-      if(word != undefined)
+      // word:
+      if(word)
       {
-        word.innerHTML = divider.concat(word);
+        this.deletePrevioseCursor(concrete_entity);
+
+        // if we are in parent word:
+        if(word != undefined)
+        {
+          word.innerHTML = divider.concat(word);
+        }
+
+        this.deletePrevioseParent(concrete_entity);
+
+        // adding space objecto to an active line
+        word.parentNode.insertBefore(space, word.nextSibling);
+        console.log('1');
       }
-    
-      this.deletePrevioseParent(concrete_entity);
+      else
+      {
+        this.deletePrevioseCursor(concrete_entity);
         
-      // adding space objecto to an active line
-      word.parentNode.insertBefore(space, word.nextSibling);
+        active_char.parentElement.appendChild(space);
+      }
     }
     // if cursor is not at the end of word or if it on preend element:
     else if((active_char_index < (chars-1))|(active_char_index == 1))
@@ -112,6 +123,19 @@
         active_char.parentNode.insertBefore(second_part_word ,active_char.nextSibling);
         
         this.deletePrevioseParent(concrete_entity);
+        console.log('2');
+      }
+      else
+      {
+        this.deletePrevioseCursor(concrete_entity);        
+        if(active_char.nextSibling)
+        {
+          active_char.parentNode.insertBefore(space ,active_char.nextSibling);
+        }
+        else
+        {
+          active_char.parentElement.appendChild(space);
+        }
       }
     }
   }
