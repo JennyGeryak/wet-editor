@@ -19,12 +19,14 @@
     
     var divider = new Divider();
     
+    var director = new Director(concrete_entity);
+    
     var word = concrete_entity.getElementsByClassName('parent')[0];
     
     var active_char = concrete_entity.getElementsByClassName('active')[0];
         
     // if we are in parent word:
-    if(active_char.parentNode.className.split(" ").indexOf('parent') >= 0)
+    if(director.isThereAnyActiveWords('parent'))
     {
       
     }

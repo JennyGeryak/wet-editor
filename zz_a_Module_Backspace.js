@@ -18,19 +18,21 @@
 		var concrete_entity = options.object.container[options.index];
 		
 		var divider = new Divider();
+    
+    var director = new Director(concrete_entity);
 		
 		// getting active element that must be deleted
-		var active_char = concrete_entity.getElementsByClassName('active')[0];
+		var active_char = director.getCursorEntity('active');
 
 		// getting previose element thet will be active after key pressed
-		var previous_char = concrete_entity.getElementsByClassName('active')[0].previousSibling;
+		var previous_char = director.getBeforeCursorEntity(active_char);
 		
 		// anylizing what before active element
 		// and if it has previouse elements:  
-		if(previous_char != null)
+		if(previous_char)
 		{
 			// if previouse element is start of line:
-			if(previous_char.className.split(' ')[0] == 'wet-line-start')
+			if(director.isCursorFirstOnALine('active'))
 			{
 				// getting original class name of the previous element
 				var previous_char_original_class_name = concrete_entity
