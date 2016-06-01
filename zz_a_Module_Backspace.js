@@ -31,34 +31,34 @@
 		// and if it has previouse elements:  
 		if(previous_entity)
 		{
-			// if previouse element is start of line:
-			if(director.isCursorFirstOnALine('active'))
-			{
-				// getting original class name of the previous element
-				var previous_char_original_class_name = concrete_entity
-																								.getElementsByClassName('active')[0]
-																								.previousSibling
-																								.className
-																								.trim();
-
-				// deleting active element 
-				director.delete(active_char);
-
-				// making previous element to be an active 
-				previous_entity.className = 'wet-line-start' + ' ' + 'active';	
-			}
+//			// if previouse element is start of line:
+//			if(director.isCursorFirstOnALine('active'))
+//			{
+//				// getting original class name of the previous element
+//				var previous_char_original_class_name = concrete_entity
+//																								.getElementsByClassName('active')[0]
+//																								.previousSibling
+//																								.className
+//																								.trim();
+//
+//				// deleting active element 
+//				director.delete(active_char);
+//
+//				// making previous element to be an active 
+//				previous_entity.className = 'wet-line-start' + ' ' + 'active';	
+//			}
 			// if before element is a word:
-			else if(director.isCursorBeforeWord(active_char))
+			if(director.isCursorBeforeWord(active_char))
 			{
 				// saing that this word now is parent
 				director.makeItParentWord(previous_entity);
 				
-				word = director.getParentWord();
+				var word = director.getParentWord();
 				// explode one word to a diferent characters 
 				word.innerHTML = divider.divide(word);
 				
 				// take last character in this word
-				var previouse_word_char = director.getLastElementInWord(word);
+				var previouse_word_char = director.getLastElement(word);
 				
 				// making previouse character as active one
         director.activate(previouse_word_char);
@@ -116,42 +116,44 @@
 					director.delete(parent_s);
 					// !!!!!!!!!! change this.current_line 
 					// deleting 'enter' pseudo sign
-					options.object.current_line[options.index] = options.object.current_line[options.index] - 1;
+					options.object.current_line[options.index]--;
 					
 					// last word on previouse line
 					word = previous_line.childNodes[previous_line.childNodes.length-1];
 					
 					// if last element in previouse line not a word
-					if(word.className.split(" ")[0] != 'wet-signifier')
+					if(!director.isSignifier(word))
 					{
 						// exploded content
 						word.innerHTML = divider.divide(word);
 					}
-					
-					// make active last char of word 
-					previous_line.childNodes[previous_line.childNodes.length-1].className = previous_line
-																																									.childNodes[previous_line.childNodes.length-1]
-																																									.className + ' ' + 'active';            
+          
+					// make active last word of line 
+          var last_word_on_previose_line = director.getLastElement(previous_line);
+          
+          director.activate(last_word_on_previose_line);
+          
 					// getting active element that must be deleted
           var active_char = director.getCursorEntity('active');
+          
           // getting previose element thet will be active after key pressed
           var previous_char = director.getBeforeEntity(active_char);
+          
 					// if we have previouse element:
           if(previous_char != false)
           {
 						// if active element is word:
-						if(active_char.className.split(' ')[0] == 'wet-word')
+						if(director.isWord(active_char))
 						{
 							// marking it as parent
 							active_char.className = 'wet-word parent';
-							// generating class for the last child in it
-							active_char.childNodes[active_char.childNodes.length-1].className = class_generator
-																																											.setPrefix('wet-')
-																																											.mainClass(active_char.childNodes[active_char.childNodes.length-1].innerHTML)
-																																											.space()
-																																											.subClass(active_char.childNodes[active_char.childNodes.length-1].innerHTML)
-																																											.generate()
-																																											+ ' active';
+              
+							// generating class for the last child in it              
+              var last_char_index = active_char.childNodes.length-1;
+              
+              var last_char_of_word = active_char.childNodes[last_char_index];
+              
+              director.activate(last_char_of_word);
 							
 						}
           }

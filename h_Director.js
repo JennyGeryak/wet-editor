@@ -20,15 +20,15 @@ var Director = (function()
 		this.concrete_entity = concrete_entity;
     
     this.class_generator = new Char_Class_Generator("wet-");
-	/**
-		* @function deletePreviouseCursor 
-		* @desc separating word to a single characters in container
-		* @param {Array} cursors - container that contain string with word that must be exploded
-		* @mamberof Director
-		* @instance
-		*/
-		this.deletePreviouseCursor = function(cursors)
-		{
+  /**
+    * @function deletePreviouseCursor 
+    * @desc separating word to a single characters in container
+    * @param {Array} cursors - container that contain string with word that must be exploded
+    * @mamberof Director
+    * @instance
+    */
+    this.deletePreviouseCursor = function(cursors)
+    {
       // element with class 'active'
       var active_element = concrete_entity.getElementsByClassName("active")[0] || false;
       
@@ -43,15 +43,15 @@ var Director = (function()
                                   .generate();
       }
     }
-    
-	/**
-		* @function isThereAnyActiveWords 
-		* @desc inspect editor for an active words
-		* @param {String} word_active_marker - marker of word that is active
+
+  /**
+    * @function isThereAnyActiveWords 
+    * @desc inspect editor for an active words
+    * @param {String} word_active_marker - marker of word that is active
     * @return {bool} - if we have some active word 
-		* @mamberof Director
-		* @instance
-		*/
+    * @mamberof Director
+    * @instance
+    */
     this.isThereAnyActiveWords = function(word_active_marker)
     {
       var word = this.concrete_entity.getElementsByClassName(word_active_marker)[0] || false;
@@ -67,13 +67,13 @@ var Director = (function()
     }
 
   /**
-		* @function getCursorEntity 
-		* @desc searching for an cursor element
-		* @param {Array} cursor_marker - marker of active element
+    * @function getCursorEntity 
+    * @desc searching for an cursor element
+    * @param {Array} cursor_marker - marker of active element
     * @return {object} - entity of active element
-		* @mamberof Director
-		* @instance
-		*/
+    * @mamberof Director
+    * @instance
+    */
     this.getCursorEntity = function(cursor_marker)
     {
       var active_char = this
@@ -91,13 +91,13 @@ var Director = (function()
     }
   
   /**
-		* @function getBeforeCursorEntity
-		* @desc searching for an previouse cursor element
-		* @param {Array} cursor_marker - marker of active element
+    * @function getBeforeCursorEntity
+    * @desc searching for an previouse cursor element
+    * @param {Array} cursor_marker - marker of active element
     * @return {object} - entity of previouse for active element
-		* @mamberof Director
-		* @instance
-		*/
+    * @mamberof Director
+    * @instance
+    */
     this.getBeforeEntity = function(entity)
     {      
       var previouse = entity.previousSibling || false;
@@ -113,13 +113,13 @@ var Director = (function()
     }
     
   /**
-		* @function isCursorFirstOnALine 
-		* @desc searching for an previouse cursor element
-		* @param {Array} cursor_marker - marker of active element
+    * @function isCursorFirstOnALine 
+    * @desc searching for an previouse cursor element
+    * @param {Array} cursor_marker - marker of active element
     * @return {bool} - entity of previouse for active element
-		* @mamberof Director
-		* @instance
-		*/
+    * @mamberof Director
+    * @instance
+    */
     this.isCursorFirstOnALine = function(cursor_marker)
     { 
       var active_char = this.getCursorEntity(cursor_marker);
@@ -138,13 +138,13 @@ var Director = (function()
     } 
     
   /**
-		* @function isCursorBeforeWord 
-		* @desc searching for an previouse cursor element
-		* @param {object} cursor_marker - marker of active element
+    * @function isCursorBeforeWord 
+    * @desc searching for an previouse cursor element
+    * @param {object} cursor_marker - marker of active element
     * @return {bool} - entity of previouse for active element
-		* @mamberof Director
-		* @instance
-		*/
+    * @mamberof Director
+    * @instance
+    */
     this.isCursorBeforeWord = function(cursor_entity)
     { 
       
@@ -163,13 +163,13 @@ var Director = (function()
     }
     
   /**
-		* @function isCursorBeforeWord 
-		* @desc searching for an previouse cursor element
-		* @param {object} cursor_marker - marker of active element
+    * @function isCursorBeforeWord 
+    * @desc searching for an previouse cursor element
+    * @param {object} cursor_marker - marker of active element
     * @return {bool} - entity of previouse for active element
-		* @mamberof Director
-		* @instance
-		*/
+    * @mamberof Director
+    * @instance
+    */
     this.makeItParentWord = function(before_entity)
     { 
       if(before_entity)
@@ -179,12 +179,12 @@ var Director = (function()
     }
   
   /**
-		* @function getParentWord 
-		* @desc searching for an parent word
+    * @function getParentWord 
+    * @desc searching for an parent word
     * @return {object} - entity of parent word
-		* @mamberof Director
-		* @instance
-		*/
+    * @mamberof Director
+    * @instance
+    */
     this.getParentWord = function()
     { 
       var parent = this
@@ -200,15 +200,15 @@ var Director = (function()
         return false;
       }
     }
-    
+
   /**
-		* @function getLastElementOfWord 
-		* @desc searching for an last element of word
+    * @function getLastElement 
+    * @desc searching for an last element of word
     * @return {object} - entity of last element of word
-		* @mamberof Director
-		* @instance
-		*/
-    this.getLastElementInWord = function(word)
+    * @mamberof Director
+    * @instance
+    */
+    this.getLastElement = function(word)
     { 
       var element = word.childNodes[word.childNodes.length-1] || false;
       
@@ -223,17 +223,16 @@ var Director = (function()
     }
     
   /**
-		* @function activate 
-		* @desc activate a cursor for an element
+    * @function activate 
+    * @desc activate a cursor for an element
     * @param {object} element - html element for wich will be generated class name with "active" ending
-		* @mamberof Director
-		* @instance
-		*/
+    * @mamberof Director
+    * @instance
+    */
     this.activate = function(element)
     { 
       if(element)
       {
-        console.log(element.innerHTML);
         element.className = this.class_generator
                                 .setPrefix('wet-')
                                 .mainClass(element.innerHTML)
@@ -250,30 +249,114 @@ var Director = (function()
     }
     
   /**
-		* @function delete 
-		* @desc delete some element
+    * @function delete 
+    * @desc delete some element
     * @param {object} element - html element wich will be deleted
-		* @mamberof Director
-		* @instance
-		*/
+    * @mamberof Director
+    * @instance
+    */
     this.delete = function(element)
     { 
       element.parentNode.removeChild(element);
     }
     
   /**
-		* @function isStart 
-		* @desc chacking element is it start one
+    * @function isStart 
+    * @desc chacking element is it start one
     * @param {object} element - html for checking
     * @return {bool} - is it start element or not
-		* @mamberof Director
-		* @instance
-		*/
+    * @mamberof Director
+    * @instance
+    */
     this.isStart = function(element)
     { 
       if(element)
       {
         if(element.className.split(" ")[0] == 'wet-line-start')
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
+  /**
+    * @function isStart 
+    * @desc chacking element is it start one
+    * @param {object} element - html for checking
+    * @return {bool} - is it start element or not
+    * @mamberof Director
+    * @instance
+    */
+    this.isSignifier = function(element)
+    { 
+      if(element)
+      {
+        if(element.className.split(" ").indexOf('wet-signifier') >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
+  /**
+    * @function isWord
+    * @desc chacking element is it start one
+    * @param {object} element - html for checking
+    * @return {bool} - is it start element or not
+    * @mamberof Director
+    * @instance
+    */
+    this.isWord = function(element)
+    { 
+      if(element)
+      {
+        if(element.className.split(" ").indexOf('wet-word') >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
+  /**
+    * @function isParentWord
+    * @desc chacking element is it start one
+    * @param {object} element - html for checking
+    * @return {bool} - is it start element or not
+    * @mamberof Director
+    * @instance
+    */
+    this.isParentWord = function(element)
+    { 
+      if(element)
+      {
+        if(element.className.split(" ").indexOf('parent') >= 0)
         {
           return true;
         }
