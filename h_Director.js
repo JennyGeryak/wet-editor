@@ -20,30 +20,11 @@ var Director = (function()
 		this.concrete_entity = concrete_entity;
     
     this.class_generator = new Char_Class_Generator("wet-");
-  /**
-    * @function deletePreviouseCursor 
-    * @desc separating word to a single characters in container
-    * @param {Array} cursors - container that contain string with word that must be exploded
-    * @mamberof Director
-    * @instance
-    */
-    this.deletePreviouseCursor = function(cursors)
-    {
-      // element with class 'active'
-      var active_element = concrete_entity.getElementsByClassName("active")[0] || false;
-      
-      // if element is exist than change his class to native without 'active' mark
-      if(active_element != undefined)
-      {
-        active_element.className = class_generator
-                                  .setPrefix('wet-')
-                                  .mainClass(active_element.innerHTML)
-                                  .space()
-                                  .subClass(active_element.innerHTML)
-                                  .generate();
-      }
-    }
-
+    
+//////////////////////
+// Comparative section 
+//////////////////////
+    
   /**
     * @function isThereAnyActiveWords 
     * @desc inspect editor for an active words
@@ -58,53 +39,7 @@ var Director = (function()
       
       if(word)
       {
-        return word;
-      }
-      else
-      {
-        return false;
-      }
-    }
-
-  /**
-    * @function getCursorEntity 
-    * @desc searching for an cursor element
-    * @param {Array} cursor_marker - marker of active element
-    * @return {object} - entity of active element
-    * @mamberof Director
-    * @instance
-    */
-    this.getCursorEntity = function(cursor_marker)
-    {
-      var active_char = this
-                        .concrete_entity
-                        .getElementsByClassName(cursor_marker)[0] || false;
-      if(active_char)
-      {
-        return active_char;
-      }
-      else
-      {
-        console.log('getCursorEntity - has error');
-        return false;
-      }
-    }
-  
-  /**
-    * @function getBeforeCursorEntity
-    * @desc searching for an previouse cursor element
-    * @param {Array} cursor_marker - marker of active element
-    * @return {object} - entity of previouse for active element
-    * @mamberof Director
-    * @instance
-    */
-    this.getBeforeEntity = function(entity)
-    {      
-      var previouse = entity.previousSibling || false;
-      
-      if(previouse)
-      {
-        return previouse;
+        return true;
       }
       else
       {
@@ -162,22 +97,173 @@ var Director = (function()
 
     }
     
+    
   /**
-    * @function isCursorBeforeWord 
-    * @desc searching for an previouse cursor element
-    * @param {object} cursor_marker - marker of active element
-    * @return {bool} - entity of previouse for active element
+    * @function isStart 
+    * @desc chacking element is it start one
+    * @param {object} element - html for checking
+    * @return {bool} - is it start element or not
     * @mamberof Director
     * @instance
     */
-    this.makeItParentWord = function(before_entity)
+    this.isStart = function(element)
     { 
-      if(before_entity)
+      if(element)
       {
-        before_entity.className = 'wet-word parent';
+        if(element.className.split(" ")[0] == 'wet-line-start')
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+
+  /**
+    * @function isSignifier 
+    * @desc chacking element is it start one
+    * @param {object} element - html for checking
+    * @return {bool} - is it start element or not
+    * @mamberof Director
+    * @instance
+    */
+    this.isSignifier = function(element)
+    { 
+      if(element)
+      {
+        if(element.className.split(" ").indexOf('wet-signifier') >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+
+  /**
+    * @function isWord
+    * @desc chacking element is it start one
+    * @param {object} element - html for checking
+    * @return {bool} - is it start element or not
+    * @mamberof Director
+    * @instance
+    */
+    this.isWord = function(element)
+    { 
+      if(element)
+      {
+        if(element.className.split(" ").indexOf('wet-word') >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+
+  /**
+    * @function isParentWord
+    * @desc chacking element is it start one
+    * @param {object} element - html for checking
+    * @return {bool} - is it start element or not
+    * @mamberof Director
+    * @instance
+    */
+    this.isParentWord = function(element)
+    { 
+      if(element)
+      {
+        if(element.className.split(" ").indexOf('parent') >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
+//////////////////////
+// Comparative section 
+//////////////////////
+    
+//////////////////
+// Getting section 
+//////////////////
+    
+  /**
+    * @function getCursorEntity 
+    * @desc searching for an cursor element
+    * @param {Array} cursor_marker - marker of active element
+    * @return {object} - entity of active element
+    * @mamberof Director
+    * @instance
+    */
+    this.getCursorEntity = function(cursor_marker)
+    {
+      var active_char = this
+                        .concrete_entity
+                        .getElementsByClassName(cursor_marker)[0] || false;
+      if(active_char)
+      {
+        return active_char;
+      }
+      else
+      {
+        console.log('getCursorEntity - has error');
+        return false;
       }
     }
-  
+
+  /**
+    * @function getBeforeCursorEntity
+    * @desc searching for an previouse cursor element
+    * @param {Array} cursor_marker - marker of active element
+    * @return {object} - entity of previouse for active element
+    * @mamberof Director
+    * @instance
+    */
+    this.getBeforeEntity = function(entity)
+    {      
+      var previouse = entity.previousSibling || false;
+      
+      if(previouse)
+      {
+        return previouse;
+      }
+      else
+      {
+        return false;
+      }
+    }
+    
   /**
     * @function getParentWord 
     * @desc searching for an parent word
@@ -200,7 +286,7 @@ var Director = (function()
         return false;
       }
     }
-
+    
   /**
     * @function getLastElement 
     * @desc searching for an last element of word
@@ -219,6 +305,30 @@ var Director = (function()
       else
       {
         return false;
+      }
+    }
+  
+//////////////////
+// Getting section 
+//////////////////
+
+//////////////////
+// Make section 
+//////////////////
+    
+  /**
+    * @function makeItParentWord 
+    * @desc searching for an previouse cursor element
+    * @param {object} cursor_marker - marker of active element
+    * @return {bool} - entity of previouse for active element
+    * @mamberof Director
+    * @instance
+    */
+    this.makeItParentWord = function(before_entity)
+    { 
+      if(before_entity)
+      {
+        before_entity.className = 'wet-word parent';
       }
     }
     
@@ -248,6 +358,38 @@ var Director = (function()
       }
     }
     
+//////////////////
+// Make section 
+//////////////////
+    
+//////////////////
+// Delete section 
+//////////////////
+    
+  /**
+    * @function deletePreviouseCursor 
+    * @desc separating word to a single characters in container
+    * @param {Array} cursors - container that contain string with word that must be exploded
+    * @mamberof Director
+    * @instance
+    */
+    this.deletePreviouseCursor = function(cursors)
+    {
+      // element with class 'active'
+      var active_element = concrete_entity.getElementsByClassName("active")[0] || false;
+      
+      // if element is exist than change his class to native without 'active' mark
+      if(active_element != undefined)
+      {
+        active_element.className = class_generator
+                                  .setPrefix('wet-')
+                                  .mainClass(active_element.innerHTML)
+                                  .space()
+                                  .subClass(active_element.innerHTML)
+                                  .generate();
+      }
+    }
+
   /**
     * @function delete 
     * @desc delete some element
@@ -260,117 +402,9 @@ var Director = (function()
       element.parentNode.removeChild(element);
     }
     
-  /**
-    * @function isStart 
-    * @desc chacking element is it start one
-    * @param {object} element - html for checking
-    * @return {bool} - is it start element or not
-    * @mamberof Director
-    * @instance
-    */
-    this.isStart = function(element)
-    { 
-      if(element)
-      {
-        if(element.className.split(" ")[0] == 'wet-line-start')
-        {
-          return true;
-        }
-        else
-        {
-          return false;
-        }
-      }
-      else
-      {
-        return false;
-      }
-      
-    }
-    
-  /**
-    * @function isStart 
-    * @desc chacking element is it start one
-    * @param {object} element - html for checking
-    * @return {bool} - is it start element or not
-    * @mamberof Director
-    * @instance
-    */
-    this.isSignifier = function(element)
-    { 
-      if(element)
-      {
-        if(element.className.split(" ").indexOf('wet-signifier') >= 0)
-        {
-          return true;
-        }
-        else
-        {
-          return false;
-        }
-      }
-      else
-      {
-        return false;
-      }
-      
-    }
-    
-  /**
-    * @function isWord
-    * @desc chacking element is it start one
-    * @param {object} element - html for checking
-    * @return {bool} - is it start element or not
-    * @mamberof Director
-    * @instance
-    */
-    this.isWord = function(element)
-    { 
-      if(element)
-      {
-        if(element.className.split(" ").indexOf('wet-word') >= 0)
-        {
-          return true;
-        }
-        else
-        {
-          return false;
-        }
-      }
-      else
-      {
-        return false;
-      }
-      
-    }
-    
-  /**
-    * @function isParentWord
-    * @desc chacking element is it start one
-    * @param {object} element - html for checking
-    * @return {bool} - is it start element or not
-    * @mamberof Director
-    * @instance
-    */
-    this.isParentWord = function(element)
-    { 
-      if(element)
-      {
-        if(element.className.split(" ").indexOf('parent') >= 0)
-        {
-          return true;
-        }
-        else
-        {
-          return false;
-        }
-      }
-      else
-      {
-        return false;
-      }
-      
-    }
+//////////////////
+// Delete section 
+//////////////////
     
   }  
   return Director;
