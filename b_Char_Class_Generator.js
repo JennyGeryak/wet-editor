@@ -57,6 +57,18 @@
 			{
 				result_class = prefix + 'character';
 			}
+      // if we give some parametr
+      if(user_char.length >= 1)
+      {
+        if(user_char == 'wet-line-start')
+        {
+          result_class = 'wet-line-start';
+        }
+        else
+        {
+          
+        }
+      }
 			return this;
 		}
 

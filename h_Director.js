@@ -243,7 +243,7 @@ var Director = (function()
     }
 
   /**
-    * @function getBeforeCursorEntity
+    * @function getBeforeEntity
     * @desc searching for an previouse cursor element
     * @param {Array} cursor_marker - marker of active element
     * @return {object} - entity of previouse for active element
@@ -318,8 +318,8 @@ var Director = (function()
     
   /**
     * @function makeItParentWord 
-    * @desc searching for an previouse cursor element
-    * @param {object} cursor_marker - marker of active element
+    * @desc making a word an a parent word
+    * @param {object} element - element what must became a parent word
     * @return {bool} - entity of previouse for active element
     * @mamberof Director
     * @instance
@@ -329,6 +329,21 @@ var Director = (function()
       if(before_entity)
       {
         before_entity.className = 'wet-word parent';
+      }
+    }
+    
+  /**
+    * @function makeItWord 
+    * @desc give the class name of word
+    * @param {object} element - element what must became a word
+    * @mamberof Director
+    * @instance
+    */
+    this.makeItWord = function(element)
+    { 
+      if(element)
+      {
+        element.className = 'wet-word';
       }
     }
     
@@ -343,17 +358,80 @@ var Director = (function()
     { 
       if(element)
       {
+        if(element.className == 'wet-line-start')
+        {
+          element.className = 'wet-line-start active';
+        }
+        else
+        {
+          element.className = this.class_generator
+                                  .setPrefix('wet-')
+                                  .mainClass(element.innerHTML)
+                                  .space()
+                                  .subClass(element.innerHTML)
+                                  .generate()
+                                  + ' active';  
+          
+        }
+      }
+      else
+      {
+        console.log('activate - has error');
+        return false;
+      }
+    }
+    
+  /**
+    * @function deactivate 
+    * @desc deactivate a cursor for an element
+    * @param {object} element - html element for wich will be generated class name
+    * @mamberof Director
+    * @instance
+    */
+    this.deactivate = function(element)
+    { 
+      if(!(typeof(element)=='string'))
+      {
         element.className = this.class_generator
                                 .setPrefix('wet-')
                                 .mainClass(element.innerHTML)
                                 .space()
                                 .subClass(element.innerHTML)
-                                .generate()
-                                + ' active';  
+                                .generate();  
       }
       else
       {
-        console.log('activate - has error');
+        var new_element = concrete_entity.getElementsByClassName(element)[0];
+        new_element = this.class_generator
+                          .setPrefix('wet-')
+                          .mainClass(element.innerHTML)
+                          .space()
+                          .subClass(element.innerHTML)
+                          .generate(); 
+      }
+    }
+
+  /**
+    * @function setClass 
+    * @desc give class according an element 
+    * @param {object} element - html element for wich will be generated class name 
+    * @mamberof Director
+    * @instance
+    */
+    this.setClass = function(element)
+    { 
+      if(element)
+      {
+        element.className = this.class_generator
+                                .setPrefix('wet-')
+                                .mainClass(element.innerHTML)
+                                .space()
+                                .subClass(element.innerHTML)
+                                .generate();  
+      }
+      else
+      {
+        console.log('deactivate - has error');
         return false;
       }
     }
