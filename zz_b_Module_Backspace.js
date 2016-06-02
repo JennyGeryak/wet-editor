@@ -19,7 +19,7 @@
 		
 		var divider = new Divider();
     
-    var director = new Director(concrete_entity);
+    var director = new Director(concrete_entity, 'wet-', 'active');
 		
 		// getting active element that must be deleted
 		var active_char = director.getCursorEntity('active');

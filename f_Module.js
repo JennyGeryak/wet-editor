@@ -142,7 +142,7 @@
         */
     	function runFunction(combination)
     	{
-    		if(combination > 0)
+    		if((combination > 0)||(combination == 'key'))
     		{
 	    		if (key_assotiation[combination] != undefined )
 	    		{

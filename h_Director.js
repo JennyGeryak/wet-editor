@@ -15,11 +15,15 @@
 	*/
 var Director = (function()
 {
-	function Director(concrete_entity)
+	function Director(concrete_entity, prefix, active)
 	{
 		this.concrete_entity = concrete_entity;
     
-    this.class_generator = new Char_Class_Generator("wet-");
+    this.prefix = prefix;
+    
+    this.active = active;
+    
+    this.class_generator = new Char_Class_Generator(this.prefix);
     
 //////////////////////
 // Comparative section 
@@ -33,9 +37,9 @@ var Director = (function()
     * @mamberof Director
     * @instance
     */
-    this.isThereAnyActiveWords = function(word_active_marker)
+    this.isThereAnyActiveWords = function()
     {
-      var word = this.concrete_entity.getElementsByClassName(word_active_marker)[0] || false;
+      var word = this.concrete_entity.getElementsByClassName('parent')[0] || false;
       
       if(word)
       {
@@ -62,7 +66,7 @@ var Director = (function()
       var previouse_char = active_char.previousSibling || false;
       if(previouse_char)
       {
-        if(previouse_char.className.split(" ").indexOf("wet-line-start") >= 0)
+        if(previouse_char.className.split(" ").indexOf(this.prefix+ "line-start") >= 0)
         {
           return true;
         }
@@ -90,7 +94,8 @@ var Director = (function()
     { 
       
       var previouse_char = cursor_entity.previousSibling;
-      var index = previouse_char.className.split(" ").indexOf("wet-word");
+      
+      var index = previouse_char.className.split(" ").indexOf(this.prefix + "word");
       
       if(index >= 0)
       {
@@ -116,7 +121,7 @@ var Director = (function()
     { 
       if(element)
       {
-        if(element.className.split(" ")[0] == 'wet-line-start')
+        if(element.className.split(" ")[0] == this.prefix + 'line-start')
         {
           return true;
         }
@@ -144,7 +149,7 @@ var Director = (function()
     { 
       if(element)
       {
-        if(element.className.split(" ").indexOf('wet-signifier') >= 0)
+        if(element.className.split(" ").indexOf(this.prefix + 'signifier') >= 0)
         {
           return true;
         }
@@ -172,7 +177,7 @@ var Director = (function()
     { 
       if(element)
       {
-        if(element.className.split(" ").indexOf('wet-word') >= 0)
+        if(element.className.split(" ").indexOf(this.prefix + 'word') >= 0)
         {
           return true;
         }
@@ -201,6 +206,36 @@ var Director = (function()
       if(element)
       {
         if(element.className.split(" ").indexOf('parent') >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+
+  /**
+    * @function isCharacter
+    * @desc chacking element is it start one
+    * @param {object} element - html for checking
+    * @return {bool} - is it start element or not
+    * @mamberof Director
+    * @instance
+    */
+    this.isCharacter = function(element)
+    { 
+      var equivalent = this.prefix + 'character';
+      
+      if(element)
+      {
+        if(element.className.split(" ").indexOf(equivalent) >= 0)
         {
           return true;
         }
@@ -334,7 +369,7 @@ var Director = (function()
     { 
       if(before_entity)
       {
-        before_entity.className = 'wet-word parent';
+        before_entity.className = this.prefix + 'word parent';
       }
     }
     
@@ -349,7 +384,7 @@ var Director = (function()
     { 
       if(element)
       {
-        element.className = 'wet-word';
+        element.className = this.prefix + 'word';
       }
     }
     
@@ -364,9 +399,9 @@ var Director = (function()
     { 
       if(element)
       {
-        if(element.className == 'wet-line-start')
+        if(element.className == this.prefix + 'line-start')
         {
-          element.className = 'wet-line-start active';
+          element.className = this.prefix + 'line-start ' + this.active;
         }
         else
         {
@@ -375,8 +410,9 @@ var Director = (function()
                                   .mainClass(element.innerHTML)
                                   .space()
                                   .subClass(element.innerHTML)
+                                  .space()
                                   .generate()
-                                  + ' active';  
+                                  + this.active;  
           
         }
       }
@@ -396,20 +432,32 @@ var Director = (function()
     */
     this.deactivate = function(element)
     { 
+      var element_class = this.prefix + "line-start";
+      
       if(!(typeof(element)=='string'))
       {
-        element.className = this.class_generator
-                                .setPrefix('wet-')
-                                .mainClass(element.innerHTML)
-                                .space()
-                                .subClass(element.innerHTML)
-                                .generate();  
+        if(element.className.split(' ')[0] == element_class)
+        {
+          element.className = this.prefix + "line-start";
+          
+          console.log('sd');
+        }
+        else
+        {
+          console.log('assd');
+          element.className = this.class_generator
+                                  .setPrefix(this.prefix)
+                                  .mainClass(element.innerHTML)
+                                  .space()
+                                  .subClass(element.innerHTML)
+                                  .generate();  
+        }
       }
       else
       {
         var new_element = concrete_entity.getElementsByClassName(element)[0];
         new_element = this.class_generator
-                          .setPrefix('wet-')
+                          .setPrefix(this.prefix)
                           .mainClass(element.innerHTML)
                           .space()
                           .subClass(element.innerHTML)
@@ -429,7 +477,7 @@ var Director = (function()
       if(element)
       {
         element.className = this.class_generator
-                                .setPrefix('wet-')
+                                .setPrefix(this.prefix)
                                 .mainClass(element.innerHTML)
                                 .space()
                                 .subClass(element.innerHTML)
@@ -451,27 +499,36 @@ var Director = (function()
 //////////////////
     
   /**
-    * @function deletePreviouseCursor 
+    * @function deactivatePreviouse
     * @desc separating word to a single characters in container
-    * @param {Array} cursors - container that contain string with word that must be exploded
     * @mamberof Director
     * @instance
     */
-    this.deletePreviouseCursor = function(cursors)
+    this.deactivatePreviouse = function()
     {
-      // element with class 'active'
-      var active_element = concrete_entity.getElementsByClassName("active")[0] || false;
-      
-      // if element is exist than change his class to native without 'active' mark
-      if(active_element != undefined)
-      {
-        active_element.className = class_generator
-                                  .setPrefix('wet-')
-                                  .mainClass(active_element.innerHTML)
-                                  .space()
-                                  .subClass(active_element.innerHTML)
-                                  .generate();
-      }
+			// element with class 'active' 
+			var active_element = concrete_entity.getElementsByClassName(this.active)[0]; 
+			
+			var class_generator = new Char_Class_Generator(this.prefix);
+			
+			// if element is exist than change his class to native without 'active' mark
+			if(active_element != undefined)
+			{
+        if(active_element.className.split(" ").indexOf(this.prefix + 'line-start') >= 0)
+        {
+          active_element.className = this.prefix + 'line-start';
+        }
+        else
+        {
+          active_element.className = class_generator
+                                    .setPrefix(this.prefix)
+                                    .mainClass(active_element.innerHTML)
+                                    .space()
+                                    .subClass(active_element.innerHTML)
+                                    .generate();
+          
+        }
+			}
     }
 
   /**
@@ -485,10 +542,179 @@ var Director = (function()
     { 
       element.parentNode.removeChild(element);
     }
+
+  /**
+    * @function plus 
+    * @desc add some element after this, if this have a next element
+    * @param {object} element - element after wich will be added content
+    * @param {String} content - content wich will be added after element
+    * @mamberof Director
+    * @instance
+    */
+    this.plus = function(element, content)
+    {
+      // cool string for adding something after active elements
+      element.parentNode.insertBefore(content, element.nextSibling);
+    }
     
-//////////////////
+/////////////////
 // Delete section 
-//////////////////
+/////////////////
+    
+///////////////////
+// Creating section 
+///////////////////
+  /**
+    * @function create 
+    * @desc create some element
+    * @param {object} type - wich element must be created
+    * @param {String} content - text wich will be in content when it will be created 
+    * @param {String} status - is element active or not 
+    * @return {object} - entity of created object
+    * @mamberof Director
+    * @instance
+    */
+    this.create = function(type, content, status)
+    { 
+      if(type == 'line-start')
+      {
+        return this.createLineStart(content, status);
+      }
+      else if(type == 'word')
+      {
+        return this.createWord(content, status);
+      }
+      else if(type == 'char')
+      {
+        return this.createChar(content, status);
+      }
+    }
+    
+  /**
+    * @function createLineStart 
+    * @desc create start element
+    * @param {String} content - text wich will be in content when it will be created 
+    * @param {String} status - is element active or not 
+    * @return {object} - entity of created object
+    * @mamberof Director
+    * @instance
+    */
+    this.createLineStart = function(content, status)
+    {
+      var first_symbol = document.createElement('span');
+        
+      first_symbol.className = this.prefix + 'line-start';
+        
+      if(status == 'active')
+      {
+        first_symbol.className += ' ' + this.active;
+      }
+        
+      var first_symbol_content = document.createTextNode(content);
+        
+      first_symbol.appendChild(first_symbol_content);
+      
+      return first_symbol;     
+    }
+
+  /**
+    * @function createWord 
+    * @desc create word entity
+    * @param {String} content - text wich will be in content when it will be created 
+    * @param {String} status - is element active or not 
+    * @return {object} - entity of created object
+    * @mamberof Director
+    * @instance
+    */
+    this.createWord = function(content, status)
+    {
+      // create a word object 
+      var word = document.createElement('span');
+      // say to it that it will be have a children in it
+      if(status == 'active')
+      {
+        word.className = 'wet-word parent';
+      }
+      else
+      {
+        word.className = 'wet-word';
+      }
+      // childs content
+      var word_content = document.createTextNode(content);
+      // childs container
+      var character_holder = document.createElement('span');
+      // generating of character class 
+      if(status == 'active')
+      {
+        character_holder.className = this.class_generator
+                                    .setPrefix('wet-')
+                                    .mainClass(content)
+                                    .space()
+                                    .subClass(content)
+                                    .generate() 
+                                    + 'active'; 
+      }
+      else
+      {
+        character_holder.className = this.class_generator
+                                    .setPrefix('wet-')
+                                    .mainClass(content)
+                                    .space()
+                                    .subClass(content)
+                                    .generate(); 
+      }
+
+      // adding new character in container
+      character_holder.appendChild(word_content);
+      // adding character object to the word 
+      word.appendChild(character_holder);
+        
+      return word;    
+    }
+    
+  /**
+    * @function createChar 
+    * @desc create word entity
+    * @param {String} content - text wich will be in content when it will be created 
+    * @param {String} status - is element active or not 
+    * @return {object} - entity of created object
+    * @mamberof Director
+    * @instance
+    */
+    this.createChar = function(content, status)
+    {
+      var char = document.createTextNode(content);
+      // childs container
+      var character_holder = document.createElement('span');
+      // generating of character class 
+      if(status == 'active')
+      {
+        character_holder.className = this.class_generator
+                                    .setPrefix('wet-')
+                                    .mainClass(content)
+                                    .space()
+                                    .subClass(content)
+                                    .generate() 
+                                    + 'active'; 
+      }
+      else
+      {
+        character_holder.className = this.class_generator
+                                    .setPrefix('wet-')
+                                    .mainClass(content)
+                                    .space()
+                                    .subClass(content)
+                                    .generate(); 
+      }
+      // adding new character in container
+      character_holder.appendChild(char);
+        
+      return character_holder;    
+    }
+    
+///////////////////
+// Creating section 
+///////////////////
     
   }  
   return Director;

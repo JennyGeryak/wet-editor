@@ -19,10 +19,9 @@
 		
 		var divider = new Divider();
     
-    var director = new Director(concrete_entity);
+    var director = new Director(concrete_entity, 'wet-', 'active');
 		
 		// getting active element that must be deactivated
-    console.log('1');
     var active_element = director.getCursorEntity("active");
 
 		// getting previose element thet will be active after key pressed
@@ -136,7 +135,6 @@
           director.activate(last_word_in_line);
           
 					// getting active element that must be deactivated
-              console.log('2');
           var active_element = director.getCursorEntity('active');
           // getting previose element thet will be active after key pressed
           var previous_element = director.getBeforeEntity(active_element);
