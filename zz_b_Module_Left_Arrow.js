@@ -3,7 +3,7 @@
   * @function left_arrow
   * @author Ivan Kaduk
   * @copyright Ivan Kaduk 2016.
-	* @License cc-by-nc-sa 4.0
+	* @license cc-by-nc-sa 4.0
   * @desc this module need to emulate "left arrow" key features
 	* @param {object} options.object - entity of editors object
 	* @param {int} options.index - index of current editor element on document
@@ -107,7 +107,7 @@
 		else
 		{
       // deactivate a line and going to the previous line
-			if(director.isCursorFirstOnALine(active_element))
+			if(director.isCursorFirstOnALine('active'))
 			{
 				var parent_s = active_element.parentNode;
         var previous_line = director.getBeforeEntity(parent_s);

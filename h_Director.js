@@ -60,10 +60,16 @@ var Director = (function()
       var active_char = this.getCursorEntity(cursor_marker);
       
       var previouse_char = active_char.previousSibling || false;
-      
-      if(previouse_char.className.split(" ").indexOf("wet-line-start") >= 0)
+      if(previouse_char)
       {
-        return true;
+        if(previouse_char.className.split(" ").indexOf("wet-line-start") >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
       }
       else
       {

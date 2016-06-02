@@ -31,22 +31,6 @@
 		// and if it has previouse elements:  
 		if(previous_entity)
 		{
-//			// if previouse element is start of line:
-//			if(director.isCursorFirstOnALine('active'))
-//			{
-//				// getting original class name of the previous element
-//				var previous_char_original_class_name = concrete_entity
-//																								.getElementsByClassName('active')[0]
-//																								.previousSibling
-//																								.className
-//																								.trim();
-//
-//				// deleting active element 
-//				director.delete(active_char);
-//
-//				// making previous element to be an active 
-//				previous_entity.className = 'wet-line-start' + ' ' + 'active';	
-//			}
 			// if before element is a word:
 			if(director.isCursorBeforeWord(active_char))
 			{
