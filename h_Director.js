@@ -2,29 +2,26 @@
 	/*          CUSTOM CLASS         */
 	///////////////////////////////////
 /**
-	* @name Director
-	* @version 1.0.0
-	* @author Ivan Kaduk
-	* @copyright Ivan Kaduk 2016.
-	* @License cc-by-nc-sa 4.0
-	* @class
-	* @classdesc class that help to make some ro
-	* @namespace Director
-	* @constructs Director
-	* @example 
-	*/
+  * @name Director
+  * @version 1.0.0
+  * @author Ivan Kaduk
+  * @copyright Ivan Kaduk 2016.
+  * @license cc-by-nc-sa 4.0
+  * @class
+  * @classdesc class that help to make some ro
+  * @namespace Director
+  * @constructs Director
+  * @example 
+  */
 var Director = (function()
 {
-	function Director(concrete_entity, prefix, active)
-	{
-		this.concrete_entity = concrete_entity;
-    
+  function Director(concrete_entity, prefix, active)
+  {
+    this.concrete_entity = concrete_entity;
     this.prefix = prefix;
-    
     this.active = active;
-    
     this.class_generator = new Char_Class_Generator(this.prefix);
-    
+
 //////////////////////
 // Comparative section 
 //////////////////////
