@@ -176,7 +176,7 @@
       };
     }
 
- 		return {
+    return {
       getInstance: function () {
         if (!instance) {
           instance = createInstance();
