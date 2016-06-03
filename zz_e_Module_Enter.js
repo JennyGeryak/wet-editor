@@ -50,6 +50,10 @@
       options.object.line[options.index][options.object.current_line[options.index]] = document.createElement('div');
       options.object.line[options.index][options.object.current_line[options.index]].className = 'line';
       options.object.line[options.index][options.object.current_line[options.index]].setAttribute('line_number', options.object.current_line[options.index]);
+      var line_start = document.createElement('span');
+      line_start.className = 'wet-line-start active';
+      line_start.innerHTML = '';
+      options.object.line[options.index][options.object.current_line[options.index]].appendChild(line_start);
       options.object.work_space[options.index].appendChild(options.object.line[options.index][options.object.current_line[options.index]]);
     }
   }

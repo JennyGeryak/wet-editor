@@ -25,6 +25,14 @@
     var word = director.getParentWord();
 
     var active_char = director.getCursorEntity('active');
+    
+    // if
+    if(!active_char)
+    {
+      active_char = document.getElementsByClassName('wet-'+'line-start')[0];
+    }
+    
+            console.log(active_char);
 
   
     var active_char_index = 0;
@@ -117,9 +125,11 @@
       
         // change words content to a first part that was before a cursor
         word.innerHTML = divider.concat(first_part_word);
+        
       
         // renew active alement for space after word
         active_char = concrete_entity.getElementsByClassName('active')[0];
+
       
         // paste last part of word after space as independent word
         active_char.parentNode.insertBefore(second_part_word ,active_char.nextSibling);
