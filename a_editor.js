@@ -4,7 +4,7 @@
 	///////////////////////////////////
 /**
   * @name Editor
-  * @version 1.0.1
+  * @version 1.0.2
   * @author Ivan Kaduk
   * @copyright Ivan Kaduk 2016.
   * @license cc-by-nc-sa 4.0
@@ -90,6 +90,10 @@
           this.line[i][this.current_line[i]].className = 'line';
           this.line[i][this.current_line[i]].setAttribute('line_number', this.current_line[i]);
           this.work_space[i].appendChild(this.line[i][this.current_line[i]]);
+          var line_start = document.createElement('span');
+          line_start.className = 'wet-line-start active';
+          line_start.innerHTML = '';
+          this.line[i][this.current_line[i]].appendChild(line_start);
 
           // console in right conor of component
           if(options.console == true)

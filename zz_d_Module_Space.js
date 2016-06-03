@@ -18,11 +18,13 @@
     var concrete_entity = options.object.container[options.index];
   
     var divider = new Divider();
+    
+    var director = new Director(concrete_entity, 'wet-', 'active');
   
     // prepare previose element for next work
-    var word = concrete_entity.getElementsByClassName('parent')[0];
+    var word = director.getParentWord();
 
-    var active_char = concrete_entity.getElementsByClassName('active')[0];
+    var active_char = director.getCursorEntity('active');
 
   
     var active_char_index = 0;
@@ -124,6 +126,11 @@
         
         this.deletePrevioseParent(concrete_entity);
         console.log('2');
+      }
+      // if cursor on the start of line:
+      else if(director.isCursorFirstOnALine(active_char))
+      {
+        console.log('cool')
       }
       else
       {
