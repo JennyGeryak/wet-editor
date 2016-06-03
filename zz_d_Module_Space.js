@@ -26,15 +26,14 @@
 
     var active_char = director.getCursorEntity('active');
     
-    // if
+    var line_number = options.object.current_line[options.index]-1;
+    
+    // if cursor on a line start
     if(!active_char)
     {
-      active_char = document.getElementsByClassName('wet-'+'line-start')[0];
+      active_char = document.getElementsByClassName('wet-'+'line-start')[line_number];
     }
     
-            console.log(active_char);
-
-  
     var active_char_index = 0;
   
     var chars = active_char.parentElement.childNodes.length || false;
