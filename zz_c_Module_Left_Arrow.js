@@ -45,12 +45,16 @@ Module.getInstance().left_arrow = function(options)
       // saing that this word now is parent
       director.makeItParentWord(previous_element);
       word = director.getParentWord();
+      
       // explode one word to a diferent characters
       word.innerHTML = divider.divide(word);
+      
       // take last character in this word
       var previouse_word_char = director.getLastElement(previous_element);
+      
       // making previouse character as active one
       director.activate(previouse_word_char);
+      
       // deactivate active element
       director.deactivate(active_element);
     }
@@ -58,6 +62,7 @@ Module.getInstance().left_arrow = function(options)
     {
       // deactivate active element
       director.deactivate(active_element);
+      
       // making previous element to be an active
       director.activate(previous_element);
     }
@@ -67,10 +72,15 @@ Module.getInstance().left_arrow = function(options)
           &&(director.getParentWord().previousSibling.className != 'wet-line-start'))
   {
     var word = director.getParentWord();
+    
     var before_word = director.getBeforeEntity(word);
+    
     director.activate(before_word);
+    
     director.deactivate(active_element);
+    
     word.innerHTML = divider.concat(word);	
+    
     word.className = 'wet-word';	
   }
   // deactivate word when it is on start of line
@@ -78,10 +88,15 @@ Module.getInstance().left_arrow = function(options)
           &&(director.getParentWord().previousSibling.className == 'wet-line-start'))
   {
     var word = director.getParentWord();
+    
     var before_word = director.getBeforeEntity(word);
+    
     director.activate(before_word);
+    
     director.deactivate(active_element);
+    
     word.innerHTML = divider.concat(word);
+    
     director.makeItWord(word);
   }
   else
@@ -90,15 +105,19 @@ Module.getInstance().left_arrow = function(options)
     if(director.isCursorFirstOnALine('active'))
     {
       var parent_s = active_element.parentNode;
+      
       var previous_line = director.getBeforeEntity(parent_s);
+      
       if(previous_line != false)
       {
         //parent_s.parentNode.removeChild(parent_s);
         director.deactivate('active');
+        
         // !!!!!!!!!! change this.current_line
         // deactivate 'enter' pseudo sign
         options.object.current_line[options.index]--;
         word = previous_line.childNodes[previous_line.childNodes.length-1];
+        
         // if last element in previouse line not a word
         if(director.isSignifier(word) == false)
         {
@@ -108,10 +127,13 @@ Module.getInstance().left_arrow = function(options)
         // make active last char of word
         var last_word_in_line = director.getLastElement(previous_line);
         director.activate(last_word_in_line);
+        
         // getting active element that must be deactivated
         var active_element = director.getCursorEntity('active');
+        
         // getting previose element thet will be active after key pressed
         var previous_element = director.getBeforeEntity(active_element);
+        
         // if we are not at start of previouse line:
         if(previous_element != false)
         {
@@ -119,7 +141,9 @@ Module.getInstance().left_arrow = function(options)
           if(director.isWord(active_element))
           {
             director.makeItParentWord(active_element)
+            
             var last_char_in_word = director.getLastElement(active_element);
+            
             director.activate(last_char_in_word);
             
 //							active_element.childNodes[active_element.childNodes.length-1].className = class_generator
