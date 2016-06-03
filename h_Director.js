@@ -248,6 +248,36 @@ var Director = (function()
       
     }
     
+  /**
+    * @function isCursoreBeforeWord
+    * @desc chacking element is it start one
+    * @param {object} element - html for checking
+    * @return {bool} - is it start element or not
+    * @mamberof Director
+    * @instance
+    */
+    this.isCursoreBeforeWord = function(element)
+    { 
+      var equivalent = this.prefix + 'word';
+      
+      if(element)
+      {
+        if(element.nextSibling.className.split(" ").indexOf(equivalent) >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
 //////////////////////
 // Comparative section 
 //////////////////////
@@ -345,6 +375,35 @@ var Director = (function()
         return false;
       }
     }
+    
+  /**
+    * @function getCursorPosition 
+    * @desc searching for an last element of word
+    * @param {object} cursor - cursor entity
+    * @return {number} - index of cursor
+    * @mamberof Director
+    * @instance
+    */
+    this.getCursorPosition = function(cursor)
+    { 
+      var active_char_index = 0;
+      
+      // searching a position ow the word 
+      for(var i=0; i<cursor.parentElement.childNodes.length-1; i++)
+      {
+        var char_class = cursor.parentElement.childNodes[i].className;
+        var char_classes = char_class.split(" ");
+        if(char_classes.indexOf('active') >= 0)
+        {
+          break;
+        }
+        active_char_index++;
+      }
+      
+      return active_char_index;
+    }
+    // alternative: 
+    // var i = Array.prototype.indexOf.call(e.childNodes, someChildEl);  > ie9
   
 //////////////////
 // Getting section 
@@ -584,7 +643,12 @@ var Director = (function()
       else if(type == 'char')
       {
         return this.createChar(content, status);
+      }      
+      else if(type == 'space')
+      {
+        return this.createSpace(status);
       }
+      
     }
     
   /**
@@ -707,6 +771,46 @@ var Director = (function()
       character_holder.appendChild(char);
         
       return character_holder;    
+    }
+    
+  /**
+    * @function createSpace 
+    * @desc create space entity
+    * @param {String} content - text wich will be in content when it will be created 
+    * @param {String} status - is element active or not 
+    * @return {object} - entity of created object
+    * @mamberof Director
+    * @instance
+    */
+    this.createSpace = function(status)
+    {
+      // creating a space object
+      var space = document.createElement('span');
+      // generating of character class 
+      if(status == 'active')
+      {
+        space.className = this.class_generator
+                                    .setPrefix('wet-')
+                                    .mainClass(' ')
+                                    .space()
+                                    .subClass(' ')
+                                    .space()
+                                    .generate() 
+                                    + 'active'; 
+      }
+      else
+      {
+        space.className = this.class_generator
+                                    .setPrefix('wet-')
+                                    .mainClass(' ')
+                                    .space()
+                                    .subClass(' ')
+                                    .generate(); 
+      }
+      // adding new character in container
+      space.innerHTML = " ";
+        
+      return space;    
     }
     
 ///////////////////

@@ -38,36 +38,14 @@
   
     var chars = active_char.parentElement.childNodes.length || false;
     
-    // creating a space object
-    var space = document.createElement('span');
-    
-    // generating a special class for it
-    space.className = class_generator
-                      .setPrefix('wet-')
-                      .mainClass(" ")
-                      .space()
-                      .subClass(" ")  
-                      .generate() 
-                      + ' active';
-    
-    // adding space contant
-    space.innerHTML = " ";
+    var space = director.create('space', ' ', 'active');
   
     // if we in the word:
     if(chars != false)
     {
-      // searching a position ow the word 
-      for(var i=0; i<active_char.parentElement.childNodes.length-1; i++)
-      {
-        var char_class = active_char.parentElement.childNodes[i].className;
-        var char_classes = char_class.split(" ");
-        if(char_classes.indexOf('active') >= 0)
-        {
-          break;
-        }
-        active_char_index++;
-      }
-      // var i = Array.prototype.indexOf.call(e.childNodes, someChildEl);  > ie9
+      
+      active_char_index = director.getCursorPosition(active_char);
+      
     }
     // active element is not in the word
     else
@@ -93,7 +71,7 @@
 
         // adding space objecto to an active line
         word.parentNode.insertBefore(space, word.nextSibling);
-        console.log('1');
+
       }
       else
       {
@@ -105,7 +83,7 @@
     // if cursor is not at the end of word or if it on preend element:
     else if((active_char_index < (chars-1))|(active_char_index == 1))
     {
-      if(word != undefined)
+      if(word != false)
       {
         // divide word in to two other
         var two_parts_of_word = divider.bisect(word);
@@ -134,12 +112,14 @@
         active_char.parentNode.insertBefore(second_part_word ,active_char.nextSibling);
         
         this.deletePrevioseParent(concrete_entity);
-        console.log('2');
       }
-      // if cursor on the start of line:
-      else if(director.isCursorFirstOnALine(active_char))
+      // if cursor before word:
+      else if(director.isCursorBeforeWord(active_char))
       {
-        console.log('cool')
+        active_char.parentNode.insertBefore(space ,active_char.nextSibling);
+        
+        director.deactivate(active_char);
+        
       }
       else
       {
