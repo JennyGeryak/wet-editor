@@ -7,7 +7,7 @@
 	* @version 1.0.0
 	* @author Ivan Kaduk
 	* @copyright Ivan Kaduk 2016.
-	* @License cc-by-nc-sa 4.0
+	* @license cc-by-nc-sa 4.0
 	* @class
 	* @classdesc it singelton which contain current key combinations
 	* @namespace Key_Scope
