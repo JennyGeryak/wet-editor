@@ -5,7 +5,7 @@
 /**
   * @name Observable
   * @class
-  * @classdesc standart subject for obsrver 
+  * @classdesc standart subject for obsrver. 
   * @namespace Observable
   * @constructs 
   * @example this.subscribe({some observer});
@@ -20,10 +20,10 @@
     * @public
     * @function
     * @name subscribe
-    * @desc for subscribing observers
+    * @desc need for subscribing observers.
     * @mamberof Observable
     * @instance
-    * @param {Object} observer - object wich containe observer instans
+    * @param {Object} observer - object wich containe observer instans.
     */
     this.subscribe = function(observer)
     {
@@ -34,10 +34,10 @@
     * @public
     * @function
     * @name unsubscribe
-    * @desc for unsubscribing observers
+    * @desc need for unsubscribing observers.
     * @mamberof Observable
     * @instance
-    * @param {Object} observer - object wich containe observer instans
+    * @param {Object} observer - object wich containe observer instans.
     */
     this.unsubscribe = function(observer)
     {
@@ -55,11 +55,11 @@
     * @public
     * @function
     * @name publish
-    * @desc calling observers constructors
+    * @desc calling observers constructors.
     * @mamberof Observable
     * @instance
-    * @param {Object} data - some objects collection to do some actions with
-    * @param {int} counter - index of sub object in data collection
+    * @param {Object} data - some objects collection to do some actions with.
+    * @param {int} counter - index of sub object in data collection.
     */
     this.publish = function(data, scope, index, event, condition)
     {

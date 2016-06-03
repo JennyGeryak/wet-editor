@@ -12,7 +12,8 @@
   * @namespace Editor
   * @augments Observable
   * @constructs
-  * @classdesc this class is creating editor object
+  * @classdesc It is main class with constructor. Need for initialization of 
+  work space of code editor.
   * @example var spoiler = new Spoiler('spoiler','opened', 1);
   * @param {String} className - class of div wich containe spoiler child elements.
   */

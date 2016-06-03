@@ -8,7 +8,8 @@
   * @copyright Ivan Kaduk 2016.
   * @license cc-by-nc-sa 4.0
   * @class
-  * @classdesc it is solution that helps to create additional mudules more easy and implement it to application
+  * @classdesc it is solution that helps to create additional mudules more 
+    easely and implement it to application.
   * @namespace Module
   * @constructs Module
   * @example     Module.getInstance().modules_name = function(options)
@@ -41,17 +42,19 @@
       // {'key_combination':'40','function_name':'dovn_arrow'} // \/
       // 	];
 
-      // collection of hotkeys and according to them functions 
-      var key_assotiation = {'8':{ 'function_name':'backspase' }, '9':{'function_name':'tab'}};
+      // collection of hotkeys and according to them functions (test)
+      var key_assotiation = {'8':{ 'function_name':'backspase' }, 
+                             '9':{'function_name':'tab'}};
+      
       // array for functions arguments
       var options ;
       
-
     /**
       * @private
       * @function
       * @name deletePrevioseCursor
-      * @desc it is need to delete previose cursor and it protect of making unnecessary multicursors
+      * @desc it is need to delete previose cursor and it protect of making 
+        unnecessary multicursors.
       * @mamberof Module
       * @inner
       */
@@ -60,6 +63,7 @@
         // element with class 'active' 
         var active_element = concrete_entity.getElementsByClassName("active")[0]; 
         var class_generator = new Char_Class_Generator('wet-');
+        
         // if element is exist than change his class to native without 'active' mark
         if(active_element != undefined)
         {
@@ -82,8 +86,8 @@
       * @private
       * @function
       * @name deletePrevioseParent
-      * @desc it is need to delete 'perent' class from object it gives oportunity to know in which exact container
-      * is word lie
+      * @desc it is need to delete 'perent' class from object it gives oportunity 
+        to know in which exact container is word lie.
       * @mamberof Module
       * @inner
       */
@@ -109,16 +113,16 @@
       */
       function addFunction(key_combination, function_name)
       {
-        key_assotiation[key_combination] = { 'function_name':function_name };
+        key_assotiation[key_combination] = {'function_name' :function_name};
       }
 
     /**
       * @public
       * @function dump
-      * @desc list of all hotkeys and functions
+      * @desc returns list of all hotkeys and functions.
       * @mamberof Module
       * @instance
-      * @return {Array} - array of hotkeys and functions
+      * @return {Array} - array of hotkeys and function.
       */
       function dump()
       {
@@ -129,10 +133,10 @@
     /**
       * @public
       * @function runFunction
-      * @desc this function initializing the function according pressed hotkey
+      * @desc this function initializing the function according pressed hotkey.
       * @mamberof Module
       * @instance
-      * @param {String} combination - combination of keys converted to a string 
+      * @param {String} combination - combination of keys converted to a string. 
       */
       function runFunction(combination)
       {
@@ -149,10 +153,10 @@
     /**
       * @public
       * @function setOptions
-      * @desc adding arguments before function will be initialized
+      * @desc adding arguments before function will be initialized.
       * @mamberof Module
       * @instance
-      * @param {Array} user_options - array of arguments for function
+      * @param {Array} user_options - array of arguments for function.
       */
       function setOptions(user_options)
       {

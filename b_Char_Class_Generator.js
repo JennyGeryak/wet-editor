@@ -30,13 +30,14 @@
     * @name mainClass
     * @mamberof Char_Class_Generator
     * @instance
-    * @desc adding main class
-    * @param {String} user_char - char from cher buffer 
+    * @desc adding main class.
+    * @param {String} user_char - char from cher buffer .
     */
     function mainClass(user_char)
     {
 
       char = user_char;
+      
       // converting char type variable to dec code
       code = char.charCodeAt(0);
 
@@ -78,8 +79,8 @@
       * @name subClass
       * @mamberof Char_Class_Generator
       * @instance
-      * @desc adding subclass to main 
-      * @param {String} user_char - char from cher buffer 
+      * @desc adding subclass to main class.
+      * @param {String} user_char - char from character buffer.
       */
       function subClass(user_char)
       {
@@ -162,7 +163,7 @@
       * @name space
       * @mamberof Char_Class_Generator
       * @instance
-      * @desc addpace between classes
+      * @desc adding space between classes.
       */
       function space()
       {

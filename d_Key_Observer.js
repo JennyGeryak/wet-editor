@@ -41,6 +41,8 @@
     {
       event.preventDefault(); event.stopPropagation();
     }
+    
+    // keq pressed function goes here
     hotkey.setOptions({
       'object': data,
       'index': index
@@ -67,56 +69,6 @@
     if(data.console[index] != undefined)
     {
       data.console[index].innerHTML = (scope.getKeyMap());
-    }
-    
-  /**
-    * @private
-    * @function
-    * @name deletePrevioseCursor
-    * @desc it is need to delete previose cursor and it protect of making unnecessary multicursors
-    * @mamberof Key_Observer
-    * @inner
-    */
-    function deletePrevioseCursor()
-    {
-      // element with class 'active'
-      var active_element = concrete_entity.getElementsByClassName("active")[0];
-      // if element is exist than change his class to native without 'active' mark
-      if(active_element != undefined)
-      {
-        if(active_element.className.split(" ").indexOf('wet-line-start') >= 0)
-        {
-          active_element.className = 'wet-line-start';
-        }
-        else
-        {
-          active_element.className = class_generator
-                                    .setPrefix('wet-')
-                                    .mainClass(active_element.innerHTML)
-                                    .space()
-                                    .subClass(active_element.innerHTML)
-                                    .generate();
-        }
-      }
-    }
-  /**
-    * @private
-    * @function
-    * @name deletePrevioseParent
-    * @desc it is need to delete 'perent' class from object it gives oportunity to know in which exact container
-    * is word lie
-    * @mamberof Key_Observer
-    * @inner
-    */
-    function deletePrevioseParent()
-    {
-      // active word
-      var parent = concrete_entity.getElementsByClassName('parent')[0];
-      // make a standart class for word
-      if(parent != undefined)
-      {
-        parent.className = "wet-word";
-      }
     }
   }
   

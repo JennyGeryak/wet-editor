@@ -9,7 +9,8 @@
   * @copyright Ivan Kaduk 2016.
   * @license cc-by-nc-sa 4.0
   * @class
-  * @classdesc it singelton which contain current key combinations
+  * @classdesc it is singelton which contain current key combinations, 
+    and have functional to work with it.
   * @namespace Key_Scope
   * @constructs Key_Scope
   * @example var key_scope = Key_Scope.getInstance();
@@ -32,10 +33,10 @@
       * @private
       * @function
       * @name addKeyToMap
-      * @desc adding key code to key map
+      * @desc adding key code to key map.
       * @mamberof Key_Scope
       * @instance
-      * @param {int} key - key code frome key event
+      * @param {int} key - key code frome key event.
       */
       function addKeyToMap(key) {
         if(key_map.length == 0)
@@ -63,10 +64,10 @@
       * @private
       * @function
       * @name removeKeyFromMap
-      * @desc removing key code to key map
+      * @desc removing key code to key map.
       * @mamberof Key_Scope
       * @instance
-      * @param {int} key - key code frome key event
+      * @param {int} key - key code frome key event.
       */
       function removeKeyFromMap(key) {
         for (var i = 0; i <= key_map.length; i++) 
@@ -82,10 +83,10 @@
       * @public
       * @function
       * @name keyDown
-      * @desc catching code frome event and adding it to key map, on some action 
+      * @desc catching code frome event and adding it to key map, on some action. 
       * @mamberof Key_Scope
       * @instance
-      * @param {object} e - event which contain code of pressed button
+      * @param {object} e - event which contain code of pressed button.
       */
       function keyDown(e)  {
         var key_num;
@@ -106,10 +107,10 @@
       * @public
       * @function
       * @name keyUp
-      * @desc catching code frome event and removing it to key map, on some action 
+      * @desc catching code frome event and removing it to key map, on some action. 
       * @mamberof Key_Scope
       * @instance
-      * @param {object} e - event which contain code of pressed button
+      * @param {object} e - event which contain code of pressed button.
       */
       function keyUp(e) {
         var key_num;
@@ -130,10 +131,10 @@
       * @public
       * @function
       * @name getKeyMap
-      * @desc return key map 
+      * @desc return key map. 
       * @mamberof Key_Scope
       * @instance
-      * @return {Array} - key map content
+      * @return {Array} - key map content.
       */
       function getKeyMap()
       {
@@ -144,10 +145,10 @@
       * @public
       * @function
       * @name getStringKeyMap
-      * @desc return key map like a string
+      * @desc return key map like a string.
       * @mamberof Key_Scope
       * @instance
-      * @return {String} - key map content
+      * @return {String} - key map content.
       */
       function getStringKeyMap()
       {
@@ -158,7 +159,7 @@
       * @public
       * @function
       * @name clearKeyMap
-      * @desc refreshing key map
+      * @desc refreshing key map.
       * @mamberof Key_Scope
       * @instance
       */

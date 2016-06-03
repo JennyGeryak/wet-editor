@@ -8,7 +8,10 @@
   * @copyright Ivan Kaduk 2016.
   * @license cc-by-nc-sa 4.0
   * @class
-  * @classdesc class that help to make some ro
+  * @classdesc This class need for manipulating objects on code editors work space.
+  * @param {object} concrete_entity - object with work space.
+  * @param {String} prefix - prefix for elements classes.
+  * @param {String} active - cursors active class name.
   * @namespace Director
   * @constructs Director
   * @example 
@@ -28,9 +31,8 @@ var Director = (function()
     
   /**
     * @function isThereAnyActiveWords 
-    * @desc inspect editor for an active words
-    * @param {String} word_active_marker - marker of word that is active
-    * @return {bool} - if we have some active word 
+    * @desc inspect editor for an active words.
+    * @return {bool} - if we have some active word.
     * @mamberof Director
     * @instance
     */
@@ -50,9 +52,9 @@ var Director = (function()
     
   /**
     * @function isCursorFirstOnALine 
-    * @desc searching for an previouse cursor element
-    * @param {Array} cursor_marker - marker of active element
-    * @return {bool} - entity of previouse for active element
+    * @desc chacking is cursor plased on start of line.
+    * @param {String} cursor_marker - marker of cursor.
+    * @return {bool} - entity of previouse for active element.
     * @mamberof Director
     * @instance
     */
@@ -61,6 +63,7 @@ var Director = (function()
       var active_char = this.getCursorEntity(cursor_marker);
       
       var previouse_char = active_char.previousSibling || false;
+      
       if(previouse_char)
       {
         if(previouse_char.className.split(" ").indexOf(this.prefix+ "line-start") >= 0)
@@ -81,9 +84,9 @@ var Director = (function()
     
   /**
     * @function isCursorBeforeWord 
-    * @desc searching for an previouse cursor element
-    * @param {object} cursor_marker - marker of active element
-    * @return {bool} - entity of previouse for active element
+    * @desc chacking, is cursor placed before word.
+    * @param {object} cursor_marker - marker of active element.
+    * @return {bool}
     * @mamberof Director
     * @instance
     */
@@ -108,9 +111,9 @@ var Director = (function()
     
   /**
     * @function isStart 
-    * @desc chacking element is it start one
-    * @param {object} element - html for checking
-    * @return {bool} - is it start element or not
+    * @desc chacking element, is it start one.
+    * @param {object} element - html element for checking.
+    * @return {bool}
     * @mamberof Director
     * @instance
     */
@@ -136,9 +139,9 @@ var Director = (function()
 
   /**
     * @function isSignifier 
-    * @desc chacking element is it start one
-    * @param {object} element - html for checking
-    * @return {bool} - is it start element or not
+    * @desc chacking element is signifer.
+    * @param {object} element - html element for checking.
+    * @return {bool}
     * @mamberof Director
     * @instance
     */
@@ -164,9 +167,9 @@ var Director = (function()
 
   /**
     * @function isWord
-    * @desc chacking element is it start one
-    * @param {object} element - html for checking
-    * @return {bool} - is it start element or not
+    * @desc chacking element is it word.
+    * @param {object} element - html element for checking.
+    * @return {bool}
     * @mamberof Director
     * @instance
     */
@@ -192,9 +195,9 @@ var Director = (function()
 
   /**
     * @function isParentWord
-    * @desc chacking element is it start one
-    * @param {object} element - html for checking
-    * @return {bool} - is it start element or not
+    * @desc chacking element is it word.
+    * @param {object} element - html element for checking
+    * @return {bool}
     * @mamberof Director
     * @instance
     */
@@ -220,9 +223,9 @@ var Director = (function()
 
   /**
     * @function isCharacter
-    * @desc chacking element is it start one
-    * @param {object} element - html for checking
-    * @return {bool} - is it start element or not
+    * @desc chacking element is it character.
+    * @param {object} element - html element for checking.
+    * @return {bool}
     * @mamberof Director
     * @instance
     */
@@ -250,9 +253,9 @@ var Director = (function()
     
   /**
     * @function isCursoreBeforeWord
-    * @desc chacking element is it start one
-    * @param {object} element - html for checking
-    * @return {bool} - is it start element or not
+    * @desc chacking element is it before word.
+    * @param {object} element - html element for checking.
+    * @return {bool}
     * @mamberof Director
     * @instance
     */
@@ -288,9 +291,9 @@ var Director = (function()
     
   /**
     * @function getCursorEntity 
-    * @desc searching for an cursor element
-    * @param {Array} cursor_marker - marker of active element
-    * @return {object} - entity of active element
+    * @desc geting cursor entity from code.
+    * @param {String} cursor_marker - marker of active element.
+    * @return {object} - entity of active element.
     * @mamberof Director
     * @instance
     */
@@ -312,9 +315,9 @@ var Director = (function()
 
   /**
     * @function getBeforeEntity
-    * @desc searching for an previouse cursor element
-    * @param {Array} cursor_marker - marker of active element
-    * @return {object} - entity of previouse for active element
+    * @desc getting entity that goes before element.
+    * @param {String} cursor_marker - marker of active element
+    * @return {object} - entity of previouse elemtnt of active element
     * @mamberof Director
     * @instance
     */
@@ -334,8 +337,8 @@ var Director = (function()
     
   /**
     * @function getParentWord 
-    * @desc searching for an parent word
-    * @return {object} - entity of parent word
+    * @desc getting parent word entity if it hase.
+    * @return {object} - entity of parent word.
     * @mamberof Director
     * @instance
     */
@@ -357,8 +360,9 @@ var Director = (function()
     
   /**
     * @function getLastElement 
-    * @desc searching for an last element of word
-    * @return {object} - entity of last element of word
+    * @desc searching for an last element of word.
+    * @param {object} word - entity of word.
+    * @return {object} - entity of last element of word.
     * @mamberof Director
     * @instance
     */
@@ -378,9 +382,9 @@ var Director = (function()
     
   /**
     * @function getCursorPosition 
-    * @desc searching for an last element of word
-    * @param {object} cursor - cursor entity
-    * @return {number} - index of cursor
+    * @desc returning position of cursor inside of word or etc.
+    * @param {object} cursor - cursor entity.
+    * @return {number} - index of cursor.
     * @mamberof Director
     * @instance
     */
@@ -415,9 +419,8 @@ var Director = (function()
     
   /**
     * @function makeItParentWord 
-    * @desc making a word an a parent word
-    * @param {object} element - element what must became a parent word
-    * @return {bool} - entity of previouse for active element
+    * @desc making a word an a parent word.
+    * @param {object} before_entity - element what must became a parent word.
     * @mamberof Director
     * @instance
     */
@@ -431,8 +434,8 @@ var Director = (function()
     
   /**
     * @function makeItWord 
-    * @desc give the class name of word
-    * @param {object} element - element what must became a word
+    * @desc give the class name of word.
+    * @param {object} element - element that must became a word.
     * @mamberof Director
     * @instance
     */
@@ -446,8 +449,9 @@ var Director = (function()
     
   /**
     * @function activate 
-    * @desc activate a cursor for an element
-    * @param {object} element - html element for wich will be generated class name with "active" ending
+    * @desc activate a cursor for an element.
+    * @param {object} element - html element for wich will be generated class name 
+      with "active" ending.
     * @mamberof Director
     * @instance
     */
