@@ -5,7 +5,7 @@
   * @name Char_Class_Generator
   * @author Ivan Kaduk
   * @copyright Ivan Kaduk 2016.
-  * @License cc-by-nc-sa 4.0
+  * @license cc-by-nc-sa 4.0
   * @class
   * @namespace Char_Class_Generator
   * @constructs 
