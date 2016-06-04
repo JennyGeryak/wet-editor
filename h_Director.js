@@ -223,7 +223,7 @@ var Director = (function()
 
   /**
     * @function isCharacter
-    * @desc chacking element is it character.
+    * @desc checking element is it character.
     * @param {object} element - html element for checking.
     * @return {bool}
     * @mamberof Director
@@ -253,7 +253,7 @@ var Director = (function()
     
   /**
     * @function isCursoreBeforeWord
-    * @desc chacking element is it before word.
+    * @desc checking element is it before word.
     * @param {object} element - html element for checking.
     * @return {bool}
     * @mamberof Director
@@ -316,8 +316,8 @@ var Director = (function()
   /**
     * @function getBeforeEntity
     * @desc getting entity that goes before element.
-    * @param {String} cursor_marker - marker of active element
-    * @return {object} - entity of previouse elemtnt of active element
+    * @param {String} cursor_marker - marker of active element.
+    * @return {object} - entity of previouse elemtnt of active element.
     * @mamberof Director
     * @instance
     */
@@ -486,7 +486,7 @@ var Director = (function()
   /**
     * @function deactivate 
     * @desc deactivate a cursor for an element
-    * @param {object} element - html element for wich will be generated class name
+    * @param {object} element - html element for wich will be generated class name.
     * @mamberof Director
     * @instance
     */
@@ -527,8 +527,8 @@ var Director = (function()
 
   /**
     * @function setClass 
-    * @desc give class according an element 
-    * @param {object} element - html element for wich will be generated class name 
+    * @desc give class according an element.
+    * @param {object} element - html element for wich will be generated class name. 
     * @mamberof Director
     * @instance
     */
@@ -560,7 +560,7 @@ var Director = (function()
     
   /**
     * @function deactivatePreviouse
-    * @desc separating word to a single characters in container
+    * @desc deactivating cursor if it on word space.
     * @mamberof Director
     * @instance
     */
@@ -593,8 +593,8 @@ var Director = (function()
 
   /**
     * @function delete 
-    * @desc delete some element
-    * @param {object} element - html element wich will be deleted
+    * @desc delete some element.
+    * @param {object} element - html element wich will be deleted.
     * @mamberof Director
     * @instance
     */
@@ -605,9 +605,9 @@ var Director = (function()
 
   /**
     * @function plus 
-    * @desc add some element after this, if this have a next element
-    * @param {object} element - element after wich will be added content
-    * @param {String} content - content wich will be added after element
+    * @desc add some element after this, if this have a next element.
+    * @param {object} element - element after wich will be added content.
+    * @param {String} content - content wich will be added after element.
     * @mamberof Director
     * @instance
     */
@@ -626,11 +626,11 @@ var Director = (function()
 ///////////////////
   /**
     * @function create 
-    * @desc create some element
-    * @param {object} type - wich element must be created
-    * @param {String} content - text wich will be in content when it will be created 
-    * @param {String} status - is element active or not 
-    * @return {object} - entity of created object
+    * @desc create some element.
+    * @param {object} type - wich element must be created.
+    * @param {String} content - text wich will be in content when it will be created. 
+    * @param {String} status - is element active or not.
+    * @return {object} - entity of created object.
     * @mamberof Director
     * @instance
     */
@@ -657,10 +657,10 @@ var Director = (function()
     
   /**
     * @function createLineStart 
-    * @desc create start element
-    * @param {String} content - text wich will be in content when it will be created 
-    * @param {String} status - is element active or not 
-    * @return {object} - entity of created object
+    * @desc create start element.
+    * @param {String} content - text wich will be in content when it will be created. 
+    * @param {String} status - is element active or not.
+    * @return {object} - entity of created object.
     * @mamberof Director
     * @instance
     */
@@ -684,10 +684,10 @@ var Director = (function()
 
   /**
     * @function createWord 
-    * @desc create word entity
-    * @param {String} content - text wich will be in content when it will be created 
-    * @param {String} status - is element active or not 
-    * @return {object} - entity of created object
+    * @desc create word entity.
+    * @param {String} content - text wich will be in content when it will be created.
+    * @param {String} status - is element active or not.
+    * @return {object} - entity of created object.
     * @mamberof Director
     * @instance
     */
@@ -739,10 +739,10 @@ var Director = (function()
     
   /**
     * @function createChar 
-    * @desc create word entity
-    * @param {String} content - text wich will be in content when it will be created 
-    * @param {String} status - is element active or not 
-    * @return {object} - entity of created object
+    * @desc create character entity.
+    * @param {String} content - text wich will be in content when it will be created.
+    * @param {String} status - is element active or not. 
+    * @return {object} - entity of created object.
     * @mamberof Director
     * @instance
     */
@@ -779,10 +779,10 @@ var Director = (function()
     
   /**
     * @function createSpace 
-    * @desc create space entity
-    * @param {String} content - text wich will be in content when it will be created 
-    * @param {String} status - is element active or not 
-    * @return {object} - entity of created object
+    * @desc create space entity.
+    * @param {String} content - text wich will be in content when it will be created. 
+    * @param {String} status - is element active or not. 
+    * @return {object} - entity of created object.
     * @mamberof Director
     * @instance
     */
