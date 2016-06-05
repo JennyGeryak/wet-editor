@@ -103,15 +103,14 @@ Module.getInstance().left_arrow = function(options)
   {
     // deactivate a line and going to the previous line
     if(director.isCursorFirstOnALine('active'))
-    {
+    {      
       var parent_s = active_element.parentNode;
       
       var previous_line = director.getBeforeEntity(parent_s);
       
       if(previous_line != false)
       {
-        //parent_s.parentNode.removeChild(parent_s);
-        director.deactivate('active');
+        director.deactivate(active_element);
         
         // !!!!!!!!!! change this.current_line
         // deactivate 'enter' pseudo sign
@@ -146,13 +145,6 @@ Module.getInstance().left_arrow = function(options)
             
             director.activate(last_char_in_word);
             
-//							active_element.childNodes[active_element.childNodes.length-1].className = class_generator
-//																																											.setPrefix('wet-')
-//																																											.mainClass(active_element.childNodes[active_element.childNodes.length-1].innerHTML)
-//																																											.space()
-//																																											.subClass(active_element.childNodes[active_element.childNodes.length-1].innerHTML)
-//																																											.generate()
-//																																											+ ' active';
           }
         }
       }

@@ -14,7 +14,7 @@
   * @param {String} active - cursors active class name.
   * @namespace Director
   * @constructs Director
-  * @example 
+  * @example director.getCursorEntity('active');
   */
 var Director = (function()
 {
@@ -64,15 +64,20 @@ var Director = (function()
       
       var previouse_char = active_char.previousSibling || false;
       
-      if(previouse_char)
+      console.log(previouse_char);
+      
+      if(!previouse_char)
       {
-        if(previouse_char.className.split(" ").indexOf(this.prefix+ "line-start") >= 0)
+        if(active_char.className.split(" ").indexOf(this.prefix+ "line-start") >= 0)
         {
+          console.log('cool');
           return true;
         }
         else
         {
+          console.log('notcool');
           return false;
+          
         }
       }
       else
@@ -499,12 +504,9 @@ var Director = (function()
         if(element.className.split(' ')[0] == element_class)
         {
           element.className = this.prefix + "line-start";
-          
-          console.log('sd');
         }
         else
         {
-          console.log('assd');
           element.className = this.class_generator
                                   .setPrefix(this.prefix)
                                   .mainClass(element.innerHTML)
@@ -627,7 +629,7 @@ var Director = (function()
   /**
     * @function create 
     * @desc create some element.
-    * @param {object} type - wich element must be created.
+    * @param {String} type - wich element must be created.
     * @param {String} content - text wich will be in content when it will be created. 
     * @param {String} status - is element active or not.
     * @return {object} - entity of created object.
@@ -651,6 +653,10 @@ var Director = (function()
       else if(type == 'space')
       {
         return this.createSpace(status);
+      }
+      else if(type == 'line')
+      {
+        return this.createLine(status);
       }
       
     }
@@ -780,7 +786,6 @@ var Director = (function()
   /**
     * @function createSpace 
     * @desc create space entity.
-    * @param {String} content - text wich will be in content when it will be created. 
     * @param {String} status - is element active or not. 
     * @return {object} - entity of created object.
     * @mamberof Director
@@ -815,6 +820,35 @@ var Director = (function()
       space.innerHTML = " ";
         
       return space;    
+    }
+    
+  /**
+    * @function createLine
+    * @desc create line entity.
+    * @param {String} content - text wich will be in content when it will be created. 
+    * @param {number} index - lines index number. 
+    * @return {object} - entity of created object.
+    * @mamberof Director
+    * @instance
+    */
+    this.createLine = function(content, index)
+    {
+      var line = document.createElement('div');
+      
+      line.className = this.prefix + 'line';
+      
+      line.setAttribute('line_number', index);
+      
+      if(typeof(content) == 'string')
+      {
+        line.innerHTML = content;
+      }
+      else
+      {
+        line.appendChild(content);
+      }
+        
+      return line;    
     }
     
 ///////////////////

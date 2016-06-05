@@ -88,7 +88,7 @@
           this.line[i] = new Array();
           this.current_line[i] = 1;
           this.line[i][this.current_line[i]] = document.createElement('div');
-          this.line[i][this.current_line[i]].className = 'line';
+          this.line[i][this.current_line[i]].className = 'wet-'+'line';
           this.line[i][this.current_line[i]].setAttribute('line_number', this.current_line[i]);
           this.work_space[i].appendChild(this.line[i][this.current_line[i]]);
           var line_start = document.createElement('span');

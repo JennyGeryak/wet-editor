@@ -19,7 +19,7 @@
     
     var divider = new Divider();
     
-    var director = new Director(concrete_entity);
+    var director = new Director(concrete_entity, "wet-", "active");
     
     var word = concrete_entity.getElementsByClassName('parent')[0];
     
@@ -43,18 +43,22 @@
       this.deletePrevioseParent(concrete_entity);
 
       // index of created line
-
       options.object.current_line[options.index]++;
+      var line_index = options.object.current_line[options.index];
+      
       // adding new line
-
-      options.object.line[options.index][options.object.current_line[options.index]] = document.createElement('div');
-      options.object.line[options.index][options.object.current_line[options.index]].className = 'line';
-      options.object.line[options.index][options.object.current_line[options.index]].setAttribute('line_number', options.object.current_line[options.index]);
-      var line_start = document.createElement('span');
-      line_start.className = 'wet-line-start active';
-      line_start.innerHTML = '';
-      options.object.line[options.index][options.object.current_line[options.index]].appendChild(line_start);
-      options.object.work_space[options.index].appendChild(options.object.line[options.index][options.object.current_line[options.index]]);
+      var line_start = director.create('line-start', '', 'active');
+      console.log(line_start);
+      var line = director.create('line', line_start, line_index)
+      options
+      .object
+      .line[options.index][line_index] = line;
+      options
+      .object
+      .work_space[options.index]
+      .appendChild(options
+                   .object
+                   .line[options.index][line_index]);
     }
   }
   
