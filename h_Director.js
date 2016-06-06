@@ -468,6 +468,10 @@ var Director = (function()
         {
           element.className = this.prefix + 'line-start ' + this.active;
         }
+        else if(element.className == this.prefix + 'word')
+        {
+          element.className = this.prefix + 'word ' + 'parent';
+        }
         else
         {
           element.className = this.class_generator
@@ -656,7 +660,7 @@ var Director = (function()
       }
       else if(type == 'line')
       {
-        return this.createLine(status);
+        return this.createLine(content, status);
       }
       
     }

@@ -65,8 +65,10 @@ Module.getInstance().left_arrow = function(options)
       
       // making previous element to be an active
       director.activate(previous_element);
+      
     }
   }
+  
   // deactivate word when it not on start of line
   else if((director.getParentWord() != false)
           &&(director.getParentWord().previousSibling.className != 'wet-line-start'))
@@ -117,6 +119,7 @@ Module.getInstance().left_arrow = function(options)
         options.object.current_line[options.index]--;
         word = previous_line.childNodes[previous_line.childNodes.length-1];
         
+        
         // if last element in previouse line not a word
         if(director.isSignifier(word) == false)
         {
@@ -125,7 +128,23 @@ Module.getInstance().left_arrow = function(options)
         }
         // make active last char of word
         var last_word_in_line = director.getLastElement(previous_line);
-        director.activate(last_word_in_line);
+        
+        // if last element in a line is a word, then make it perent with active last 
+        // child:
+        if(director.isWord(last_word_in_line))
+        {
+          director.makeItParentWord(last_word_in_line);
+          
+          var last_char_in_word = director.getLastElement(last_word_in_line);
+            
+          director.activate(last_char_in_word);
+        }
+        // if not, than just activate it
+        else
+        {
+          director.activate(last_word_in_line);
+        }
+        
         
         // getting active element that must be deactivated
         var active_element = director.getCursorEntity('active');
@@ -142,6 +161,7 @@ Module.getInstance().left_arrow = function(options)
             director.makeItParentWord(active_element)
             
             var last_char_in_word = director.getLastElement(active_element);
+            console.log(last_char_in_word);
             
             director.activate(last_char_in_word);
             
