@@ -75,7 +75,7 @@
           this.container[i].appendChild(this.symbol_buffer[i]);
 
           // working space 
-          this.work_space[i] = document.createElement('div');
+          this.work_space[i] = document.createElement('ol');
           this.work_space[i].className = 'result';
           this.work_space[i].style.border = '1px solid #000';
           this.work_space[i].style.height = '500px';
@@ -87,8 +87,8 @@
           // initializing first line
           this.line[i] = new Array();
           this.current_line[i] = 1;
-          this.line[i][this.current_line[i]] = document.createElement('div');
-          this.line[i][this.current_line[i]].className = 'line';
+          this.line[i][this.current_line[i]] = document.createElement('li');
+          this.line[i][this.current_line[i]].className = 'wet-'+'line';
           this.line[i][this.current_line[i]].setAttribute('line_number', this.current_line[i]);
           this.work_space[i].appendChild(this.line[i][this.current_line[i]]);
           var line_start = document.createElement('span');
@@ -1077,15 +1077,20 @@ var Director = (function()
       
       var previouse_char = active_char.previousSibling || false;
       
-      if(previouse_char)
+      console.log(previouse_char);
+      
+      if(!previouse_char)
       {
-        if(previouse_char.className.split(" ").indexOf(this.prefix+ "line-start") >= 0)
+        if(active_char.className.split(" ").indexOf(this.prefix+ "line-start") >= 0)
         {
+          console.log('cool');
           return true;
         }
         else
         {
+          console.log('notcool');
           return false;
+          
         }
       }
       else
@@ -1421,7 +1426,28 @@ var Director = (function()
     }
     // alternative: 
     // var i = Array.prototype.indexOf.call(e.childNodes, someChildEl);  > ie9
-  
+
+  /**
+    * @function getAllAfter 
+    * @desc return array of elements, that lie after current element
+    * @param {object} element - after that element we starting to searching another
+    * @return {Array} - elements that will be cutted from a linne
+    * @mamberof Director
+    * @instance
+    */
+    this.getAllAfter = function(element)
+    { 
+      var elements = [];
+      
+      while(element.nextSibling)
+      {
+        element = element.nextSibling
+        
+        elements.push(element.outerHTML);
+      }
+      
+      return elements;
+    }
 //////////////////
 // Getting section 
 //////////////////
@@ -1476,6 +1502,10 @@ var Director = (function()
         {
           element.className = this.prefix + 'line-start ' + this.active;
         }
+        else if(element.className == this.prefix + 'word')
+        {
+          element.className = this.prefix + 'word ' + 'parent';
+        }
         else
         {
           element.className = this.class_generator
@@ -1512,12 +1542,9 @@ var Director = (function()
         if(element.className.split(' ')[0] == element_class)
         {
           element.className = this.prefix + "line-start";
-          
-          console.log('sd');
         }
         else
         {
-          console.log('assd');
           element.className = this.class_generator
                                   .setPrefix(this.prefix)
                                   .mainClass(element.innerHTML)
@@ -1630,6 +1657,61 @@ var Director = (function()
       element.parentNode.insertBefore(content, element.nextSibling);
     }
     
+  /**
+    * @function deleteAllAfter 
+    * @desc delete elements, that lie after current element
+    * @param {object} element - after that element we starting to deleting
+    * @mamberof Director
+    * @instance
+    */
+    this.deleteAllAfter = function(element)
+    { 
+      var elements =[];
+      
+      while(element.nextSibling)
+      {
+        element = element.nextSibling;
+        
+        elements.push(element);
+        
+      }
+      
+      for(var i = 0; i<elements.length; i++)
+      {
+        this.delete(elements[i]);
+      }
+    }
+    
+  /**
+    * @function cutAllAfter 
+    * @desc cut elements, that lie after current element
+    * @param {object} element - after that element we starting to cuted
+    * @mamberof Director
+    * @instance
+    */
+    this.cutAllAfter = function(element)
+    { 
+      var elements = [];
+      
+      while(element.nextSibling)
+      {
+        element = element.nextSibling;
+        
+        elements.push(element);
+        
+        this.delete(element);
+      }
+      
+      for(var i = 0; i<elements.length; i++)
+      {
+        this.delete(elements[i]);
+        
+        elements[i] = elements[i].outerHTML;
+      }
+      
+      return elements;
+    }
+    
 /////////////////
 // Delete section 
 /////////////////
@@ -1640,7 +1722,7 @@ var Director = (function()
   /**
     * @function create 
     * @desc create some element.
-    * @param {object} type - wich element must be created.
+    * @param {String} type - wich element must be created.
     * @param {String} content - text wich will be in content when it will be created. 
     * @param {String} status - is element active or not.
     * @return {object} - entity of created object.
@@ -1664,6 +1746,10 @@ var Director = (function()
       else if(type == 'space')
       {
         return this.createSpace(status);
+      }
+      else if(type == 'line')
+      {
+        return this.createLine(content, status);
       }
       
     }
@@ -1712,16 +1798,19 @@ var Director = (function()
       if(status == 'active')
       {
         word.className = 'wet-word parent';
+        
+        // childs content
+        var word_content = document.createTextNode(content);
+        // childs container
+        var character_holder = document.createElement('span');
+        // generating of character class 
       }
       else
       {
         word.className = 'wet-word';
+        
+        var character_holder = content;
       }
-      // childs content
-      var word_content = document.createTextNode(content);
-      // childs container
-      var character_holder = document.createElement('span');
-      // generating of character class 
       if(status == 'active')
       {
         character_holder.className = this.class_generator
@@ -1731,21 +1820,19 @@ var Director = (function()
                                     .subClass(content)
                                     .generate() 
                                     + 'active'; 
+        // adding new character in container
+        character_holder.appendChild(word_content);
+        // adding character object to the word 
+        word.appendChild(character_holder);
       }
       else
       {
-        character_holder.className = this.class_generator
-                                    .setPrefix('wet-')
-                                    .mainClass(content)
-                                    .space()
-                                    .subClass(content)
-                                    .generate(); 
+
+        // adding character object to the word 
+        word.innerHTML = character_holder;
       }
 
-      // adding new character in container
-      character_holder.appendChild(word_content);
-      // adding character object to the word 
-      word.appendChild(character_holder);
+
         
       return word;    
     }
@@ -1793,7 +1880,6 @@ var Director = (function()
   /**
     * @function createSpace 
     * @desc create space entity.
-    * @param {String} content - text wich will be in content when it will be created. 
     * @param {String} status - is element active or not. 
     * @return {object} - entity of created object.
     * @mamberof Director
@@ -1828,6 +1914,35 @@ var Director = (function()
       space.innerHTML = " ";
         
       return space;    
+    }
+    
+  /**
+    * @function createLine
+    * @desc create line entity.
+    * @param {String} content - text wich will be in content when it will be created. 
+    * @param {number} index - lines index number. 
+    * @return {object} - entity of created object.
+    * @mamberof Director
+    * @instance
+    */
+    this.createLine = function(content, index)
+    {
+      var line = document.createElement('li');
+      
+      line.className = this.prefix + 'line';
+      
+      line.setAttribute('line_number', index);
+      
+      if(typeof(content) == 'string')
+      {
+        line.innerHTML = content;
+      }
+      else
+      {
+        line.appendChild(content);
+      }
+        
+      return line;    
     }
     
 ///////////////////
@@ -2191,8 +2306,10 @@ Module.getInstance().left_arrow = function(options)
       
       // making previous element to be an active
       director.activate(previous_element);
+      
     }
   }
+  
   // deactivate word when it not on start of line
   else if((director.getParentWord() != false)
           &&(director.getParentWord().previousSibling.className != 'wet-line-start'))
@@ -2229,20 +2346,20 @@ Module.getInstance().left_arrow = function(options)
   {
     // deactivate a line and going to the previous line
     if(director.isCursorFirstOnALine('active'))
-    {
+    {      
       var parent_s = active_element.parentNode;
       
       var previous_line = director.getBeforeEntity(parent_s);
       
       if(previous_line != false)
       {
-        //parent_s.parentNode.removeChild(parent_s);
-        director.deactivate('active');
+        director.deactivate(active_element);
         
         // !!!!!!!!!! change this.current_line
         // deactivate 'enter' pseudo sign
         options.object.current_line[options.index]--;
         word = previous_line.childNodes[previous_line.childNodes.length-1];
+        
         
         // if last element in previouse line not a word
         if(director.isSignifier(word) == false)
@@ -2252,7 +2369,23 @@ Module.getInstance().left_arrow = function(options)
         }
         // make active last char of word
         var last_word_in_line = director.getLastElement(previous_line);
-        director.activate(last_word_in_line);
+        
+        // if last element in a line is a word, then make it perent with active last 
+        // child:
+        if(director.isWord(last_word_in_line))
+        {
+          director.makeItParentWord(last_word_in_line);
+          
+          var last_char_in_word = director.getLastElement(last_word_in_line);
+            
+          director.activate(last_char_in_word);
+        }
+        // if not, than just activate it
+        else
+        {
+          director.activate(last_word_in_line);
+        }
+        
         
         // getting active element that must be deactivated
         var active_element = director.getCursorEntity('active');
@@ -2269,16 +2402,10 @@ Module.getInstance().left_arrow = function(options)
             director.makeItParentWord(active_element)
             
             var last_char_in_word = director.getLastElement(active_element);
+            console.log(last_char_in_word);
             
             director.activate(last_char_in_word);
             
-//							active_element.childNodes[active_element.childNodes.length-1].className = class_generator
-//																																											.setPrefix('wet-')
-//																																											.mainClass(active_element.childNodes[active_element.childNodes.length-1].innerHTML)
-//																																											.space()
-//																																											.subClass(active_element.childNodes[active_element.childNodes.length-1].innerHTML)
-//																																											.generate()
-//																																											+ ' active';
           }
         }
       }
@@ -2467,7 +2594,7 @@ module.addFunction('37', 'left_arrow');
     
     var divider = new Divider();
     
-    var director = new Director(concrete_entity);
+    var director = new Director(concrete_entity, "wet-", "active");
     
     var word = concrete_entity.getElementsByClassName('parent')[0];
     
@@ -2476,7 +2603,101 @@ module.addFunction('37', 'left_arrow');
     // if we are in parent word:
     if(director.isThereAnyActiveWords('parent'))
     {
+      // geting a cursor position 
+      var cursor_index = 0;
+  
+      var chars = active_char.parentElement.childNodes.length || false;
       
+      // if we in the word:
+      if(chars != false)
+      {
+        cursor_index = director.getCursorPosition(active_char);
+      }
+      else
+      {
+        cursor_index = false;
+      }
+      
+      // if cursor it is a last char:
+      if(cursor_index == (chars-1))
+      {
+        // concat word
+        word.innerHTML = divider.concat(word);
+        
+        // delete previouse cursor
+        this.deletePrevioseCursor(concrete_entity);
+        
+        // deactivate previouse word
+        this.deletePrevioseParent(concrete_entity);
+        
+        // index of created line
+        options.object.current_line[options.index]++;
+        var line_index = options.object.current_line[options.index];
+
+        // adding new line
+        var line_start = director.create('line-start', '', 'active');
+        var line = director.create('line', line_start, line_index)
+        options
+        .object
+        .line[options.index][line_index] = line;
+        options
+        .object
+        .work_space[options.index]
+        .appendChild(options
+                     .object
+                     .line[options.index][line_index]);
+      }
+      // if it not a last char:
+      else
+      {
+        // take another half of word in variable word_half
+        var word_halfs = divider.bisect(word);
+        var first_half = word_halfs[0];
+        var second_half = word_halfs[1];
+                
+        // delete this hulf from word
+        word.innerHTML = first_half;
+        
+        // copy all information after word
+        var after_word = director.getAllAfter(word);
+        after_word = after_word.join('')
+        
+        // delete it from this line 
+        director.deleteAllAfter(word);
+        
+        // concate all the gathered info in to one string 
+        second_half = director.create('word', second_half)
+        second_half = divider.concat(second_half);
+        var new_line_content = second_half + after_word;
+        
+        // create new line
+        options.object.current_line[options.index]++;
+        var line_index = options.object.current_line[options.index];
+        
+        var line_content = director.create('line-start', '', 'active');
+            line_content = line_content.outerHTML + new_line_content;
+        
+        // append gatherd string to new line
+        var line = director.create('line', line_content, line_index)
+        options
+        .object
+        .line[options.index][line_index] = line;
+        options
+        .object
+        .work_space[options.index]
+        .appendChild(options
+                     .object
+                     .line[options.index][line_index]);
+        
+        // delete previouse cursor
+        this.deletePrevioseCursor(concrete_entity);
+        
+        word.innerHTML = divider.concat(word);
+        
+        // deactivate previouse word
+        this.deletePrevioseParent(concrete_entity);
+        
+      }
     }
     // if we are not in parent word:
     else
@@ -2491,18 +2712,21 @@ module.addFunction('37', 'left_arrow');
       this.deletePrevioseParent(concrete_entity);
 
       // index of created line
-
       options.object.current_line[options.index]++;
+      var line_index = options.object.current_line[options.index];
+      
       // adding new line
-
-      options.object.line[options.index][options.object.current_line[options.index]] = document.createElement('div');
-      options.object.line[options.index][options.object.current_line[options.index]].className = 'line';
-      options.object.line[options.index][options.object.current_line[options.index]].setAttribute('line_number', options.object.current_line[options.index]);
-      var line_start = document.createElement('span');
-      line_start.className = 'wet-line-start active';
-      line_start.innerHTML = '';
-      options.object.line[options.index][options.object.current_line[options.index]].appendChild(line_start);
-      options.object.work_space[options.index].appendChild(options.object.line[options.index][options.object.current_line[options.index]]);
+      var line_start = director.create('line-start', '', 'active');
+      var line = director.create('line', line_start, line_index)
+      options
+      .object
+      .line[options.index][line_index] = line;
+      options
+      .object
+      .work_space[options.index]
+      .appendChild(options
+                   .object
+                   .line[options.index][line_index]);
     }
   }
   

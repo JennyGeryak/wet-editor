@@ -31,18 +31,18 @@
 </dd>
 </dl>
 
-<a name="divide"></a>
+<a name="bisect"></a>
 
-## .divide(word) ⇒ <code>String</code>
-separating word to a single characters in container.
+## .bisect(word) ⇒ <code>Array</code>
+divide a massive of characters in the word to two parts.
 
 **Kind**: instance function  
-**Returns**: <code>String</code> - - string with html code that containe separated characters.  
+**Returns**: <code>Array</code> - - string with word.  
 **Mamberof**: Divider  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| word | <code>Object</code> | container that contain string with word that must be        exploded. |
+| word | <code>Object</code> | container that contain separated characters with word       that must be exploded. |
 
 <a name="Editor"></a>
 
@@ -415,6 +415,19 @@ this class is need to separating character by character or to
 **Author:** Ivan Kaduk  
 **License**: cc-by-nc-sa 4.0  
 **Copyright**: Ivan Kaduk 2016.  
+<a name="divide"></a>
+
+## .divide(word) ⇒ <code>String</code>
+separating word to a single characters in container.
+
+**Kind**: instance function  
+**Returns**: <code>String</code> - - string with html code that containe separated characters.  
+**Mamberof**: Divider  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| word | <code>Object</code> | container that contain string with word that must be        exploded. |
+
 <a name="concat"></a>
 
 ## .concat(word) ⇒ <code>String</code>
@@ -427,19 +440,6 @@ joining all separate characters to a one string.
 | Param | Type | Description |
 | --- | --- | --- |
 | word | <code>Object</code> | container that contain separated characters with word        that must be exploded. |
-
-<a name="bisect"></a>
-
-## .bisect(word) ⇒ <code>Array</code>
-divide a massive of characters in the word to two parts.
-
-**Kind**: instance function  
-**Returns**: <code>Array</code> - - string with word.  
-**Mamberof**: Divider  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| word | <code>Object</code> | container that contain separated characters with word       that must be exploded. |
 
 <a name="Director"></a>
 
@@ -630,6 +630,19 @@ returning position of cursor inside of word or etc.
 | --- | --- | --- |
 | cursor | <code>object</code> | cursor entity. |
 
+<a name="getAllAfter"></a>
+
+## .getAllAfter(element) ⇒ <code>Array</code>
+return array of elements, that lie after current element
+
+**Kind**: instance function  
+**Returns**: <code>Array</code> - - elements that will be cutted from a linne  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| element | <code>object</code> | after that element we starting to searching another |
+
 <a name="makeItParentWord"></a>
 
 ## .makeItParentWord(before_entity)
@@ -722,6 +735,30 @@ add some element after this, if this have a next element.
 | element | <code>object</code> | element after wich will be added content. |
 | content | <code>String</code> | content wich will be added after element. |
 
+<a name="deleteAllAfter"></a>
+
+## .deleteAllAfter(element)
+delete elements, that lie after current element
+
+**Kind**: instance function  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| element | <code>object</code> | after that element we starting to deleting |
+
+<a name="cutAllAfter"></a>
+
+## .cutAllAfter(element)
+cut elements, that lie after current element
+
+**Kind**: instance function  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| element | <code>object</code> | after that element we starting to cuted |
+
 <a name="create"></a>
 
 ## .create(type, content, status) ⇒ <code>object</code>
@@ -733,7 +770,7 @@ create some element.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| type | <code>object</code> | wich element must be created. |
+| type | <code>String</code> | wich element must be created. |
 | content | <code>String</code> | text wich will be in content when it will be created. |
 | status | <code>String</code> | is element active or not. |
 
@@ -781,7 +818,7 @@ create character entity.
 
 <a name="createSpace"></a>
 
-## .createSpace(content, status) ⇒ <code>object</code>
+## .createSpace(status) ⇒ <code>object</code>
 create space entity.
 
 **Kind**: instance function  
@@ -790,6 +827,19 @@ create space entity.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| content | <code>String</code> | text wich will be in content when it will be created. |
 | status | <code>String</code> | is element active or not. |
+
+<a name="createLine"></a>
+
+## .createLine(content, index) ⇒ <code>object</code>
+create line entity.
+
+**Kind**: instance function  
+**Returns**: <code>object</code> - - entity of created object.  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| content | <code>String</code> | text wich will be in content when it will be created. |
+| index | <code>number</code> | lines index number. |
 
