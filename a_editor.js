@@ -75,7 +75,7 @@
           this.container[i].appendChild(this.symbol_buffer[i]);
 
           // working space 
-          this.work_space[i] = document.createElement('div');
+          this.work_space[i] = document.createElement('ol');
           this.work_space[i].className = 'result';
           this.work_space[i].style.border = '1px solid #000';
           this.work_space[i].style.height = '500px';
@@ -87,7 +87,7 @@
           // initializing first line
           this.line[i] = new Array();
           this.current_line[i] = 1;
-          this.line[i][this.current_line[i]] = document.createElement('div');
+          this.line[i][this.current_line[i]] = document.createElement('li');
           this.line[i][this.current_line[i]].className = 'wet-'+'line';
           this.line[i][this.current_line[i]].setAttribute('line_number', this.current_line[i]);
           this.work_space[i].appendChild(this.line[i][this.current_line[i]]);

@@ -914,7 +914,7 @@ var Director = (function()
     */
     this.createLine = function(content, index)
     {
-      var line = document.createElement('div');
+      var line = document.createElement('li');
       
       line.className = this.prefix + 'line';
       
