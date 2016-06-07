@@ -413,7 +413,28 @@ var Director = (function()
     }
     // alternative: 
     // var i = Array.prototype.indexOf.call(e.childNodes, someChildEl);  > ie9
-  
+
+  /**
+    * @function getAllAfter 
+    * @desc return array of elements, that lie after current element
+    * @param {object} element - after that element we starting to searching another
+    * @return {Array} - elements that will be cutted from a linne
+    * @mamberof Director
+    * @instance
+    */
+    this.getAllAfter = function(element)
+    { 
+      var elements = [];
+      
+      while(element.nextSibling)
+      {
+        element = element.nextSibling
+        
+        elements.push(element.outerHTML);
+      }
+      
+      return elements;
+    }
 //////////////////
 // Getting section 
 //////////////////
@@ -623,6 +644,61 @@ var Director = (function()
       element.parentNode.insertBefore(content, element.nextSibling);
     }
     
+  /**
+    * @function deleteAllAfter 
+    * @desc delete elements, that lie after current element
+    * @param {object} element - after that element we starting to deleting
+    * @mamberof Director
+    * @instance
+    */
+    this.deleteAllAfter = function(element)
+    { 
+      var elements =[];
+      
+      while(element.nextSibling)
+      {
+        element = element.nextSibling;
+        
+        elements.push(element);
+        
+      }
+      
+      for(var i = 0; i<elements.length; i++)
+      {
+        this.delete(elements[i]);
+      }
+    }
+    
+  /**
+    * @function cutAllAfter 
+    * @desc cut elements, that lie after current element
+    * @param {object} element - after that element we starting to cuted
+    * @mamberof Director
+    * @instance
+    */
+    this.cutAllAfter = function(element)
+    { 
+      var elements = [];
+      
+      while(element.nextSibling)
+      {
+        element = element.nextSibling;
+        
+        elements.push(element);
+        
+        this.delete(element);
+      }
+      
+      for(var i = 0; i<elements.length; i++)
+      {
+        this.delete(elements[i]);
+        
+        elements[i] = elements[i].outerHTML;
+      }
+      
+      return elements;
+    }
+    
 /////////////////
 // Delete section 
 /////////////////
@@ -709,16 +785,19 @@ var Director = (function()
       if(status == 'active')
       {
         word.className = 'wet-word parent';
+        
+        // childs content
+        var word_content = document.createTextNode(content);
+        // childs container
+        var character_holder = document.createElement('span');
+        // generating of character class 
       }
       else
       {
         word.className = 'wet-word';
+        
+        var character_holder = content;
       }
-      // childs content
-      var word_content = document.createTextNode(content);
-      // childs container
-      var character_holder = document.createElement('span');
-      // generating of character class 
       if(status == 'active')
       {
         character_holder.className = this.class_generator
@@ -728,21 +807,19 @@ var Director = (function()
                                     .subClass(content)
                                     .generate() 
                                     + 'active'; 
+        // adding new character in container
+        character_holder.appendChild(word_content);
+        // adding character object to the word 
+        word.appendChild(character_holder);
       }
       else
       {
-        character_holder.className = this.class_generator
-                                    .setPrefix('wet-')
-                                    .mainClass(content)
-                                    .space()
-                                    .subClass(content)
-                                    .generate(); 
+
+        // adding character object to the word 
+        word.innerHTML = character_holder;
       }
 
-      // adding new character in container
-      character_holder.appendChild(word_content);
-      // adding character object to the word 
-      word.appendChild(character_holder);
+
         
       return word;    
     }
