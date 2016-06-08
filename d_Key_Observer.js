@@ -42,12 +42,17 @@
       event.preventDefault(); event.stopPropagation();
     }
     
-    // keq pressed function goes here
-    hotkey.setOptions({
-      'object': data,
-      'index': index
-    });
-    hotkey.runFunction('key');
+    // if pressed enter pressed (undefined, 13)
+    if((scope.getKeyMap()[0] != '13')&&(scope.getKeyMap()[0] != undefined))
+    {
+      console.log(scope.getKeyMap()[0]);
+      // keq pressed function goes here
+      hotkey.setOptions({
+        'object': data,
+        'index': index
+      });
+      hotkey.runFunction('key');
+    }
     
     // if key is pressed or relissed add event to singleton
     if(condition == 'pressed')

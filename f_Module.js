@@ -144,6 +144,8 @@
         {
           if (key_assotiation[combination] != undefined )
           {
+            console.log(key_assotiation)
+            console.log(combination)
             this[key_assotiation[combination]['function_name']](options) || '';
           };
 

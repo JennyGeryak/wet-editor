@@ -425,15 +425,20 @@ var Director = (function()
     this.getAllAfter = function(element)
     { 
       var elements = [];
-      
-      while(element.nextSibling)
-      {
-        element = element.nextSibling
-        
-        elements.push(element.outerHTML);
+      if(element.nextSibling){
+        while(element.nextSibling)
+        {
+          element = element.nextSibling
+
+          elements.push(element.outerHTML);
+        }
+
+        return elements;
       }
-      
-      return elements;
+      else
+      {
+        return [];
+      }
     }
 //////////////////
 // Getting section 
@@ -577,6 +582,20 @@ var Director = (function()
       }
     }
     
+  /**
+    * @function plus 
+    * @desc add some element after this, if this have a next element.
+    * @param {object} element - element after wich will be added content.
+    * @param {String} content - content wich will be added after element.
+    * @mamberof Director
+    * @instance
+    */
+    this.plus = function(element, content)
+    {
+      // cool string for adding something after active elements
+      element.parentNode.insertBefore(content, element.nextSibling);
+    }
+    
 //////////////////
 // Make section 
 //////////////////
@@ -630,19 +649,6 @@ var Director = (function()
       element.parentNode.removeChild(element);
     }
 
-  /**
-    * @function plus 
-    * @desc add some element after this, if this have a next element.
-    * @param {object} element - element after wich will be added content.
-    * @param {String} content - content wich will be added after element.
-    * @mamberof Director
-    * @instance
-    */
-    this.plus = function(element, content)
-    {
-      // cool string for adding something after active elements
-      element.parentNode.insertBefore(content, element.nextSibling);
-    }
     
   /**
     * @function deleteAllAfter 

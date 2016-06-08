@@ -23,7 +23,7 @@
     
     var word = concrete_entity.getElementsByClassName('parent')[0];
     
-    var active_char = concrete_entity.getElementsByClassName('active')[0];
+    var active_char = director.getCursorEntity('active');
         
     // if we are in parent word:
     if(director.isThereAnyActiveWords('parent'))
@@ -55,6 +55,12 @@
         // deactivate previouse word
         this.deletePrevioseParent(concrete_entity);
         
+        // previouse line
+        var prev_line_index = options.object.current_line[options.index];
+        var prev_line = options
+                        .object
+                        .line[options.index][prev_line_index];
+        
         // index of created line
         options.object.current_line[options.index]++;
         var line_index = options.object.current_line[options.index];
@@ -65,12 +71,8 @@
         options
         .object
         .line[options.index][line_index] = line;
-        options
-        .object
-        .work_space[options.index]
-        .appendChild(options
-                     .object
-                     .line[options.index][line_index]);
+        
+        director.plus(prev_line, line);
       }
       // if it not a last char:
       else
@@ -85,15 +87,21 @@
         
         // copy all information after word
         var after_word = director.getAllAfter(word);
-        after_word = after_word.join('')
+        after_word = after_word.join('');
         
         // delete it from this line 
         director.deleteAllAfter(word);
         
         // concate all the gathered info in to one string 
-        second_half = director.create('word', second_half)
-        second_half = divider.concat(second_half);
-        var new_line_content = second_half + after_word;
+        second_half = director.create('word', second_half);
+        second_half.innerHTML = divider.concat(second_half);
+        var new_line_content = second_half.outerHTML + after_word;
+        
+        // previouse line
+        var prev_line_index = options.object.current_line[options.index];
+        var prev_line = options
+                        .object
+                        .line[options.index][prev_line_index];
         
         // create new line
         options.object.current_line[options.index]++;
@@ -107,12 +115,12 @@
         options
         .object
         .line[options.index][line_index] = line;
-        options
-        .object
-        .work_space[options.index]
-        .appendChild(options
-                     .object
-                     .line[options.index][line_index]);
+        
+//        options
+//        .object
+//        .work_space[options.index]
+//        .appendChild(line);
+        director.plus(prev_line, line);
         
         // delete previouse cursor
         this.deletePrevioseCursor(concrete_entity);
@@ -123,6 +131,40 @@
         this.deletePrevioseParent(concrete_entity);
         
       }
+    }
+    // if we on a start of line:
+    else if(director.isCursorFirstOnALine('active'))
+    {
+        
+        // copy all information after word
+      var active_char = director.getCursorEntity('active');
+      console.log(active_char)
+      var after_cursor = director.getAllAfter(active_char);
+      after_cursor = after_cursor.join('');
+      
+      // delete previouse cursor
+      this.deletePrevioseCursor(concrete_entity);
+      
+      // previouse line
+      var prev_line_index = options.object.current_line[options.index];
+      var prev_line = options
+      .object
+      .line[options.index][prev_line_index];
+      // index of created line
+      options.object.current_line[options.index]++;
+      var line_index = options.object.current_line[options.index];
+
+      // adding new line
+      var line_content = director.create('line-start', '', 'active');
+      var full_line_content = line_content.outerHTML + after_cursor;
+      var line = director.create('line', full_line_content, line_index)
+      
+      options.object.line[options.index][line_index] = line;
+
+      director.plus(prev_line, line);
+      prev_line.innerHTML = line_content.outerHTML;
+      
+      this.deletePrevioseCursor(concrete_entity);
     }
     // if we are not in parent word:
     else
@@ -135,6 +177,10 @@
       }
 
       this.deletePrevioseParent(concrete_entity);
+      
+      // previouse line
+      var prev_line_index = options.object.current_line[options.index];
+      var prev_line = options.object.line[options.index][prev_line_index];
 
       // index of created line
       options.object.current_line[options.index]++;
@@ -142,16 +188,14 @@
       
       // adding new line
       var line_start = director.create('line-start', '', 'active');
-      var line = director.create('line', line_start, line_index)
+      var line = director.create('line', line_start, line_index);
+      
       options
       .object
       .line[options.index][line_index] = line;
-      options
-      .object
-      .work_space[options.index]
-      .appendChild(options
-                   .object
-                   .line[options.index][line_index]);
+      
+      director.plus(prev_line, line);
+      
     }
   }
   
