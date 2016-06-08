@@ -43,9 +43,9 @@
     }
     
     // if pressed enter pressed (undefined, 13)
-    if((scope.getKeyMap()[0] != '13')&&(scope.getKeyMap()[0] != undefined))
+    if((scope.getKeyMap()[0] != '13')&(scope.getKeyMap()[0] != undefined))
     {
-      console.log(scope.getKeyMap()[0]);
+      //console.log(scope.getKeyMap()[0]);
       // keq pressed function goes here
       hotkey.setOptions({
         'object': data,
@@ -55,8 +55,9 @@
     }
     
     // if key is pressed or relissed add event to singleton
-    if(condition == 'pressed')
+    if((condition == 'pressed'))
     {
+      //console.log(scope.getKeyMap()[0]);
       hotkey.setOptions({
         'object': data,
         'index': index
@@ -66,6 +67,7 @@
     }
     else if(condition == 'relised')
     {
+      //console.log(scope.getKeyMap()[0]);
       hotkey.runFunction(scope.getStringKeyMap());
       scope.keyUp(event);
     }
