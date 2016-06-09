@@ -136,7 +136,7 @@
     else if(director.isCursorFirstOnALine('active'))
     {
         
-        // copy all information after word
+      // copy all information after word
       var active_char = director.getCursorEntity('active');
       console.log(active_char)
       var after_cursor = director.getAllAfter(active_char);
@@ -169,8 +169,10 @@
     // if we are not in parent word:
     else
     {
-      this.deletePrevioseCursor(concrete_entity);
+      var next_element = active_char.nextSibling;
       
+          
+            
       if(word) 
       {
         word.innerHTML = divider.concat(word);
@@ -186,9 +188,22 @@
       options.object.current_line[options.index]++;
       var line_index = options.object.current_line[options.index];
       
-      // adding new line
-      var line_start = director.create('line-start', '', 'active');
-      var line = director.create('line', line_start, line_index);
+      // we not in the word:
+      if(next_element == null)
+      {
+        // adding new line
+        var line_content = director.create('line-start', '', 'active');
+        var line = director.create('line', line_content, line_index);
+      }
+      else
+      {
+        // adding new line
+        var line_content = director.create('line-start', '', 'active');
+        var line_main_content = divider.bisect(prev_line)[1];
+        prev_line.innerHTML = divider.bisect(prev_line)[0];
+            line_content = line_content.outerHTML + line_main_content;
+        var line = director.create('line', line_content, line_index);
+      }
       
       options
       .object
@@ -196,6 +211,7 @@
       
       director.plus(prev_line, line);
       
+      this.deletePrevioseCursor(concrete_entity);
     }
   }
   
