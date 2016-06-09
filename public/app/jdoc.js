@@ -470,21 +470,32 @@
     
     // if controlling key pressed 
     // need to disabled browser hotkeys
-    if(scope.getKeyMap()[0] < '46')//16
+    if((scope.getKeyMap()[0] < '46')&(scope.getKeyMap()[0] != undefined))//16
     {
       event.preventDefault(); event.stopPropagation();
     }
     
-    // keq pressed function goes here
-    hotkey.setOptions({
-      'object': data,
-      'index': index
-    });
-    hotkey.runFunction('key');
+    // if pressed enter pressed (undefined, 13)
+    if((scope.getKeyMap()[0] != '13')&(scope.getKeyMap()[0] != undefined))
+    {
+      // keq pressed function goes here
+      hotkey.setOptions({
+        'object': data,
+        'index': index
+      });
+      hotkey.runFunction('key');
+    }
+    
+    // addition char buffer cleaning for non decodeble signs
+    if((scope.getKeyMap()[0] == '13'))
+    {
+      data.symbol_buffer[index].value ='';
+    }
     
     // if key is pressed or relissed add event to singleton
-    if(condition == 'pressed')
+    if((condition == 'pressed'))
     {
+      //console.log(scope.getKeyMap()[0]);
       hotkey.setOptions({
         'object': data,
         'index': index
@@ -494,6 +505,7 @@
     }
     else if(condition == 'relised')
     {
+      //console.log(scope.getKeyMap()[0]);
       hotkey.runFunction(scope.getStringKeyMap());
       scope.keyUp(event);
     }
@@ -1077,18 +1089,14 @@ var Director = (function()
       
       var previouse_char = active_char.previousSibling || false;
       
-      console.log(previouse_char);
-      
       if(!previouse_char)
       {
         if(active_char.className.split(" ").indexOf(this.prefix+ "line-start") >= 0)
         {
-          console.log('cool');
           return true;
         }
         else
         {
-          console.log('notcool');
           return false;
           
         }
@@ -1299,6 +1307,44 @@ var Director = (function()
       
     }
     
+  /**
+    * @function isLineEmpty
+    * @desc checking line is it empty.
+    * @param {object} line - html element for checking.
+    * @return {bool}
+    * @mamberof Director
+    * @instance
+    */
+    this.isLineEmpty = function(line)
+    { 
+      var equivalent = this.prefix + 'line';
+      
+      if(line)
+      {
+        var children = line.childNodes;
+        if(children.length == 1)
+        {
+          if(children[0].className == this.prefix + 'line-start')
+          {
+            return true;
+          }
+          else
+          {
+            return false;
+          }
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
 //////////////////////
 // Comparative section 
 //////////////////////
@@ -1438,15 +1484,20 @@ var Director = (function()
     this.getAllAfter = function(element)
     { 
       var elements = [];
-      
-      while(element.nextSibling)
-      {
-        element = element.nextSibling
-        
-        elements.push(element.outerHTML);
+      if(element.nextSibling){
+        while(element.nextSibling)
+        {
+          element = element.nextSibling
+
+          elements.push(element.outerHTML);
+        }
+
+        return elements;
       }
-      
-      return elements;
+      else
+      {
+        return [];
+      }
     }
 //////////////////
 // Getting section 
@@ -1590,6 +1641,20 @@ var Director = (function()
       }
     }
     
+  /**
+    * @function plus 
+    * @desc add some element after this, if this have a next element.
+    * @param {object} element - element after wich will be added content.
+    * @param {String} content - content wich will be added after element.
+    * @mamberof Director
+    * @instance
+    */
+    this.plus = function(element, content)
+    {
+      // cool string for adding something after active elements
+      element.parentNode.insertBefore(content, element.nextSibling);
+    }
+    
 //////////////////
 // Make section 
 //////////////////
@@ -1643,19 +1708,6 @@ var Director = (function()
       element.parentNode.removeChild(element);
     }
 
-  /**
-    * @function plus 
-    * @desc add some element after this, if this have a next element.
-    * @param {object} element - element after wich will be added content.
-    * @param {String} content - content wich will be added after element.
-    * @mamberof Director
-    * @instance
-    */
-    this.plus = function(element, content)
-    {
-      // cool string for adding something after active elements
-      element.parentNode.insertBefore(content, element.nextSibling);
-    }
     
   /**
     * @function deleteAllAfter 
@@ -2026,12 +2078,6 @@ var Director = (function()
         var previouse_element_class = '';
       }
 
-      // this an exception element that dont have auto generative class 
-      // that is why whe need to give our own
-      if((previouse_element_class == 'wet-line-start'))
-      {  
-        previouse_element.className = 'wet-line-start';
-      }
       var next_element = previouse_element.nextSibling;
 
       var class_of_char_in_buffer = class_generator
@@ -2061,6 +2107,7 @@ var Director = (function()
           {
             var active_entity = director.getCursorEntity('active');
             var word_before_active = active_entity.nextSibling;
+            console.log(word_before_active);
             var content_of_word = divider.divide(word_before_active);
 
             var character_holder = director.create('char', character_from_Buffer, 'active');
@@ -2096,6 +2143,13 @@ var Director = (function()
             director.plus(active_char, character_holder);
           }
         }
+      }
+      
+      // this an exception element that dont have auto generative class 
+      // that is why whe need to give our own
+      if((previouse_element_class == 'wet-line-start'))
+      {  
+        previouse_element.className = 'wet-line-start';
       }
       // clearing buffer
       options.object.symbol_buffer[options.index].value = '';
@@ -2191,7 +2245,15 @@ Module.getInstance().backspase = function(options)
       var previous_line = director.getBeforeEntity(parent_s);
       if(previous_line != false)
       {
+        // if line not empty:
+        if(!director.isLineEmpty(parent_s))
+        {
+          var previouse_line_content = divider.bisect(parent_s);
+          previouse_line_content = previouse_line_content[1];
+          console.log(previouse_line_content);
+        }
         
+        // deleting previouse line
         director.delete(parent_s);
         
         // !!!!!!!!!! change this.current_line 
@@ -2201,15 +2263,29 @@ Module.getInstance().backspase = function(options)
         // last word on previouse line
         word = previous_line.childNodes[previous_line.childNodes.length-1];
         
-        // if last element in previouse line not a word
+        // if last element in previouse line not a word:
         if(!director.isSignifier(word))
         {
           // exploded content
           word.innerHTML = divider.divide(word);
+          
+          // take last word char
+          var last_word_char = director.getLastElement(word);
+          
+          // activete this char 
+          director.activate(last_word_char);
         }
         // make active last word of line 
         var last_word_on_previose_line = director.getLastElement(previous_line);
+        
         director.activate(last_word_on_previose_line);
+        
+        // add content from previouse line to current line 
+        // if line not empty:
+        if(!director.isLineEmpty(parent_s))
+        {
+          previous_line.innerHTML += previouse_line_content;
+        }
         
         // getting active element that must be deleted
         var active_char = director.getCursorEntity('active');
@@ -2598,7 +2674,7 @@ module.addFunction('37', 'left_arrow');
     
     var word = concrete_entity.getElementsByClassName('parent')[0];
     
-    var active_char = concrete_entity.getElementsByClassName('active')[0];
+    var active_char = director.getCursorEntity('active');
         
     // if we are in parent word:
     if(director.isThereAnyActiveWords('parent'))
@@ -2630,6 +2706,12 @@ module.addFunction('37', 'left_arrow');
         // deactivate previouse word
         this.deletePrevioseParent(concrete_entity);
         
+        // previouse line
+        var prev_line_index = options.object.current_line[options.index];
+        var prev_line = options
+                        .object
+                        .line[options.index][prev_line_index];
+        
         // index of created line
         options.object.current_line[options.index]++;
         var line_index = options.object.current_line[options.index];
@@ -2640,12 +2722,8 @@ module.addFunction('37', 'left_arrow');
         options
         .object
         .line[options.index][line_index] = line;
-        options
-        .object
-        .work_space[options.index]
-        .appendChild(options
-                     .object
-                     .line[options.index][line_index]);
+        
+        director.plus(prev_line, line);
       }
       // if it not a last char:
       else
@@ -2660,15 +2738,21 @@ module.addFunction('37', 'left_arrow');
         
         // copy all information after word
         var after_word = director.getAllAfter(word);
-        after_word = after_word.join('')
+        after_word = after_word.join('');
         
         // delete it from this line 
         director.deleteAllAfter(word);
         
         // concate all the gathered info in to one string 
-        second_half = director.create('word', second_half)
-        second_half = divider.concat(second_half);
-        var new_line_content = second_half + after_word;
+        second_half = director.create('word', second_half);
+        second_half.innerHTML = divider.concat(second_half);
+        var new_line_content = second_half.outerHTML + after_word;
+        
+        // previouse line
+        var prev_line_index = options.object.current_line[options.index];
+        var prev_line = options
+                        .object
+                        .line[options.index][prev_line_index];
         
         // create new line
         options.object.current_line[options.index]++;
@@ -2682,12 +2766,12 @@ module.addFunction('37', 'left_arrow');
         options
         .object
         .line[options.index][line_index] = line;
-        options
-        .object
-        .work_space[options.index]
-        .appendChild(options
-                     .object
-                     .line[options.index][line_index]);
+        
+//        options
+//        .object
+//        .work_space[options.index]
+//        .appendChild(line);
+        director.plus(prev_line, line);
         
         // delete previouse cursor
         this.deletePrevioseCursor(concrete_entity);
@@ -2699,34 +2783,86 @@ module.addFunction('37', 'left_arrow');
         
       }
     }
+    // if we on a start of line:
+    else if(director.isCursorFirstOnALine('active'))
+    {
+        
+      // copy all information after word
+      var active_char = director.getCursorEntity('active');
+      console.log(active_char)
+      var after_cursor = director.getAllAfter(active_char);
+      after_cursor = after_cursor.join('');
+      
+      // delete previouse cursor
+      this.deletePrevioseCursor(concrete_entity);
+      
+      // previouse line
+      var prev_line_index = options.object.current_line[options.index];
+      var prev_line = options
+      .object
+      .line[options.index][prev_line_index];
+      // index of created line
+      options.object.current_line[options.index]++;
+      var line_index = options.object.current_line[options.index];
+
+      // adding new line
+      var line_content = director.create('line-start', '', 'active');
+      var full_line_content = line_content.outerHTML + after_cursor;
+      var line = director.create('line', full_line_content, line_index)
+      
+      options.object.line[options.index][line_index] = line;
+
+      director.plus(prev_line, line);
+      prev_line.innerHTML = line_content.outerHTML;
+      
+      this.deletePrevioseCursor(concrete_entity);
+    }
     // if we are not in parent word:
     else
     {
-      this.deletePrevioseCursor(concrete_entity);
+      var next_element = active_char.nextSibling;
       
+          
+            
       if(word) 
       {
         word.innerHTML = divider.concat(word);
       }
 
       this.deletePrevioseParent(concrete_entity);
+      
+      // previouse line
+      var prev_line_index = options.object.current_line[options.index];
+      var prev_line = options.object.line[options.index][prev_line_index];
 
       // index of created line
       options.object.current_line[options.index]++;
       var line_index = options.object.current_line[options.index];
       
-      // adding new line
-      var line_start = director.create('line-start', '', 'active');
-      var line = director.create('line', line_start, line_index)
+      // we not in the word:
+      if(next_element == null)
+      {
+        // adding new line
+        var line_content = director.create('line-start', '', 'active');
+        var line = director.create('line', line_content, line_index);
+      }
+      else
+      {
+        // adding new line
+        var line_content = director.create('line-start', '', 'active');
+        var line_main_content = divider.bisect(prev_line)[1];
+        prev_line.innerHTML = divider.bisect(prev_line)[0];
+            line_content = line_content.outerHTML + line_main_content;
+        var line = director.create('line', line_content, line_index);
+      }
+      
       options
       .object
       .line[options.index][line_index] = line;
-      options
-      .object
-      .work_space[options.index]
-      .appendChild(options
-                   .object
-                   .line[options.index][line_index]);
+      
+      director.plus(prev_line, line);
+      
+      this.deletePrevioseCursor(concrete_entity);
     }
   }
   

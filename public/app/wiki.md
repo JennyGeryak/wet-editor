@@ -570,6 +570,18 @@ checking element is it before word.
 | --- | --- | --- |
 | element | <code>object</code> | html element for checking. |
 
+<a name="isLineEmpty"></a>
+
+## .isLineEmpty(line) ⇒ <code>bool</code>
+checking line is it empty.
+
+**Kind**: instance function  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| line | <code>object</code> | html element for checking. |
+
 <a name="getCursorEntity"></a>
 
 ## .getCursorEntity(cursor_marker) ⇒ <code>object</code>
@@ -703,6 +715,19 @@ give class according an element.
 | --- | --- | --- |
 | element | <code>object</code> | html element for wich will be generated class name. |
 
+<a name="plus"></a>
+
+## .plus(element, content)
+add some element after this, if this have a next element.
+
+**Kind**: instance function  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| element | <code>object</code> | element after wich will be added content. |
+| content | <code>String</code> | content wich will be added after element. |
+
 <a name="deactivatePreviouse"></a>
 
 ## .deactivatePreviouse()
@@ -721,19 +746,6 @@ delete some element.
 | Param | Type | Description |
 | --- | --- | --- |
 | element | <code>object</code> | html element wich will be deleted. |
-
-<a name="plus"></a>
-
-## .plus(element, content)
-add some element after this, if this have a next element.
-
-**Kind**: instance function  
-**Mamberof**: Director  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| element | <code>object</code> | element after wich will be added content. |
-| content | <code>String</code> | content wich will be added after element. |
 
 <a name="deleteAllAfter"></a>
 
