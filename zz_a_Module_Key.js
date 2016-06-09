@@ -59,12 +59,6 @@
         var previouse_element_class = '';
       }
 
-      // this an exception element that dont have auto generative class 
-      // that is why whe need to give our own
-      if((previouse_element_class == 'wet-line-start'))
-      {  
-        previouse_element.className = 'wet-line-start';
-      }
       var next_element = previouse_element.nextSibling;
 
       var class_of_char_in_buffer = class_generator
@@ -94,6 +88,7 @@
           {
             var active_entity = director.getCursorEntity('active');
             var word_before_active = active_entity.nextSibling;
+            console.log(word_before_active);
             var content_of_word = divider.divide(word_before_active);
 
             var character_holder = director.create('char', character_from_Buffer, 'active');
@@ -129,6 +124,13 @@
             director.plus(active_char, character_holder);
           }
         }
+      }
+      
+      // this an exception element that dont have auto generative class 
+      // that is why whe need to give our own
+      if((previouse_element_class == 'wet-line-start'))
+      {  
+        previouse_element.className = 'wet-line-start';
       }
       // clearing buffer
       options.object.symbol_buffer[options.index].value = '';
