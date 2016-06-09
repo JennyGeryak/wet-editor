@@ -86,7 +86,15 @@ Module.getInstance().backspase = function(options)
       var previous_line = director.getBeforeEntity(parent_s);
       if(previous_line != false)
       {
+        // if line not empty:
+        if(!director.isLineEmpty(parent_s))
+        {
+          var previouse_line_content = divider.bisect(parent_s);
+          previouse_line_content = previouse_line_content[1];
+          console.log(previouse_line_content);
+        }
         
+        // deleting previouse line
         director.delete(parent_s);
         
         // !!!!!!!!!! change this.current_line 
@@ -96,15 +104,29 @@ Module.getInstance().backspase = function(options)
         // last word on previouse line
         word = previous_line.childNodes[previous_line.childNodes.length-1];
         
-        // if last element in previouse line not a word
+        // if last element in previouse line not a word:
         if(!director.isSignifier(word))
         {
           // exploded content
           word.innerHTML = divider.divide(word);
+          
+          // take last word char
+          var last_word_char = director.getLastElement(word);
+          
+          // activete this char 
+          director.activate(last_word_char);
         }
         // make active last word of line 
         var last_word_on_previose_line = director.getLastElement(previous_line);
+        
         director.activate(last_word_on_previose_line);
+        
+        // add content from previouse line to current line 
+        // if line not empty:
+        if(!director.isLineEmpty(parent_s))
+        {
+          previous_line.innerHTML += previouse_line_content;
+        }
         
         // getting active element that must be deleted
         var active_char = director.getCursorEntity('active');

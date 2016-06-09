@@ -64,18 +64,14 @@ var Director = (function()
       
       var previouse_char = active_char.previousSibling || false;
       
-      console.log(previouse_char);
-      
       if(!previouse_char)
       {
         if(active_char.className.split(" ").indexOf(this.prefix+ "line-start") >= 0)
         {
-          console.log('cool');
           return true;
         }
         else
         {
-          console.log('notcool');
           return false;
           
         }
@@ -273,6 +269,44 @@ var Director = (function()
         if(element.nextSibling.className.split(" ").indexOf(equivalent) >= 0)
         {
           return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
+  /**
+    * @function isLineEmpty
+    * @desc checking line is it empty.
+    * @param {object} line - html element for checking.
+    * @return {bool}
+    * @mamberof Director
+    * @instance
+    */
+    this.isLineEmpty = function(line)
+    { 
+      var equivalent = this.prefix + 'line';
+      
+      if(line)
+      {
+        var children = line.childNodes;
+        if(children.length == 1)
+        {
+          if(children[0].className == this.prefix + 'line-start')
+          {
+            return true;
+          }
+          else
+          {
+            return false;
+          }
         }
         else
         {
