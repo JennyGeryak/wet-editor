@@ -24,6 +24,8 @@ Module.getInstance().backspase = function(options)
   // getting previose element thet will be active after key pressed
   var previous_entity = director.getBeforeEntity(active_char);
   
+  var next_entity = active_char.nextSibling;
+  
   // anylizing what before active element
   // and if it has previouse elements:  
   if(previous_entity)
@@ -43,6 +45,20 @@ Module.getInstance().backspase = function(options)
       
       // making previouse character as active one
       director.activate(previouse_word_char);
+      
+      // if next element is word too:
+      if(director.isWord(next_entity))
+      {
+        // get additional content for previouse word from next word
+        var additional_content = divider.divide(next_entity);
+        
+        // add this content to previouse word
+        word.innerHTML += additional_content;
+                
+        // delete next word
+        director.delete(next_entity);        
+      }
+      
       
       // deleting active element
       director.delete(active_char);
@@ -89,9 +105,32 @@ Module.getInstance().backspase = function(options)
         // if line not empty:
         if(!director.isLineEmpty(parent_s))
         {
+          // tack a last element on a line
+          var line_elements = previous_line.childNodes;
+          var last_element = line_elements[line_elements.length-1];
+          var additional_content = '';
+          
+          // if last element on previouse line is word:
+          if(director.isWord(last_element))
+          {
+            // and first element on deleting line is word too:
+            if(director.isWord(active_char.nextSibling))
+            {
+              console.log(active_char.nextSibling)
+              // take new additional content from first word on deleting line
+              additional_content = divider.divide(active_char.nextSibling);
+              
+
+              
+              director.delete(active_char.nextSibling);
+              
+            }
+          }
+          
+          // take all another content
           var previouse_line_content = divider.bisect(parent_s);
           previouse_line_content = previouse_line_content[1];
-          console.log(previouse_line_content);
+          
         }
         
         // deleting previouse line
@@ -115,6 +154,9 @@ Module.getInstance().backspase = function(options)
           
           // activete this char 
           director.activate(last_word_char);
+          
+          // add additional content to the previouse word
+          last_element.innerHTML += additional_content;
         }
         // make active last word of line 
         var last_word_on_previose_line = director.getLastElement(previous_line);
@@ -142,6 +184,7 @@ Module.getInstance().backspase = function(options)
           {
             // marking it as parent
             active_char.className = 'wet-word parent';
+            console.log('word');
             
             // generating class for the last child in it              
             var last_char_index = active_char.childNodes.length-1;
