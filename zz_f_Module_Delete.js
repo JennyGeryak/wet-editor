@@ -28,28 +28,70 @@ Module.getInstance().delete = function(options)
   {
     director.delete(after_cursore);
   }
-  // if next element after start - word:
+  // if next element after - word:
   else if(director.isWord(after_cursore))
   {
-    console.log(after_cursore);
+    // if word not empty:
+    if(after_cursore.childNodes.length != 0)
+    {
+      // if word not parent:
+      if(!director.isParentWord(after_cursore))
+      {
+        // dividing content to a characters
+        after_cursore.innerHTML = divider.divide(after_cursore);
+        // making word a parent one
+        director.makeItParentWord(after_cursore);
+      }
+      director.delete(after_cursore.childNodes[0]);
+    }
+    // if word is empty:
+    if(after_cursore.childNodes.length == 0)
+    {
+      director.delete(after_cursore);
+    }
   }
-  // if next element after start - false:
+  // if next element - character:
+  else if(director.isCharacter(after_cursore))
+  {
+    director.delete(after_cursore);
+  }
+  // if next element - false:
   else
   {
+    var after_element = director.getNextEntity(cursore_parent);
+    var before_element = director.getBeforeEntity(cursore_parent);
+    var elements_parent = cursore_parent.parentNode;
     // if parent - word:
     if(director.isWord(cursore_parent))
     {
-      console.log(cursore_parent);
+      // if after word - signifire:
+      if(director.isSignifier(after_element))
+      {
+        director.delete(after_element);
+      }
+      // if after word - word:
+      else if(director.isWord(after_element))
+      {
+        // divide content 
+        after_element.innerHTML = divider.divide(after_element);
+        
+        // delete first element
+        director.delete(after_element.childNodes[0]);
+        
+        // copy content to the current word 
+        var additional_content = after_element.innerHTML;
+        cursore_parent.innerHTML += additional_content;
+        
+        // delete this word
+        director.delete(after_element);
+      }
     }
     // if parent - line:
     else if(director.isLine(cursore_parent))
     {
       console.log(cursore_parent);
-    }
-    
-  }
-  
-    
+    } 
+  }    
 }
 
 var module = new Module.getInstance();
