@@ -253,6 +253,36 @@ var Director = (function()
     }
     
   /**
+    * @function isLine
+    * @desc checking element is it line.
+    * @param {object} element - html element for checking.
+    * @return {bool}
+    * @mamberof Director
+    * @instance
+    */
+    this.isLine = function(element)
+    { 
+      var equivalent = this.prefix + 'line';
+      
+      if(element)
+      {
+        if(element.className.split(" ").indexOf(equivalent) >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
+  /**
     * @function isCursoreBeforeWord
     * @desc checking element is it before word.
     * @param {object} element - html element for checking.
@@ -355,7 +385,7 @@ var Director = (function()
   /**
     * @function getBeforeEntity
     * @desc getting entity that goes before element.
-    * @param {String} cursor_marker - marker of active element.
+    * @param {String} entity - marker of active element.
     * @return {object} - entity of previouse elemtnt of active element.
     * @mamberof Director
     * @instance
@@ -367,6 +397,28 @@ var Director = (function()
       if(previouse)
       {
         return previouse;
+      }
+      else
+      {
+        return false;
+      }
+    }
+    
+  /**
+    * @function getNextEntity
+    * @desc getting entity that goes after element.
+    * @param {String} entity - marker of active element.
+    * @return {object} - entity of previouse elemtnt of active element.
+    * @mamberof Director
+    * @instance
+    */
+    this.getNextEntity = function(entity)
+    {      
+      var next = entity.nextSibling || false;
+      
+      if(next)
+      {
+        return next;
       }
       else
       {
