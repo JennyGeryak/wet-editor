@@ -85,12 +85,54 @@ Module.getInstance().delete = function(options)
         // delete this word
         director.delete(after_element);
       }
+      // if after word - null:
+      else
+      {
+        // if parents next element - line:
+        if(director.isLine(elements_parent.nextSibling))
+        {
+          var parents_next = elements_parent.nextSibling;
+          var next_line_element = parents_next.childNodes[1];
+          
+          // if first element on next line - signifire:
+          if(director.isSignifier(next_line_element))
+          {
+            director.delete(next_line_element);
+          }
+          // if first element on new line - word:
+          else if(director.isWord(next_line_element))
+          {
+            // if word not empty:
+            if(next_line_element.childNodes.length != 0)
+            {
+              // if word not parent:
+              if(!director.isParentWord(next_line_element))
+              {
+                // divide content
+                next_line_element.innerHTML = divider.divide(next_line_element);
+
+                // make word parent
+                director.makeItParentWord(next_line_element);
+
+              }
+              // delete element
+              director.delete(next_line_element.childNodes[0]);
+            }
+            // if word empty:
+            if(next_line_element.childNodes.length == 0)
+            {
+              director.delete(next_line_element);
+            }
+          }
+        }
+      }
     }
     // if parent - line:
     else if(director.isLine(cursore_parent))
     {
-      console.log(cursore_parent);
+      //console.log(cursore_parent);
     } 
+    
   }    
 }
 
