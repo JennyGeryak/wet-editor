@@ -94,35 +94,46 @@ Module.getInstance().delete = function(options)
           var parents_next = elements_parent.nextSibling;
           var next_line_element = parents_next.childNodes[1];
           
-          // if first element on next line - signifire:
-          if(director.isSignifier(next_line_element))
+          // if next line not empty:
+          if(next_line_element)
           {
-            director.delete(next_line_element);
-          }
-          // if first element on new line - word:
-          else if(director.isWord(next_line_element))
-          {
-            // if word not empty:
-            if(next_line_element.childNodes.length != 0)
-            {
-              // if word not parent:
-              if(!director.isParentWord(next_line_element))
-              {
-                // divide content
-                next_line_element.innerHTML = divider.divide(next_line_element);
-
-                // make word parent
-                director.makeItParentWord(next_line_element);
-
-              }
-              // delete element
-              director.delete(next_line_element.childNodes[0]);
-            }
-            // if word empty:
-            if(next_line_element.childNodes.length == 0)
+            // if first element on next line - signifire:
+            if(director.isSignifier(next_line_element))
             {
               director.delete(next_line_element);
             }
+            // if first element on new line - word:
+            else if(director.isWord(next_line_element))
+            {
+              // if word not empty:
+              if(next_line_element.childNodes.length != 0)
+              {
+                // if word not parent:
+                if(!director.isParentWord(next_line_element))
+                {
+                  // divide content
+                  next_line_element.innerHTML = divider.divide(next_line_element);
+
+                  // make word parent
+                  director.makeItParentWord(next_line_element);
+
+                }
+                // delete element
+                director.delete(next_line_element.childNodes[0]);
+              }
+              // if word empty:
+              if(next_line_element.childNodes.length == 0)
+              {
+                director.delete(next_line_element);
+              }
+
+            }
+          }
+          // if next line empty:
+          else if(!next_line_element)
+          {
+            // delete next line
+            director.delete(elements_parent.nextSibling)
           }
         }
       }
