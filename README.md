@@ -12,6 +12,7 @@ In this early version it hase next features:
 - text adding;
 - backspace button emulation;
 - enter button emulation;
+- delete button emulation;
 - space button emulation;
 - left arrow emulation;
 - hetkey console.
