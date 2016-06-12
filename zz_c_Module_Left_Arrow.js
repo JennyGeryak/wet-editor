@@ -77,13 +77,28 @@ Module.getInstance().left_arrow = function(options)
     
     var before_word = director.getBeforeEntity(word);
     
-    director.activate(before_word);
+    // when first element is active:
+    if(before_word.className.split(" ").indexOf('active') >= 0)
+    {
+      director.makeItWord(word);
+      
+      word.innerHTML = divider.concat(word);
+      
+      this.left_arrow(options);
+      
+    }
+    else
+    {
+      director.activate(before_word);
+
+      director.deactivate(active_element);
+
+      word.innerHTML = divider.concat(word);	
+
+      word.className = 'wet-word';	
+      
+    }
     
-    director.deactivate(active_element);
-    
-    word.innerHTML = divider.concat(word);	
-    
-    word.className = 'wet-word';	
   }
   // deactivate word when it is on start of line
   else if((director.getParentWord() != false)
@@ -113,7 +128,7 @@ Module.getInstance().left_arrow = function(options)
       if(previous_line != false)
       {
         director.deactivate(active_element);
-        
+
         // !!!!!!!!!! change this.current_line
         // deactivate 'enter' pseudo sign
         options.object.current_line[options.index]--;
