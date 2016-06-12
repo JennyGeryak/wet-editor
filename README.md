@@ -8,7 +8,7 @@ This project is just a simple javascript implementation of code editor. It write
 - module (revealing);
 - constructor. 
 
-In this early version it hase next features:
+This early version hase next features:
 - text adding;
 - backspace button emulation;
 - enter button emulation;
