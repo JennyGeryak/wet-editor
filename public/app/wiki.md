@@ -31,19 +31,6 @@
 </dd>
 </dl>
 
-<a name="bisect"></a>
-
-## .bisect(word) ⇒ <code>Array</code>
-divide a massive of characters in the word to two parts.
-
-**Kind**: instance function  
-**Returns**: <code>Array</code> - - string with word.  
-**Mamberof**: Divider  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| word | <code>Object</code> | container that contain separated characters with word       that must be exploded. |
-
 <a name="Editor"></a>
 
 ## Editor ⇐ <code>[Observable](#Observable)</code>
@@ -279,6 +266,8 @@ it is solution that helps to create additional mudules more
     * [.left_arrow()](#Module+left_arrow)
     * [.backspase()](#Module+backspase)
     * [.enter()](#Module+enter)
+    * [.delete()](#Module+delete)
+    * [.right_arrow()](#Module+right_arrow)
 
 <a name="Module+key"></a>
 
@@ -344,6 +333,36 @@ this module need to emulate "space" key features.
 
 ### module.enter()
 this module need to emulate "enter" key features.
+
+**Kind**: instance method of <code>[Module](#Module)</code>  
+**Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
+**Copyright**: Ivan Kaduk 2016.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options.object | <code>object</code> | entity of editors object. |
+| options.index | <code>int</code> | index of current editor element on document. |
+
+<a name="Module+delete"></a>
+
+### module.delete()
+this module need to emulate "delete" key features.
+
+**Kind**: instance method of <code>[Module](#Module)</code>  
+**Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
+**Copyright**: Ivan Kaduk 2016.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options.object | <code>object</code> | entity of editors object. |
+| options.index | <code>int</code> | index of current editor element on document. |
+
+<a name="Module+right_arrow"></a>
+
+### module.right_arrow()
+this module need to emulate "right arrow" key features.
 
 **Kind**: instance method of <code>[Module](#Module)</code>  
 **Author:** Ivan Kaduk  
@@ -440,6 +459,19 @@ joining all separate characters to a one string.
 | Param | Type | Description |
 | --- | --- | --- |
 | word | <code>Object</code> | container that contain separated characters with word        that must be exploded. |
+
+<a name="bisect"></a>
+
+## .bisect(word) ⇒ <code>Array</code>
+divide a massive of characters in the word to two parts.
+
+**Kind**: instance function  
+**Returns**: <code>Array</code> - - string with word.  
+**Mamberof**: Divider  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| word | <code>Object</code> | container that contain separated characters with word       that must be exploded. |
 
 <a name="Director"></a>
 
@@ -558,6 +590,18 @@ checking element is it character.
 | --- | --- | --- |
 | element | <code>object</code> | html element for checking. |
 
+<a name="isLine"></a>
+
+## .isLine(element) ⇒ <code>bool</code>
+checking element is it line.
+
+**Kind**: instance function  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| element | <code>object</code> | html element for checking. |
+
 <a name="isCursoreBeforeWord"></a>
 
 ## .isCursoreBeforeWord(element) ⇒ <code>bool</code>
@@ -597,7 +641,7 @@ geting cursor entity from code.
 
 <a name="getBeforeEntity"></a>
 
-## .getBeforeEntity(cursor_marker) ⇒ <code>object</code>
+## .getBeforeEntity(entity) ⇒ <code>object</code>
 getting entity that goes before element.
 
 **Kind**: instance function  
@@ -606,7 +650,20 @@ getting entity that goes before element.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| cursor_marker | <code>String</code> | marker of active element. |
+| entity | <code>String</code> | marker of active element. |
+
+<a name="getNextEntity"></a>
+
+## .getNextEntity(entity) ⇒ <code>object</code>
+getting entity that goes after element.
+
+**Kind**: instance function  
+**Returns**: <code>object</code> - - entity of previouse elemtnt of active element.  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| entity | <code>String</code> | marker of active element. |
 
 <a name="getParentWord"></a>
 

@@ -1278,6 +1278,36 @@ var Director = (function()
     }
     
   /**
+    * @function isLine
+    * @desc checking element is it line.
+    * @param {object} element - html element for checking.
+    * @return {bool}
+    * @mamberof Director
+    * @instance
+    */
+    this.isLine = function(element)
+    { 
+      var equivalent = this.prefix + 'line';
+      
+      if(element)
+      {
+        if(element.className.split(" ").indexOf(equivalent) >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
+  /**
     * @function isCursoreBeforeWord
     * @desc checking element is it before word.
     * @param {object} element - html element for checking.
@@ -1380,7 +1410,7 @@ var Director = (function()
   /**
     * @function getBeforeEntity
     * @desc getting entity that goes before element.
-    * @param {String} cursor_marker - marker of active element.
+    * @param {String} entity - marker of active element.
     * @return {object} - entity of previouse elemtnt of active element.
     * @mamberof Director
     * @instance
@@ -1392,6 +1422,28 @@ var Director = (function()
       if(previouse)
       {
         return previouse;
+      }
+      else
+      {
+        return false;
+      }
+    }
+    
+  /**
+    * @function getNextEntity
+    * @desc getting entity that goes after element.
+    * @param {String} entity - marker of active element.
+    * @return {object} - entity of previouse elemtnt of active element.
+    * @mamberof Director
+    * @instance
+    */
+    this.getNextEntity = function(entity)
+    {      
+      var next = entity.nextSibling || false;
+      
+      if(next)
+      {
+        return next;
       }
       else
       {
@@ -2183,6 +2235,8 @@ Module.getInstance().backspase = function(options)
   // getting previose element thet will be active after key pressed
   var previous_entity = director.getBeforeEntity(active_char);
   
+  var next_entity = active_char.nextSibling;
+  
   // anylizing what before active element
   // and if it has previouse elements:  
   if(previous_entity)
@@ -2202,6 +2256,20 @@ Module.getInstance().backspase = function(options)
       
       // making previouse character as active one
       director.activate(previouse_word_char);
+      
+      // if next element is word too:
+      if(director.isWord(next_entity))
+      {
+        // get additional content for previouse word from next word
+        var additional_content = divider.divide(next_entity);
+        
+        // add this content to previouse word
+        word.innerHTML += additional_content;
+                
+        // delete next word
+        director.delete(next_entity);        
+      }
+      
       
       // deleting active element
       director.delete(active_char);
@@ -2248,9 +2316,32 @@ Module.getInstance().backspase = function(options)
         // if line not empty:
         if(!director.isLineEmpty(parent_s))
         {
+          // tack a last element on a line
+          var line_elements = previous_line.childNodes;
+          var last_element = line_elements[line_elements.length-1];
+          var additional_content = '';
+          
+          // if last element on previouse line is word:
+          if(director.isWord(last_element))
+          {
+            // and first element on deleting line is word too:
+            if(director.isWord(active_char.nextSibling))
+            {
+              console.log(active_char.nextSibling)
+              // take new additional content from first word on deleting line
+              additional_content = divider.divide(active_char.nextSibling);
+              
+
+              
+              director.delete(active_char.nextSibling);
+              
+            }
+          }
+          
+          // take all another content
           var previouse_line_content = divider.bisect(parent_s);
           previouse_line_content = previouse_line_content[1];
-          console.log(previouse_line_content);
+          
         }
         
         // deleting previouse line
@@ -2274,6 +2365,9 @@ Module.getInstance().backspase = function(options)
           
           // activete this char 
           director.activate(last_word_char);
+          
+          // add additional content to the previouse word
+          last_element.innerHTML += additional_content;
         }
         // make active last word of line 
         var last_word_on_previose_line = director.getLastElement(previous_line);
@@ -2301,6 +2395,7 @@ Module.getInstance().backspase = function(options)
           {
             // marking it as parent
             active_char.className = 'wet-word parent';
+            console.log('word');
             
             // generating class for the last child in it              
             var last_char_index = active_char.childNodes.length-1;
@@ -2394,13 +2489,28 @@ Module.getInstance().left_arrow = function(options)
     
     var before_word = director.getBeforeEntity(word);
     
-    director.activate(before_word);
+    // when first element is active:
+    if(before_word.className.split(" ").indexOf('active') >= 0)
+    {
+      director.makeItWord(word);
+      
+      word.innerHTML = divider.concat(word);
+      
+      this.left_arrow(options);
+      
+    }
+    else
+    {
+      director.activate(before_word);
+
+      director.deactivate(active_element);
+
+      word.innerHTML = divider.concat(word);	
+
+      word.className = 'wet-word';	
+      
+    }
     
-    director.deactivate(active_element);
-    
-    word.innerHTML = divider.concat(word);	
-    
-    word.className = 'wet-word';	
   }
   // deactivate word when it is on start of line
   else if((director.getParentWord() != false)
@@ -2430,7 +2540,7 @@ Module.getInstance().left_arrow = function(options)
       if(previous_line != false)
       {
         director.deactivate(active_element);
-        
+
         // !!!!!!!!!! change this.current_line
         // deactivate 'enter' pseudo sign
         options.object.current_line[options.index]--;
@@ -2868,3 +2978,260 @@ module.addFunction('37', 'left_arrow');
   
   var module = new Module.getInstance();
   module.addFunction('13', 'enter');
+/**
+  * @function delete
+  * @author Ivan Kaduk
+  * @copyright Ivan Kaduk 2016.
+  * @license cc-by-nc-sa 4.0
+  * @desc this module need to emulate "delete" key features.
+  * @param {object} options.object - entity of editors object.
+  * @param {int} options.index - index of current editor element on document.
+  * @memberof Module
+  * @instance
+  */
+Module.getInstance().delete = function(options)
+{
+  // standart block of initialization of dependencies		
+  var class_generator = new Char_Class_Generator('wet-');
+  var concrete_entity = options.object.container[options.index];
+  var divider = new Divider();
+  var director = new Director(concrete_entity, "wet-", "active");
+  var word = director.getParentWord();
+  var cursore_entity = director.getCursorEntity('active');
+  var after_cursore = director.getNextEntity(cursore_entity);
+  var before_cursore = director.getBeforeEntity(cursore_entity);
+  var cursore_parent = cursore_entity.parentNode;
+  
+
+  // if next element after - signifer:
+  if(director.isSignifier(after_cursore))
+  {
+    director.delete(after_cursore);
+  }
+  // if next element after - word:
+  else if(director.isWord(after_cursore))
+  {
+    // if word not empty:
+    if(after_cursore.childNodes.length != 0)
+    {
+      // if word not parent:
+      if(!director.isParentWord(after_cursore))
+      {
+        // dividing content to a characters
+        after_cursore.innerHTML = divider.divide(after_cursore);
+        // making word a parent one
+        director.makeItParentWord(after_cursore);
+      }
+      director.delete(after_cursore.childNodes[0]);
+    }
+    // if word is empty:
+    if(after_cursore.childNodes.length == 0)
+    {
+      director.delete(after_cursore);
+    }
+  }
+  // if next element - character:
+  else if(director.isCharacter(after_cursore))
+  {
+    director.delete(after_cursore);
+  }
+  // if next element - false:
+  else
+  {
+    var after_element = director.getNextEntity(cursore_parent);
+    var before_element = director.getBeforeEntity(cursore_parent);
+    var elements_parent = cursore_parent.parentNode;
+    // if parent - word:
+    if(director.isWord(cursore_parent))
+    {
+      // if after word - signifire:
+      if(director.isSignifier(after_element))
+      {
+        director.delete(after_element);
+      }
+      // if after word - word:
+      else if(director.isWord(after_element))
+      {
+        // divide content 
+        after_element.innerHTML = divider.divide(after_element);
+        
+        // delete first element
+        director.delete(after_element.childNodes[0]);
+        
+        // copy content to the current word 
+        var additional_content = after_element.innerHTML;
+        cursore_parent.innerHTML += additional_content;
+        
+        // delete this word
+        director.delete(after_element);
+      }
+      // if after word - null:
+      else
+      {
+        // if parents next element - line:
+        if(director.isLine(elements_parent.nextSibling))
+        {
+          var parents_next = elements_parent.nextSibling;
+          var next_line_element = parents_next.childNodes[1];
+          
+          // if next line not empty:
+          if(next_line_element)
+          {
+            // if first element on next line - signifire:
+            if(director.isSignifier(next_line_element))
+            {
+              director.delete(next_line_element);
+            }
+            // if first element on new line - word:
+            else if(director.isWord(next_line_element))
+            {
+              // if word not empty:
+              if(next_line_element.childNodes.length != 0)
+              {
+                // if word not parent:
+                if(!director.isParentWord(next_line_element))
+                {
+                  // divide content
+                  next_line_element.innerHTML = divider.divide(next_line_element);
+
+                  // make word parent
+                  director.makeItParentWord(next_line_element);
+
+                }
+                // delete element
+                director.delete(next_line_element.childNodes[0]);
+              }
+              // if word empty:
+              if(next_line_element.childNodes.length == 0)
+              {
+                director.delete(next_line_element);
+              }
+
+            }
+          }
+          // if next line empty:
+          else if(!next_line_element)
+          {
+            // delete next line
+            director.delete(elements_parent.nextSibling)
+          }
+        }
+      }
+    }
+    // if parent - line:
+    else if(director.isLine(cursore_parent))
+    {
+      //console.log(cursore_parent);
+    } 
+    
+  }    
+}
+
+var module = new Module.getInstance();
+module.addFunction('46', 'delete');
+/**
+  * @function right_arrow
+  * @author Ivan Kaduk
+  * @copyright Ivan Kaduk 2016.
+  * @license cc-by-nc-sa 4.0
+  * @desc this module need to emulate "right arrow" key features.
+  * @param {object} options.object - entity of editors object.
+  * @param {int} options.index - index of current editor element on document.
+  * @memberof Module
+  * @instance
+  */
+Module.getInstance().right_arrow = function(options)
+{
+  // standart block of initialization of dependencies		
+  var class_generator = new Char_Class_Generator('wet-');
+  var concrete_entity = options.object.container[options.index];
+  var divider = new Divider();
+  var director = new Director(concrete_entity, "wet-", "active");
+  var word = director.getParentWord();
+  var cursore_entity = director.getCursorEntity('active');
+  var after_cursore = director.getNextEntity(cursore_entity);
+  var before_cursore = director.getBeforeEntity(cursore_entity);
+  var cursore_parent = cursore_entity.parentNode;
+  
+  // if next element - signifire:
+  if(director.isSignifier(after_cursore))
+  {
+    director.deactivate(cursore_entity);
+    
+    director.activate(after_cursore);
+  }  
+  // if next element - character:
+  else if(director.isCharacter(after_cursore))
+  {
+    director.deactivate(cursore_entity);
+    
+    director.activate(after_cursore);
+  }
+  // if next element - word:
+  else if(director.isWord(after_cursore))
+  {
+    director.makeItParentWord(after_cursore);
+    
+    after_cursore.innerHTML = divider.divide(after_cursore);
+    
+    director.activate(after_cursore.childNodes[0]);
+    
+    director.deactivate(cursore_entity);
+  }
+  // if next element - false:
+  else if(after_cursore == false)
+  {
+    var next_to_parent = director.getNextEntity(cursore_parent);
+    var parent_for_parent = cursore_parent.parentNode || false;
+    var next_to_parent_for_parent = parent_for_parent.nextSibling || false;
+    
+    console.log(next_to_parent, parent_for_parent);
+    
+    // if next element - signifire:
+    if(director.isSignifier(next_to_parent))
+    {
+      director.deactivate(cursore_entity);
+      
+      // if parent - word:
+      if(director.isWord(cursore_parent))
+      {
+        cursore_parent.innerHTML = divider.concat(cursore_parent);
+        
+        director.makeItWord(cursore_parent);
+      }
+      
+      director.activate(next_to_parent);
+    }
+    // if next element - line:
+    else if(director.isLine(next_to_parent))
+    {
+      director.deactivate(cursore_entity);
+      
+      director.activate(next_to_parent.childNodes[0]);
+      
+      // index of created line !!!!!!
+      options.object.current_line[options.index]++;
+    }
+    // if next element - false:
+    else if(!next_to_parent)
+    {
+      // if there is next line:
+      if(next_to_parent_for_parent)
+      {
+        // if parent - word:
+        if(director.isWord(cursore_parent))
+        {
+          cursore_parent.innerHTML = divider.concat(cursore_parent);
+        }
+        
+        // index of created line !!!!!!
+        options.object.current_line[options.index]++;
+
+        director.activate(next_to_parent_for_parent.childNodes[0]); 
+      }
+    }
+  }
+}
+
+var module = new Module.getInstance();
+module.addFunction('39', 'right_arrow');
