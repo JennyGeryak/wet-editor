@@ -91,6 +91,8 @@ Module.getInstance().right_arrow = function(options)
         if(director.isWord(cursore_parent))
         {
           cursore_parent.innerHTML = divider.concat(cursore_parent);
+          
+          director.makeItWord(cursore_parent);
         }
         
         // index of created line !!!!!!
