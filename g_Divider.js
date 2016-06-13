@@ -121,6 +121,45 @@ var Divider = (function()
         return result;
       }
     }
+  /**
+    * @function trim
+    * @desc clean line content from unneccesary elements 
+    * @mamberof Divider
+    * @instance
+    * @param {Object} word - container that contain separated characters with word
+      that must be exploded.
+    * @return {Array} - string with word.
+    */
+    this.trim = function(word, class_name)
+    {
+      var result = new Array();
+      
+      result[0] = '';
+      
+      result[1] = '';
+      
+      var j = 0;
+      
+      if(word != undefined)
+      {
+        for(var i=0; i<=(word.childNodes.length-1); i++)
+        {
+          var some = word.childNodes[i].className.split(' ').indexOf(class_name);
+          
+          result[j] += word.childNodes[i].outerHTML;
+          
+          if(some >= 0)
+          {
+            j=1;
+          }
+        }
+        return result;				
+      }
+      else
+      {
+        return result;
+      }
+    }
   }
   return Divider;
 })()

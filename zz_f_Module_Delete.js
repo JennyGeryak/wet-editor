@@ -96,38 +96,32 @@ Module.getInstance().delete = function(options)
           
           // if next line not empty:
           if(next_line_element)
-          {
-            // if first element on next line - signifire:
-            if(director.isSignifier(next_line_element))
+          {            
+            // if we deleting from parent word:
+            if(director.getParentWord())
             {
-              director.delete(next_line_element);
-            }
-            // if first element on new line - word:
-            else if(director.isWord(next_line_element))
-            {
-              // if word not empty:
-              if(next_line_element.childNodes.length != 0)
+              // if element on next line - word:
+              if(director.isWord(next_line_element))
               {
-                // if word not parent:
-                if(!director.isParentWord(next_line_element))
-                {
-                  // divide content
-                  next_line_element.innerHTML = divider.divide(next_line_element);
-
-                  // make word parent
-                  director.makeItParentWord(next_line_element);
-
-                }
-                // delete element
-                director.delete(next_line_element.childNodes[0]);
-              }
-              // if word empty:
-              if(next_line_element.childNodes.length == 0)
-              {
+                cursore_parent.innerHTML += divider.divide(next_line_element);
+                
                 director.delete(next_line_element);
+                
+                var additional_content = divider.trim(parents_next, 'wet-'+'line-start');                
+                
+                elements_parent.innerHTML += additional_content[1];
               }
-
+              // if element on next line - signifire:
+              else 
+              {
+                var additional_content = divider.trim(parents_next, 'wet-'+'line-start');
+                
+                elements_parent.innerHTML += additional_content[1];
+                
+              }
             }
+                      
+            director.delete(parents_next);
           }
           // if next line empty:
           else if(!next_line_element)
@@ -136,6 +130,38 @@ Module.getInstance().delete = function(options)
             director.delete(elements_parent.nextSibling)
           }
         }
+      }
+    }
+    // if afte signifier - null:
+    else if(director.isSignifier(cursore_entity))
+    {
+      // if after signifier - signifire:
+      if(director.isSignifier(after_element))
+      {
+
+      }
+      // if after signifier - word:
+      else if(director.isWord(after_element))
+      {
+
+      }
+      // if after signifier - null:
+      else
+      {
+        // if parents next element - line:
+        if(director.isLine(cursore_parent.nextSibling))
+        {
+          var parents_next = cursore_parent.nextSibling;
+          
+          var next_line_element = parents_next.childNodes[1];
+          
+          var additional_content = divider.trim(parents_next, 'wet-'+'line-start');
+          
+          cursore_parent.innerHTML += additional_content[1];
+
+          director.delete(parents_next);
+        }
+        
       }
     }
     // if parent - line:

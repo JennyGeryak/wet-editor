@@ -54,8 +54,6 @@ Module.getInstance().right_arrow = function(options)
     var parent_for_parent = cursore_parent.parentNode || false;
     var next_to_parent_for_parent = parent_for_parent.nextSibling || false;
     
-    console.log(next_to_parent, parent_for_parent);
-    
     // if next element - signifire:
     if(director.isSignifier(next_to_parent))
     {
