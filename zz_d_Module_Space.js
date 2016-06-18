@@ -73,6 +73,23 @@
         word.parentNode.insertBefore(space, word.nextSibling);
 
       }
+      // 
+      else if(director.isCursorFirstOnALine('active'))
+      {
+        if(active_char.nextSibling)
+        {
+          this.deletePrevioseCursor(concrete_entity);
+          
+          director.plus(active_char, space);
+        }
+        else
+        {
+          this.deletePrevioseCursor(concrete_entity);
+        
+          active_char.parentElement.appendChild(space);
+        }
+        
+      }
       else
       {
         this.deletePrevioseCursor(concrete_entity);
