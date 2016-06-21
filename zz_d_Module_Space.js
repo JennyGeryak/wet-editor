@@ -28,7 +28,7 @@
     
     var line_number = options.object.current_line[options.index]-1;
     
-    // if cursor on a line start
+    // if cursor on a line start:
     if(!active_char)
     {
       active_char = document.getElementsByClassName('wet-'+'line-start')[line_number];
@@ -77,7 +77,16 @@
       {
         this.deletePrevioseCursor(concrete_entity);
         
-        active_char.parentElement.appendChild(space);
+        // if we have something after cursor:
+        if(active_char.nextSibling)
+        {
+          director.plus(active_char, space);
+        }
+        // if we have nothing after cursor:
+        else
+        {
+          active_char.parentElement.appendChild(space);          
+        }
       }
     }
     // if cursor is not at the end of word or if it on preend element:

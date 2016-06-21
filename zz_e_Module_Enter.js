@@ -170,9 +170,7 @@
     else
     {
       var next_element = active_char.nextSibling;
-      
           
-            
       if(word) 
       {
         word.innerHTML = divider.concat(word);
