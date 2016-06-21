@@ -97,6 +97,22 @@
             word_before_active.className = "wet-word parent";
             director.deactivatePreviouse();
           }
+          // if we not in the word and before signifire:
+          else if((next_element != null)&&(director.isSignifier(next_element)))
+          {
+            console.log(character_from_Buffer);
+            var active_entity = director.getCursorEntity('active');
+            
+            //var new_char = director.create('char', character_from_Buffer, 'active');
+            
+            var new_word = director.create('word', character_from_Buffer, 'active');
+            
+            director.plus(active_entity, new_word);
+            
+            director.deactivate(active_entity);        
+            
+            
+          }
         }
         // if we in the word
         else
