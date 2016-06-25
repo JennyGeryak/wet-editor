@@ -9,7 +9,7 @@
   * @memberof Module
   * @instance
   */
-Module.getInstance().right_arrow = function(options)
+Module.getInstance().up_arrow = function(options)
 {
   // standart block of initialization of dependencies		
   var class_generator = new Char_Class_Generator('wet-');
@@ -21,6 +21,11 @@ Module.getInstance().right_arrow = function(options)
   var after_cursore = director.getNextEntity(cursore_entity);
   var before_cursore = director.getBeforeEntity(cursore_entity);
   var cursore_parent = cursore_entity.parentNode;
+  
+  // if cursor on first line:
+  
+  // if cursor not on a first:
+  
   
 }
 
