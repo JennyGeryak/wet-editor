@@ -22,8 +22,16 @@ Module.getInstance().up_arrow = function(options)
   var before_cursore = director.getBeforeEntity(cursore_entity);
   var cursore_parent = cursore_entity.parentNode;
   
-  // if cursor on first line:
+  var words_parent = word.parentNode || false;
+  var prefiose_line = director.getBeforeEntity(words_parent);
   
+  // if cursor on first line:
+  if(!prefiose_line)
+  {
+    console.log(words_parent);
+  }
+  
+  console.log(words_parent);
   // if cursor not on a first:
   
   
