@@ -32,6 +32,7 @@ Module.getInstance().up_arrow = function(options)
   }
   else
   {
+    
     console.log(director.findCursorPosition(cursor_entity));
     
   }

@@ -686,26 +686,14 @@ var Director = (function()
   /**
     * @function setCursorOnPosition
     * @desc give class according an element.
-    * @param {object} element - html element for wich will be generated class name. 
+    * @param {Number} position - position on which will be paste cursor. 
+    * @param {object} line - line in wich need to paste cursor.
     * @mamberof Director
     * @instance
     */
-    this.setClass = function(position, line)
+    this.setCursorOnPosition = function(position, line)
     { 
-      if(element)
-      {
-        element.className = this.class_generator
-                                .setPrefix(this.prefix)
-                                .mainClass(element.innerHTML)
-                                .space()
-                                .subClass(element.innerHTML)
-                                .generate();  
-      }
-      else
-      {
-        console.log('deactivate - has error');
-        return false;
-      }
+      
     }
     
 //////////////////
