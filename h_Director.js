@@ -682,6 +682,31 @@ var Director = (function()
       // cool string for adding something after active elements
       element.parentNode.insertBefore(content, element.nextSibling);
     }
+
+  /**
+    * @function setCursorOnPosition
+    * @desc give class according an element.
+    * @param {object} element - html element for wich will be generated class name. 
+    * @mamberof Director
+    * @instance
+    */
+    this.setClass = function(position, line)
+    { 
+      if(element)
+      {
+        element.className = this.class_generator
+                                .setPrefix(this.prefix)
+                                .mainClass(element.innerHTML)
+                                .space()
+                                .subClass(element.innerHTML)
+                                .generate();  
+      }
+      else
+      {
+        console.log('deactivate - has error');
+        return false;
+      }
+    }
     
 //////////////////
 // Make section 
