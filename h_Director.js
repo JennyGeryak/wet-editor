@@ -692,9 +692,7 @@ var Director = (function()
     * @instance
     */
     this.setCursorOnPosition = function(position, line)
-    { 
-      var parent_word = cursor.parentNode || false;
-      
+    {       
       var character_count = 0;
       
       if(line)
@@ -720,9 +718,12 @@ var Director = (function()
           {
             character_count++;
             
-            if(lines_elements[i].className.split(' ').indexOf('active') >= 0)
+            if(character_count >= position)
             {
               stop = true;
+              
+              this.activate(lines_elements[i]);
+              
               break;
             }
           }
@@ -736,9 +737,14 @@ var Director = (function()
               
               console.log(lines_elements_elements[j])
               
-              if(lines_elements_elements[j].className.split(' ').indexOf('active') >= 0)
+              if(character_count >= position)
               {
                 stop = true;
+                
+                this.makeItParentWord(lines_elements[i]);
+                
+                this.activate(lines_elements_elements[j]);
+                
                 break;
               }
             }
