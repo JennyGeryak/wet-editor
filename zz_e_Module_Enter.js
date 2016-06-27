@@ -49,6 +49,12 @@
         // concat word
         word.innerHTML = divider.concat(word);
         
+        // content for a new line
+        var content_for_new_line = divider.trim(word.parentNode, 'parent');
+        
+        // refreshing content without, meved to a new line, content
+        word.parentNode.innerHTML = content_for_new_line[0];
+        
         // delete previouse cursor
         this.deletePrevioseCursor(concrete_entity);
         
@@ -67,10 +73,22 @@
 
         // adding new line
         var line_start = director.create('line-start', '', 'active');
+        
         var line = director.create('line', line_start, line_index)
         options
         .object
         .line[options.index][line_index] = line;
+        
+        // if we have something to move to new line we making it:
+        if(content_for_new_line != "")
+        {
+          // copy to a new line
+          line.innerHTML += content_for_new_line[1];
+          
+          // removing old content
+          
+          
+        }
         
         director.plus(prev_line, line);
       }
@@ -170,8 +188,6 @@
     else
     {
       var next_element = active_char.nextSibling;
-      
-          
             
       if(word) 
       {

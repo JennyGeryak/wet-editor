@@ -37,10 +37,12 @@
     
     // if controlling key pressed 
     // need to disabled browser hotkeys
-    if((scope.getKeyMap()[0] < '46')&(scope.getKeyMap()[0] != undefined))//16
+    if(((scope.getKeyMap()[0] < '46')&&(scope.getKeyMap()[0] != '16'))
+       &(scope.getKeyMap()[0] != undefined))//16
     {
       event.preventDefault(); event.stopPropagation();
     }
+    
     
     // if pressed enter pressed (undefined, 13)
     if((scope.getKeyMap()[0] != '13')&(scope.getKeyMap()[0] != undefined))
