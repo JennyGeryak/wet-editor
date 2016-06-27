@@ -1,9 +1,9 @@
 /**
-  * @function right_arrow
+  * @function up_arrow
   * @author Ivan Kaduk
   * @copyright Ivan Kaduk 2016.
   * @license cc-by-nc-sa 4.0
-  * @desc this module need to emulate "right arrow" key features.
+  * @desc this module need to emulate "up arrow" key features.
   * @param {object} options.object - entity of editors object.
   * @param {int} options.index - index of current editor element on document.
   * @memberof Module
@@ -32,8 +32,13 @@ Module.getInstance().up_arrow = function(options)
   }
   else
   {
+    var cursor_position = director.findCursorPosition(cursor_entity);
     
-    console.log(director.findCursorPosition(cursor_entity));
+    word.innerHTML = divider.concat(word);
+    
+    director.makeItWord(word);
+    
+    director.setCursorOnPosition(cursor_position, previose_line);
     
   }
   
