@@ -24,6 +24,7 @@ var Director = (function()
     this.prefix = prefix;
     this.active = active;
     this.class_generator = new Char_Class_Generator(this.prefix);
+    this.divider = new Divider();
 
 //////////////////////
 // Comparative section 
@@ -681,6 +682,90 @@ var Director = (function()
       // cool string for adding something after active elements
       element.parentNode.insertBefore(content, element.nextSibling);
     }
+
+  /**
+    * @function setCursorOnPosition
+    * @desc set cursor on some position on some line.
+    * @param {Number} position - position on which will be paste cursor. 
+    * @param {object} line - line in wich need to paste cursor.
+    * @mamberof Director
+    * @instance
+    */
+    this.setCursorOnPosition = function(position, line)
+    {       
+      var character_count = 0;
+      
+      if(line)
+      {
+        var lines_elements = line.childNodes;
+        
+        // separating all characters
+        for(var i=0; i<lines_elements.length; i++)
+        {
+          if((lines_elements[i].className.split(' ').indexOf('parent') < 0)
+             &&(lines_elements[i].className.split(' ').indexOf('wet-word') >= 0))
+          {
+            lines_elements[i].innerHTML = this.divider.divide(lines_elements[i])
+          }
+        }
+        
+        // counting characters before cursor
+        for(var i=0; i<lines_elements.length; i++)
+        {
+          var stop = false;
+          
+          if(lines_elements[i].childNodes.length == 1)
+          {
+            character_count++;
+            
+            if(character_count >= position)
+            {
+              stop = true;
+              
+              this.activate(lines_elements[i]);
+              
+              break;
+            }
+          }
+          else if(lines_elements[i].childNodes.length > 1)
+          {
+            var lines_elements_elements = lines_elements[i].childNodes;
+            
+            for(var j=0; j<lines_elements_elements.length; j++)
+            {
+              character_count++;
+              
+              console.log(lines_elements_elements[j])
+              
+              if(character_count >= position)
+              {
+                stop = true;
+                
+                this.makeItParentWord(lines_elements[i]);
+                
+                this.activate(lines_elements_elements[j]);
+                
+                break;
+              }
+            }
+          }
+          
+          if(stop)
+          {
+            break;
+          }
+        }
+        
+        // deseparating characters before cursor
+        for(var i=0; i<lines_elements.length; i++)
+        {
+          if(lines_elements[i].className.split(' ').indexOf('parent') < 0)
+          {
+            lines_elements[i].innerHTML = this.divider.concat(lines_elements[i]);
+          }
+        }
+      }      
+    }
     
 //////////////////
 // Make section 
@@ -1027,6 +1112,106 @@ var Director = (function()
 ///////////////////
 // Creating section 
 ///////////////////
+
+
+//////////////////
+// Search section 
+//////////////////
+    
+  /**
+    * @function findCursorPosition
+    * @desc searching for an number of char position on wich cursor is stand on line.
+    * @param {object} cursor - entity of cursor. 
+    * @return {number} - number of char position on wich cursor is stand on line.
+    * @mamberof Director
+    * @instance
+    */
+    this.findCursorPosition = function(cursor)
+    {
+      var parent_word = cursor.parentNode || false;
+      
+      var character_count = 0;
+      
+      if(parent_word.className.split(' ')[0] != 'wet-line')
+      {
+        var line = parent_word.parentNode || false; 
+      }
+      else
+      {
+        var line = parent_word || false
+      }
+      
+      if(line)
+      {
+        var lines_elements = line.childNodes;
+        
+        // separating all characters
+        for(var i=0; i<lines_elements.length; i++)
+        {
+          if((lines_elements[i].className.split(' ').indexOf('parent') < 0)
+             &&(lines_elements[i].className.split(' ').indexOf('wet-word') >= 0))
+          {
+            lines_elements[i].innerHTML = this.divider.divide(lines_elements[i])
+          }
+        }
+        
+        // counting characters before cursor
+        for(var i=0; i<lines_elements.length; i++)
+        {
+          var stop = false;
+          
+          if(lines_elements[i].childNodes.length == 1)
+          {
+            character_count++;
+            
+            if(lines_elements[i].className.split(' ').indexOf('active') >= 0)
+            {
+              stop = true;
+              break;
+            }
+          }
+          else if(lines_elements[i].childNodes.length > 1)
+          {
+            var lines_elements_elements = lines_elements[i].childNodes;
+            
+            for(var j=0; j<lines_elements_elements.length; j++)
+            {
+              character_count++;
+              
+              console.log(lines_elements_elements[j])
+              
+              if(lines_elements_elements[j].className.split(' ').indexOf('active') >= 0)
+              {
+                stop = true;
+                break;
+              }
+            }
+          }
+          
+          if(stop)
+          {
+            break;
+          }
+        }
+        
+        // deseparating characters before cursor
+        for(var i=0; i<lines_elements.length; i++)
+        {
+          if(lines_elements[i].className.split(' ').indexOf('parent') < 0)
+          {
+            lines_elements[i].innerHTML = this.divider.concat(lines_elements[i]);
+          }
+        }
+        
+      }      
+      
+      return character_count;    
+    }
+        
+//////////////////
+// Search section 
+//////////////////
+    
     
   }  
   return Director;
