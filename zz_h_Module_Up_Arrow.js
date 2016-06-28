@@ -22,21 +22,40 @@ Module.getInstance().up_arrow = function(options)
   var before_cursor = director.getBeforeEntity(cursor_entity);
   var cursor_parent = cursor_entity.parentNode;
   
+  // must be fixed !!!!!!!!!
   var line = word.parentNode || false;
+  
+  if(!line)
+  {
+    line = cursor_parent || false;
+  }
+  
   var previose_line = director.getBeforeEntity(line);
   
+  var previouse_line_length = director.findCursorPosition(cursor_entity, previose_line);
+    
   // if cursor on first line:
   if(!previose_line)
   {
-    
+    console.log('bad')
   }
   else
   {
     var cursor_position = director.findCursorPosition(cursor_entity);
     
-    word.innerHTML = divider.concat(word);
+    if(previouse_line_length < cursor_position)
+    {
+      cursor_position = previouse_line_length;
+    }
     
-    director.makeItWord(word);
+    director.deactivate(cursor_entity);
+    
+    if(word)
+    {
+      word.innerHTML = divider.concat(word);
+
+      director.makeItWord(word);
+    }
     
     director.setCursorOnPosition(cursor_position, previose_line); 
     
