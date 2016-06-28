@@ -695,76 +695,88 @@ var Director = (function()
     {       
       var character_count = 0;
       
-      if(line)
+      if(position < 0)
       {
-        var lines_elements = line.childNodes;
-        
-        // separating all characters
-        for(var i=0; i<lines_elements.length; i++)
+        if(line)
         {
-          if((lines_elements[i].className.split(' ').indexOf('parent') < 0)
-             &&(lines_elements[i].className.split(' ').indexOf('wet-word') >= 0))
-          {
-            lines_elements[i].innerHTML = this.divider.divide(lines_elements[i])
-          }
+          this.activate(line.childNodes[0]);
         }
-        
-        // counting characters before cursor
-        for(var i=0; i<lines_elements.length; i++)
+      }
+      else
+      {
+        if(line)
         {
-          var stop = false;
-          
-          if(lines_elements[i].childNodes.length == 1)
+          var lines_elements = line.childNodes;
+
+          // separating all characters
+          for(var i=0; i<lines_elements.length; i++)
           {
-            character_count++;
-            
-            if(character_count >= position)
+            if((lines_elements[i].className.split(' ').indexOf('parent') < 0)
+               &&(lines_elements[i].className.split(' ').indexOf('wet-word') >= 0))
             {
-              stop = true;
-              
-              this.activate(lines_elements[i]);
-              
-              break;
+              lines_elements[i].innerHTML = this.divider.divide(lines_elements[i])
             }
           }
-          else if(lines_elements[i].childNodes.length > 1)
+
+          // counting characters before cursor
+          for(var i=0; i<lines_elements.length; i++)
           {
-            var lines_elements_elements = lines_elements[i].childNodes;
-            
-            for(var j=0; j<lines_elements_elements.length; j++)
+            var stop = false;
+
+            if(lines_elements[i].childNodes.length == 1)
             {
-              character_count++;
-              
-              console.log(lines_elements_elements[j])
-              
               if(character_count >= position)
               {
                 stop = true;
-                
-                this.makeItParentWord(lines_elements[i]);
-                
-                this.activate(lines_elements_elements[j]);
-                
+
+                this.activate(lines_elements[i]);
+
                 break;
               }
+
+              character_count++;
+            }
+            else if(lines_elements[i].childNodes.length > 1)
+            {
+              var lines_elements_elements = lines_elements[i].childNodes;
+
+              for(var j=0; j<lines_elements_elements.length; j++)
+              {
+                console.log(lines_elements_elements[j])
+
+                if(character_count >= position)
+                {
+                  stop = true;
+
+                  this.makeItParentWord(lines_elements[i]);
+
+                  this.activate(lines_elements_elements[j]);
+
+                  break;
+                }
+
+                character_count++;
+              }
+            }
+
+            if(stop)
+            {
+              break;
             }
           }
-          
-          if(stop)
+
+          // deseparating characters before cursor
+          for(var i=0; i<lines_elements.length; i++)
           {
-            break;
+            if(lines_elements[i].className.split(' ').indexOf('parent') < 0)
+            {
+              lines_elements[i].innerHTML = this.divider.concat(lines_elements[i]);
+            }
           }
-        }
-        
-        // deseparating characters before cursor
-        for(var i=0; i<lines_elements.length; i++)
-        {
-          if(lines_elements[i].className.split(' ').indexOf('parent') < 0)
-          {
-            lines_elements[i].innerHTML = this.divider.concat(lines_elements[i]);
-          }
-        }
-      }      
+
+        }         
+      }
+     
     }
     
 //////////////////
@@ -1167,13 +1179,13 @@ var Director = (function()
           
           if(lines_elements[i].childNodes.length == 1)
           {
-            character_count++;
-            
             if(lines_elements[i].className.split(' ').indexOf('active') >= 0)
             {
               stop = true;
               break;
             }
+            
+            character_count++;
           }
           else if(lines_elements[i].childNodes.length > 1)
           {
@@ -1181,13 +1193,13 @@ var Director = (function()
             
             for(var j=0; j<lines_elements_elements.length; j++)
             {
-              character_count++;
-              
               if(lines_elements_elements[j].className.split(' ').indexOf('active') >= 0)
               {
                 stop = true;
                 break;
               }
+              
+              character_count++;
             }
           }
           
