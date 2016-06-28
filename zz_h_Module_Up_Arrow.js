@@ -43,21 +43,35 @@ Module.getInstance().up_arrow = function(options)
   {
     var cursor_position = director.findCursorPosition(cursor_entity);
     
-    if(previouse_line_length < cursor_position)
+    console.log(cursor_position, previouse_line_length);
+    
+    // if cursor on a line start:
+    if(director.isCursorFirstOnALine('active'))
     {
-      cursor_position = previouse_line_length;
+      director.deactivate(cursor_entity);
+      
+      director.setCursorOnPosition(-1, previose_line);      
     }
-    
-    director.deactivate(cursor_entity);
-    
-    if(word)
+    // if cursor not on a line start:
+    else
     {
-      word.innerHTML = divider.concat(word);
+      if(previouse_line_length < cursor_position)
+      {
+        cursor_position = previouse_line_length;
+      }
 
-      director.makeItWord(word);
+      director.deactivate(cursor_entity);
+
+      if(word)
+      {
+        word.innerHTML = divider.concat(word);
+
+        director.makeItWord(word);
+      }
+
+      director.setCursorOnPosition(cursor_position, previose_line);
     }
     
-    director.setCursorOnPosition(cursor_position, previose_line); 
     
   }
   
