@@ -38,7 +38,7 @@ Module.getInstance().up_arrow = function(options)
     
     director.makeItWord(word);
     
-    director.setCursorOnPosition(cursor_position, previose_line);
+    director.setCursorOnPosition(cursor_position, previose_line); 
     
   }
   
