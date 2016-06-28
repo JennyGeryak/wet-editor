@@ -22,6 +22,7 @@ Module.getInstance().up_arrow = function(options)
   var before_cursor = director.getBeforeEntity(cursor_entity);
   var cursor_parent = cursor_entity.parentNode;
   
+  // must be fixed !!!!!!!!!
   var line = word.parentNode || false;
   
   if(!line)
@@ -31,6 +32,8 @@ Module.getInstance().up_arrow = function(options)
   
   var previose_line = director.getBeforeEntity(line);
   
+  var previouse_line_length = director.findCursorPosition(cursor_entity, previose_line);
+    
   // if cursor on first line:
   if(!previose_line)
   {
@@ -39,6 +42,11 @@ Module.getInstance().up_arrow = function(options)
   else
   {
     var cursor_position = director.findCursorPosition(cursor_entity);
+    
+    if(previouse_line_length < cursor_position)
+    {
+      cursor_position = previouse_line_length;
+    }
     
     director.deactivate(cursor_entity);
     

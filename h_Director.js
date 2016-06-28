@@ -1120,34 +1120,35 @@ var Director = (function()
     
   /**
     * @function findCursorPosition
-    * @desc searching for an number of char position on wich cursor is stand on line.
+    * @desc searching for an number of char position on wich cursor is stand on 
+      line, if it dont find a cursor, it simply return a length of line.
     * @param {object} cursor - entity of cursor. 
+    * @param {object} line - line on which we must search a cursor. 
     * @return {number} - number of char position on wich cursor is stand on line.
     * @mamberof Director
     * @instance
     */
-    this.findCursorPosition = function(cursor)
+    this.findCursorPosition = function(cursor, line)
     {
       var parent_word = cursor.parentNode || false;
       
       var character_count = 0;
       
-      
-      if(parent_word.className.split(' ')[0] != this.prefix + 'line')
+      if(!line)
       {
-        var line = parent_word.parentNode || false; 
+        if(parent_word.className.split(' ')[0] != this.prefix + 'line')
+        {
+          var line = parent_word.parentNode || false; 
+        }
+        else
+        {
+          var line = parent_word || false
+        }
       }
-      else
-      {
-        var line = parent_word || false
-      }
-      console.log(line)
       
       if(line)
       {
         var lines_elements = line.childNodes;
-        
-        console.log('log');
         
         // separating all characters
         for(var i=0; i<lines_elements.length; i++)
@@ -1181,8 +1182,6 @@ var Director = (function()
             for(var j=0; j<lines_elements_elements.length; j++)
             {
               character_count++;
-              
-              console.log(lines_elements_elements[j])
               
               if(lines_elements_elements[j].className.split(' ').indexOf('active') >= 0)
               {
