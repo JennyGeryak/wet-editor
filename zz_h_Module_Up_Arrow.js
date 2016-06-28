@@ -70,6 +70,9 @@ Module.getInstance().up_arrow = function(options)
       }
 
       director.setCursorOnPosition(cursor_position, previose_line);
+      
+      // index of created line !!!!!!
+      options.object.current_line[options.index]--;
     }
     
     
