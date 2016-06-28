@@ -1132,7 +1132,8 @@ var Director = (function()
       
       var character_count = 0;
       
-      if(parent_word.className.split(' ')[0] != 'wet-line')
+      
+      if(parent_word.className.split(' ')[0] != this.prefix + 'line')
       {
         var line = parent_word.parentNode || false; 
       }
@@ -1140,16 +1141,19 @@ var Director = (function()
       {
         var line = parent_word || false
       }
+      console.log(line)
       
       if(line)
       {
         var lines_elements = line.childNodes;
         
+        console.log('log');
+        
         // separating all characters
         for(var i=0; i<lines_elements.length; i++)
         {
           if((lines_elements[i].className.split(' ').indexOf('parent') < 0)
-             &&(lines_elements[i].className.split(' ').indexOf('wet-word') >= 0))
+             &&(lines_elements[i].className.split(' ').indexOf(this.prefix+'word') >= 0))
           {
             lines_elements[i].innerHTML = this.divider.divide(lines_elements[i])
           }
