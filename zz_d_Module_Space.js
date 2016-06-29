@@ -32,6 +32,8 @@
     if(!active_char)
     {
       active_char = document.getElementsByClassName('wet-'+'line-start')[line_number];
+      
+      director.activate(active_char);
     }
     
     var active_char_index = 0;
