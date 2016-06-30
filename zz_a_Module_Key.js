@@ -66,7 +66,8 @@
                                     .generate();  
 
       // now we press an character button:
-      if(class_of_char_in_buffer == "character")
+      if((class_of_char_in_buffer == "character")
+         |(class_of_char_in_buffer == "numeral"))
       {
         // but our word dont created
         // then we will create it:

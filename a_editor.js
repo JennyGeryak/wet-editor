@@ -23,33 +23,13 @@
       if(name != undefined)
       {
         // innitialization global variables for 
-      /**
-        * @public
-        */	
+
         this.editor_name = name;
-      /**
-        * @public
-        */	
         this.container= new Array();
-      /**
-        * @public
-        */	
         this.work_space = new Array();
-      /**
-        * @public
-        */	
         this.symbol_buffer = new Array();
-       /**
-        * @public
-        */	
         this.console = new Array();
-      /**
-        * @public
-        */
         this.line = new Array();
-      /**
-        * @public
-        */
         this.current_line = new Array();
 
         // inheritation of observable
