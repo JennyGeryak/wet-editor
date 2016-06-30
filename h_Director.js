@@ -1182,6 +1182,9 @@ var Director = (function()
             if(lines_elements[i].className.split(' ').indexOf('active') >= 0)
             {
               stop = true;
+              
+              character_count--;
+              
               break;
             }
             
