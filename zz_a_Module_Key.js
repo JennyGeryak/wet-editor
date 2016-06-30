@@ -98,7 +98,7 @@
             word_before_active.className = "wet-word parent";
             director.deactivatePreviouse();
           }
-          // if we not in the word and before signifire:
+          // if we not in the word and before signifier:
           else if((next_element != null)&&(director.isSignifier(next_element)))
           {
             var active_entity = director.getCursorEntity('active');
@@ -112,7 +112,7 @@
             
           }
         }
-        // if we in the word
+        // if we in the word:
         else
         {
           // geting activ character after what we planing to paste new one
@@ -137,6 +137,30 @@
           {
             director.plus(active_char, character_holder);
           }
+        }
+      }
+      // if pressed button is signifier:
+      else if(class_of_char_in_buffer == "signifier")
+      {
+        var active_char = director.getCursorEntity('active');
+        
+        var next_element = director.getNextEntity(active_char);
+        
+        var signifier = director.create('char', character_from_Buffer, 'active');
+        
+        // if line is empty:
+        if(!next_element)
+        {
+          director.deactivate(active_char);
+          
+          concrete_line.innerHTML += signifier.outerHTML;
+        }
+        // if line is not empty:
+        else if(next_element)
+        {
+          director.plus(active_char, signifier);
+            
+          director.deactivate(active_char);
         }
       }
       
