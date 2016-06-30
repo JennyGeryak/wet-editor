@@ -351,6 +351,68 @@ var Director = (function()
       
     }
     
+  /**
+    * @function isCursorAtTheEndOfWord
+    * @desc checking is cursor at the end of word.
+    * @param {object} word - html element for checking.
+    * @return {bool}
+    * @mamberof Director
+    * @instance
+    */
+    this.isCursorAtTheEndOfWord = function(word)
+    { 
+      if(word)
+      {
+        var last_elements_index = word.childNodes.length - 1;
+        
+        var last_element = word.childNodes[last_elements_index];
+        
+        if(this.isCursor(last_element))
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
+  /**
+    * @function isCursor
+    * @desc checking is the element is cursor.
+    * @param {object} element - html element for checking.
+    * @return {bool}
+    * @mamberof Director
+    * @instance
+    */
+    this.isCursor = function(element)
+    {
+      if(element)
+      {        
+        if(element.className.split(" ").indexOf('active') >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
+
+    
 //////////////////////
 // Comparative section 
 //////////////////////
