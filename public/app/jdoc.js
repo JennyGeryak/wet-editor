@@ -23,33 +23,13 @@
       if(name != undefined)
       {
         // innitialization global variables for 
-      /**
-        * @public
-        */	
+
         this.editor_name = name;
-      /**
-        * @public
-        */	
         this.container= new Array();
-      /**
-        * @public
-        */	
         this.work_space = new Array();
-      /**
-        * @public
-        */	
         this.symbol_buffer = new Array();
-       /**
-        * @public
-        */	
         this.console = new Array();
-      /**
-        * @public
-        */
         this.line = new Array();
-      /**
-        * @public
-        */
         this.current_line = new Array();
 
         // inheritation of observable
@@ -467,13 +447,16 @@
     var divider = new Divider();
     
     var director = new Director(concrete_entity, 'wet-');
-    
+      
     // if controlling key pressed 
     // need to disabled browser hotkeys
-    if((scope.getKeyMap()[0] < '46')&(scope.getKeyMap()[0] != undefined))//16
+    if(((scope.getKeyMap()[0] < '46')&&(scope.getKeyMap()[0] != '16'))
+       &(scope.getKeyMap()[0] != undefined))//16
     {
       event.preventDefault(); event.stopPropagation();
     }
+      
+    
     
     // if pressed enter pressed (undefined, 13)
     if((scope.getKeyMap()[0] != '13')&(scope.getKeyMap()[0] != undefined))
@@ -492,10 +475,28 @@
       data.symbol_buffer[index].value ='';
     }
     
+    // if tab - pressed:
+    if(event.keyCode == 9){
+      if((condition == 'pressed'))
+      {
+        event.preventDefault()
+        hotkey.setOptions({
+          'object': data,
+          'index': index
+        });
+        hotkey.runFunction('9'); 
+      }
+      else if(condition == 'relised')
+      {
+        
+      }
+      return;
+    }
+    
     // if key is pressed or relissed add event to singleton
     if((condition == 'pressed'))
     {
-      //console.log(scope.getKeyMap()[0]);
+//      console.log(scope.getKeyMap());
       hotkey.setOptions({
         'object': data,
         'index': index
@@ -505,14 +506,17 @@
     }
     else if(condition == 'relised')
     {
-      //console.log(scope.getKeyMap()[0]);
+//      console.log(scope.getKeyMap());
       hotkey.runFunction(scope.getStringKeyMap());
       scope.keyUp(event);
     }
     
+
+    
     // adding pressed keys combinations to console
     if(data.console[index] != undefined)
     {
+      console.log(scope.getKeyMap());
       data.console[index].innerHTML = (scope.getKeyMap());
     }
   }
@@ -966,15 +970,33 @@ var Divider = (function()
     {
       if(word != undefined)
       {
-        var content = word.innerHTML;
+        // if is word object
+        if(typeof(word) == 'object')
+        {
+          var content = word.innerHTML;
 
-        // thanks for Human Being http://stackoverflow.com/users/1835198/human-being 
-        // http://stackoverflow.com/questions/13911681/remove-html-tags-from-a-javascript-string
-        var rex = /(<([^>]+)>)/ig;
+          // thanks for Human Being http://stackoverflow.com/users/1835198/human-being 
+          // http://stackoverflow.com/questions/13911681/remove-html-tags-from-a-javascript-string
+          var rex = /(<([^>]+)>)/ig;
 
-        content = content.replace(rex , "");
+          content = content.replace(rex , "");
 
-        return content;
+          return content;
+        }
+        // if string
+        else if(typeof(word) == 'string')
+        {
+          var content = word;
+
+          // thanks for Human Being http://stackoverflow.com/users/1835198/human-being 
+          // http://stackoverflow.com/questions/13911681/remove-html-tags-from-a-javascript-string
+          var rex = /(<([^>]+)>)/ig;
+
+          content = content.replace(rex , "");
+
+          return content;
+        }
+        
       }
       else
       {
@@ -1020,6 +1042,45 @@ var Divider = (function()
         return result;
       }
     }
+  /**
+    * @function trim
+    * @desc clean line content from unneccesary elements 
+    * @mamberof Divider
+    * @instance
+    * @param {Object} word - container that contain separated characters with word
+      that must be exploded.
+    * @return {Array} - string with word.
+    */
+    this.trim = function(word, class_name)
+    {
+      var result = new Array();
+      
+      result[0] = '';
+      
+      result[1] = '';
+      
+      var j = 0;
+      
+      if(word != undefined)
+      {
+        for(var i=0; i<=(word.childNodes.length-1); i++)
+        {
+          var some = word.childNodes[i].className.split(' ').indexOf(class_name);
+          
+          result[j] += word.childNodes[i].outerHTML;
+          
+          if(some >= 0)
+          {
+            j=1;
+          }
+        }
+        return result;				
+      }
+      else
+      {
+        return result;
+      }
+    }
   }
   return Divider;
 })()
@@ -1049,6 +1110,7 @@ var Director = (function()
     this.prefix = prefix;
     this.active = active;
     this.class_generator = new Char_Class_Generator(this.prefix);
+    this.divider = new Divider();
 
 //////////////////////
 // Comparative section 
@@ -1375,6 +1437,68 @@ var Director = (function()
       
     }
     
+  /**
+    * @function isCursorAtTheEndOfWord
+    * @desc checking is cursor at the end of word.
+    * @param {object} word - html element for checking.
+    * @return {bool}
+    * @mamberof Director
+    * @instance
+    */
+    this.isCursorAtTheEndOfWord = function(word)
+    { 
+      if(word)
+      {
+        var last_elements_index = word.childNodes.length - 1;
+        
+        var last_element = word.childNodes[last_elements_index];
+        
+        if(this.isCursor(last_element))
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
+  /**
+    * @function isCursor
+    * @desc checking is the element is cursor.
+    * @param {object} element - html element for checking.
+    * @return {bool}
+    * @mamberof Director
+    * @instance
+    */
+    this.isCursor = function(element)
+    {
+      if(element)
+      {        
+        if(element.className.split(" ").indexOf('active') >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+    
+
+    
 //////////////////////
 // Comparative section 
 //////////////////////
@@ -1638,13 +1762,21 @@ var Director = (function()
     */
     this.deactivate = function(element)
     { 
-      var element_class = this.prefix + "line-start";
+      var line_start_class = this.prefix + "line-start";
+      
+      var tab_class = this.prefix + "tab";
       
       if(!(typeof(element)=='string'))
       {
-        if(element.className.split(' ')[0] == element_class)
+        if(element.className.split(' ')[0] == line_start_class)
         {
           element.className = this.prefix + "line-start";
+        }
+        else if(element.className.split(' ').indexOf(tab_class) >= 0)
+        {
+          element.className = this.prefix + 'signifier'
+                            + ' '
+                            + this.prefix + 'tab';
         }
         else
         {
@@ -1705,6 +1837,102 @@ var Director = (function()
     {
       // cool string for adding something after active elements
       element.parentNode.insertBefore(content, element.nextSibling);
+    }
+
+  /**
+    * @function setCursorOnPosition
+    * @desc set cursor on some position on some line.
+    * @param {Number} position - position on which will be paste cursor. 
+    * @param {object} line - line in wich need to paste cursor.
+    * @mamberof Director
+    * @instance
+    */
+    this.setCursorOnPosition = function(position, line)
+    {       
+      var character_count = 0;
+      
+      if(position < 0)
+      {
+        if(line)
+        {
+          this.activate(line.childNodes[0]);
+        }
+      }
+      else
+      {
+        if(line)
+        {
+          var lines_elements = line.childNodes;
+
+          // separating all characters
+          for(var i=0; i<lines_elements.length; i++)
+          {
+            if((lines_elements[i].className.split(' ').indexOf('parent') < 0)
+               &&(lines_elements[i].className.split(' ').indexOf('wet-word') >= 0))
+            {
+              lines_elements[i].innerHTML = this.divider.divide(lines_elements[i])
+            }
+          }
+
+          // counting characters before cursor
+          for(var i=0; i<lines_elements.length; i++)
+          {
+            var stop = false;
+
+            if(lines_elements[i].childNodes.length == 1)
+            {
+              if(character_count >= position)
+              {
+                stop = true;
+
+                this.activate(lines_elements[i]);
+
+                break;
+              }
+
+              character_count++;
+            }
+            else if(lines_elements[i].childNodes.length > 1)
+            {
+              var lines_elements_elements = lines_elements[i].childNodes;
+
+              for(var j=0; j<lines_elements_elements.length; j++)
+              {
+                console.log(lines_elements_elements[j])
+
+                if(character_count >= position)
+                {
+                  stop = true;
+
+                  this.makeItParentWord(lines_elements[i]);
+
+                  this.activate(lines_elements_elements[j]);
+
+                  break;
+                }
+
+                character_count++;
+              }
+            }
+
+            if(stop)
+            {
+              break;
+            }
+          }
+
+          // deseparating characters before cursor
+          for(var i=0; i<lines_elements.length; i++)
+          {
+            if(lines_elements[i].className.split(' ').indexOf('parent') < 0)
+            {
+              lines_elements[i].innerHTML = this.divider.concat(lines_elements[i]);
+            }
+          }
+
+        }         
+      }
+     
     }
     
 //////////////////
@@ -1847,9 +2075,9 @@ var Director = (function()
       {
         return this.createChar(content, status);
       }      
-      else if(type == 'space')
+      else if(type == 'tab')
       {
-        return this.createSpace(status);
+        return this.createTab(content, status);
       }
       else if(type == 'line')
       {
@@ -1922,6 +2150,7 @@ var Director = (function()
                                     .mainClass(content)
                                     .space()
                                     .subClass(content)
+                                    .space()
                                     .generate() 
                                     + 'active'; 
         // adding new character in container
@@ -1963,6 +2192,7 @@ var Director = (function()
                                     .mainClass(content)
                                     .space()
                                     .subClass(content)
+                                    .space()
                                     .generate() 
                                     + 'active'; 
       }
@@ -1982,42 +2212,30 @@ var Director = (function()
     }
     
   /**
-    * @function createSpace 
-    * @desc create space entity.
+    * @function createTab
+    * @desc create tab entity.
     * @param {String} status - is element active or not. 
     * @return {object} - entity of created object.
     * @mamberof Director
     * @instance
     */
-    this.createSpace = function(status)
+    this.createTab = function(content, status)
     {
-      // creating a space object
-      var space = document.createElement('span');
+      // creating a tab object
+      var tab = document.createElement('span');
       // generating of character class 
       if(status == 'active')
       {
-        space.className = this.class_generator
-                                    .setPrefix('wet-')
-                                    .mainClass(' ')
-                                    .space()
-                                    .subClass(' ')
-                                    .space()
-                                    .generate() 
-                                    + 'active'; 
+        tab.className = 'wet-'+'signifier'+' '+'wet-'+'tab'+' '+'active';
       }
       else
       {
-        space.className = this.class_generator
-                                    .setPrefix('wet-')
-                                    .mainClass(' ')
-                                    .space()
-                                    .subClass(' ')
-                                    .generate(); 
+        tab.className = 'wet-'+'signifier'+' '+'wet-'+'tab';
       }
       // adding new character in container
-      space.innerHTML = " ";
+      tab.innerHTML = content;
         
-      return space;    
+      return tab;    
     }
     
   /**
@@ -2052,6 +2270,112 @@ var Director = (function()
 ///////////////////
 // Creating section 
 ///////////////////
+
+
+//////////////////
+// Search section 
+//////////////////
+    
+  /**
+    * @function findCursorPosition
+    * @desc searching for an number of char position on wich cursor is stand on 
+      line, if it dont find a cursor, it simply return a length of line.
+    * @param {object} cursor - entity of cursor. 
+    * @param {object} line - line on which we must search a cursor. 
+    * @return {number} - number of char position on wich cursor is stand on line.
+    * @mamberof Director
+    * @instance
+    */
+    this.findCursorPosition = function(cursor, line)
+    {
+      var parent_word = cursor.parentNode || false;
+      
+      var character_count = 0;
+      
+      if(!line)
+      {
+        if(parent_word.className.split(' ')[0] != this.prefix + 'line')
+        {
+          var line = parent_word.parentNode || false; 
+        }
+        else
+        {
+          var line = parent_word || false
+        }
+      }
+      
+      if(line)
+      {
+        var lines_elements = line.childNodes;
+        
+        // separating all characters
+        for(var i=0; i<lines_elements.length; i++)
+        {
+          if((lines_elements[i].className.split(' ').indexOf('parent') < 0)
+             &&(lines_elements[i].className.split(' ').indexOf(this.prefix+'word') >= 0))
+          {
+            lines_elements[i].innerHTML = this.divider.divide(lines_elements[i])
+          }
+        }
+        
+        // counting characters before cursor
+        for(var i=0; i<lines_elements.length; i++)
+        {
+          var stop = false;
+          
+          if(lines_elements[i].childNodes.length == 1)
+          {
+            if(lines_elements[i].className.split(' ').indexOf('active') >= 0)
+            {
+              stop = true;
+              
+              character_count--;
+              
+              break;
+            }
+            
+            character_count++;
+          }
+          else if(lines_elements[i].childNodes.length > 1)
+          {
+            var lines_elements_elements = lines_elements[i].childNodes;
+            
+            for(var j=0; j<lines_elements_elements.length; j++)
+            {
+              if(lines_elements_elements[j].className.split(' ').indexOf('active') >= 0)
+              {
+                stop = true;
+                break;
+              }
+              
+              character_count++;
+            }
+          }
+          
+          if(stop)
+          {
+            break;
+          }
+        }
+        
+        // deseparating characters before cursor
+        for(var i=0; i<lines_elements.length; i++)
+        {
+          if(lines_elements[i].className.split(' ').indexOf('parent') < 0)
+          {
+            lines_elements[i].innerHTML = this.divider.concat(lines_elements[i]);
+          }
+        }
+        
+      }      
+      
+      return ++character_count;    
+    }
+        
+//////////////////
+// Search section 
+//////////////////
+    
     
   }  
   return Director;
@@ -2137,7 +2461,8 @@ var Director = (function()
                                     .generate();  
 
       // now we press an character button:
-      if(class_of_char_in_buffer == "character")
+      if((class_of_char_in_buffer == "character")
+         |(class_of_char_in_buffer == "numeral"))
       {
         // but our word dont created
         // then we will create it:
@@ -2168,8 +2493,21 @@ var Director = (function()
             word_before_active.className = "wet-word parent";
             director.deactivatePreviouse();
           }
+          // if we not in the word and before signifier:
+          else if((next_element != null)&&(director.isSignifier(next_element)))
+          {
+            var active_entity = director.getCursorEntity('active');
+            
+            var new_word = director.create('word', character_from_Buffer, 'active');
+            
+            director.plus(active_entity, new_word);
+            
+            director.deactivate(active_entity);        
+            
+            
+          }
         }
-        // if we in the word
+        // if we in the word:
         else
         {
           // geting activ character after what we planing to paste new one
@@ -2195,6 +2533,112 @@ var Director = (function()
             director.plus(active_char, character_holder);
           }
         }
+      }
+      // if pressed button is signifier:
+      else if(class_of_char_in_buffer == "signifier")
+      {
+        var active_char = director.getCursorEntity('active');
+        
+        var parent_node = active_char.parentNode;
+        
+        var next_element = director.getNextEntity(active_char);
+        
+        var next_to_parent = director.getNextEntity(parent_node);
+        
+        var signifier = director.create('char', character_from_Buffer, 'active');
+        
+        // if we in the word:
+        if(director.isParentWord(parent_node))
+        {
+          // if we at the end of word:
+          if(director.isCursorAtTheEndOfWord(parent_node))
+          {
+            // if line is empty:
+            if(!next_to_parent)
+            {
+              director.deactivate(active_char);
+              
+              director.makeItWord(parent_node);
+              
+              parent_node.innerHTML = divider.concat(parent_node);
+
+              concrete_line.innerHTML += signifier.outerHTML;
+            }
+            // if line is not empty:
+            else if(next_to_parent)
+            {
+              director.deactivate(active_char);
+              
+              director.makeItWord(parent_node);
+              
+              parent_node.innerHTML = divider.concat(parent_node);
+              
+              director.plus(parent_node, signifier);
+            }
+          }
+          // if we not on the end of word:
+          else if(!director.isCursorAtTheEndOfWord(parent_node))
+          {
+            var word_parts = divider.trim(parent_node, 'active');
+            
+            var clean_second_part = divider.concat(word_parts[1]);
+            
+            var new_word = director.create("word", clean_second_part, 'active');
+            
+            new_word.innerHTML = divider.concat(new_word);
+            
+            console.log(new_word);
+            
+            parent_node.innerHTML = word_parts[0];
+                        
+            parent_node.innerHTML = divider.concat(parent_node);
+            
+            
+            // if next element is empty:
+            if(!next_to_parent)
+            {
+              director.makeItWord(parent_node);
+              
+              parent_node.innerHTML = divider.concat(parent_node);
+
+              concrete_line.innerHTML += signifier.outerHTML;
+              
+              concrete_line.innerHTML += new_word.outerHTML;
+            }
+            // if next element is not empty:
+            else if(next_to_parent)
+            {
+              director.deactivate(active_char);
+              
+              director.makeItWord(parent_node);
+              
+              parent_node.innerHTML = divider.concat(parent_node);
+              
+              director.plus(parent_node, signifier);
+            }
+            
+            
+          }
+        }
+        // if we not in the word:
+        else if(!director.isParentWord(parent_node))
+        {
+          // if line is empty:
+          if(!next_element)
+          {
+            director.deactivate(active_char);
+
+            concrete_line.innerHTML += signifier.outerHTML;
+          }
+          // if line is not empty:
+          else if(next_element)
+          {
+            director.plus(active_char, signifier);
+
+            director.deactivate(active_char);
+          }
+        }
+        
       }
       
       // this an exception element that dont have auto generative class 
@@ -2607,13 +3051,13 @@ module.addFunction('37', 'left_arrow');
   * @author Ivan Kaduk
   * @copyright Ivan Kaduk 2016.
   * @license cc-by-nc-sa 4.0
-  * @desc this module need to emulate "space" key features.
+  * @desc this module need to emulate "tab" key features.
   * @param {object} options.object - entity of editors object.
   * @param {int} options.index - index of current editor element on document.
   * @memberof Module
   * @instance
   */
-  Module.getInstance().space = function(options)
+  Module.getInstance().tab = function(options)
   {
     // standart block of initialization of dependencies 
     var class_generator = new Char_Class_Generator('wet-');
@@ -2631,17 +3075,19 @@ module.addFunction('37', 'left_arrow');
     
     var line_number = options.object.current_line[options.index]-1;
     
-    // if cursor on a line start
+    // if cursor on a line start:
     if(!active_char)
     {
       active_char = document.getElementsByClassName('wet-'+'line-start')[line_number];
+      
+      director.activate(active_char);
     }
     
     var active_char_index = 0;
   
     var chars = active_char.parentElement.childNodes.length || false;
     
-    var space = director.create('space', ' ', 'active');
+    var tab = director.create('tab', '&#09;', 'active');
   
     // if we in the word:
     if(chars != false)
@@ -2662,7 +3108,7 @@ module.addFunction('37', 'left_arrow');
       // word:
       if(word)
       {
-        this.deletePrevioseCursor(concrete_entity);
+        director.deactivate(active_char);
 
         // if we are in parent word:
         if(word != undefined)
@@ -2673,14 +3119,40 @@ module.addFunction('37', 'left_arrow');
         this.deletePrevioseParent(concrete_entity);
 
         // adding space objecto to an active line
-        word.parentNode.insertBefore(space, word.nextSibling);
+        word.parentNode.insertBefore(tab, word.nextSibling);
 
+      }
+      // 
+      else if(director.isCursorFirstOnALine('active'))
+      {
+        if(active_char.nextSibling)
+        {
+          director.deactivate(active_char);
+          
+          director.plus(active_char, tab);
+        }
+        else
+        {
+          director.deactivate(active_char);
+        
+          active_char.parentElement.appendChild(tab);
+        }
+        
       }
       else
       {
-        this.deletePrevioseCursor(concrete_entity);
+        director.deactivate(active_char);
         
-        active_char.parentElement.appendChild(space);
+        // if we have something after cursor:
+        if(active_char.nextSibling)
+        {
+          director.plus(active_char, tab);
+        }
+        // if we have nothing after cursor:
+        else
+        {
+          active_char.parentElement.appendChild(tab);          
+        }
       }
     }
     // if cursor is not at the end of word or if it on preend element:
@@ -2701,7 +3173,7 @@ module.addFunction('37', 'left_arrow');
         second_part_word.innerHTML = divider.concat(second_part_word);
       
         // add space after word
-        word.parentNode.insertBefore(space ,word.nextSibling);
+        word.parentNode.insertBefore(tab ,word.nextSibling);
       
         // change words content to a first part that was before a cursor
         word.innerHTML = divider.concat(first_part_word);
@@ -2719,28 +3191,28 @@ module.addFunction('37', 'left_arrow');
       // if cursor before word:
       else if(director.isCursorBeforeWord(active_char))
       {
-        active_char.parentNode.insertBefore(space ,active_char.nextSibling);
+        active_char.parentNode.insertBefore(tab ,active_char.nextSibling);
         
         director.deactivate(active_char);
         
       }
       else
       {
-        this.deletePrevioseCursor(concrete_entity);        
+        director.deactivate(active_char);       
         if(active_char.nextSibling)
         {
-          active_char.parentNode.insertBefore(space ,active_char.nextSibling);
+          active_char.parentNode.insertBefore(tab ,active_char.nextSibling);
         }
         else
         {
-          active_char.parentElement.appendChild(space);
+          active_char.parentElement.appendChild(tab);
         }
       }
     }
   }
   
   var module = new Module.getInstance();
-  module.addFunction('32', 'space');
+  module.addFunction('9', 'tab');
 
   /////////////////////////////////
   //       SNIPETS LIBRARY       //
@@ -2810,6 +3282,12 @@ module.addFunction('37', 'left_arrow');
         // concat word
         word.innerHTML = divider.concat(word);
         
+        // content for a new line
+        var content_for_new_line = divider.trim(word.parentNode, 'parent');
+        
+        // refreshing content without, meved to a new line, content
+        word.parentNode.innerHTML = content_for_new_line[0];
+        
         // delete previouse cursor
         this.deletePrevioseCursor(concrete_entity);
         
@@ -2828,10 +3306,22 @@ module.addFunction('37', 'left_arrow');
 
         // adding new line
         var line_start = director.create('line-start', '', 'active');
+        
         var line = director.create('line', line_start, line_index)
         options
         .object
         .line[options.index][line_index] = line;
+        
+        // if we have something to move to new line we making it:
+        if(content_for_new_line != "")
+        {
+          // copy to a new line
+          line.innerHTML += content_for_new_line[1];
+          
+          // removing old content
+          
+          
+        }
         
         director.plus(prev_line, line);
       }
@@ -2931,8 +3421,6 @@ module.addFunction('37', 'left_arrow');
     else
     {
       var next_element = active_char.nextSibling;
-      
-          
             
       if(word) 
       {
@@ -3076,38 +3564,32 @@ Module.getInstance().delete = function(options)
           
           // if next line not empty:
           if(next_line_element)
-          {
-            // if first element on next line - signifire:
-            if(director.isSignifier(next_line_element))
+          {            
+            // if we deleting from parent word:
+            if(director.getParentWord())
             {
-              director.delete(next_line_element);
-            }
-            // if first element on new line - word:
-            else if(director.isWord(next_line_element))
-            {
-              // if word not empty:
-              if(next_line_element.childNodes.length != 0)
+              // if element on next line - word:
+              if(director.isWord(next_line_element))
               {
-                // if word not parent:
-                if(!director.isParentWord(next_line_element))
-                {
-                  // divide content
-                  next_line_element.innerHTML = divider.divide(next_line_element);
-
-                  // make word parent
-                  director.makeItParentWord(next_line_element);
-
-                }
-                // delete element
-                director.delete(next_line_element.childNodes[0]);
-              }
-              // if word empty:
-              if(next_line_element.childNodes.length == 0)
-              {
+                cursore_parent.innerHTML += divider.divide(next_line_element);
+                
                 director.delete(next_line_element);
+                
+                var additional_content = divider.trim(parents_next, 'wet-'+'line-start');                
+                
+                elements_parent.innerHTML += additional_content[1];
               }
-
+              // if element on next line - signifire:
+              else 
+              {
+                var additional_content = divider.trim(parents_next, 'wet-'+'line-start');
+                
+                elements_parent.innerHTML += additional_content[1];
+                
+              }
             }
+                      
+            director.delete(parents_next);
           }
           // if next line empty:
           else if(!next_line_element)
@@ -3116,6 +3598,38 @@ Module.getInstance().delete = function(options)
             director.delete(elements_parent.nextSibling)
           }
         }
+      }
+    }
+    // if afte signifier - null:
+    else if(director.isSignifier(cursore_entity))
+    {
+      // if after signifier - signifire:
+      if(director.isSignifier(after_element))
+      {
+
+      }
+      // if after signifier - word:
+      else if(director.isWord(after_element))
+      {
+
+      }
+      // if after signifier - null:
+      else
+      {
+        // if parents next element - line:
+        if(director.isLine(cursore_parent.nextSibling))
+        {
+          var parents_next = cursore_parent.nextSibling;
+          
+          var next_line_element = parents_next.childNodes[1];
+          
+          var additional_content = divider.trim(parents_next, 'wet-'+'line-start');
+          
+          cursore_parent.innerHTML += additional_content[1];
+
+          director.delete(parents_next);
+        }
+        
       }
     }
     // if parent - line:
@@ -3185,8 +3699,6 @@ Module.getInstance().right_arrow = function(options)
     var parent_for_parent = cursore_parent.parentNode || false;
     var next_to_parent_for_parent = parent_for_parent.nextSibling || false;
     
-    console.log(next_to_parent, parent_for_parent);
-    
     // if next element - signifire:
     if(director.isSignifier(next_to_parent))
     {
@@ -3222,6 +3734,8 @@ Module.getInstance().right_arrow = function(options)
         if(director.isWord(cursore_parent))
         {
           cursore_parent.innerHTML = divider.concat(cursore_parent);
+          
+          director.makeItWord(cursore_parent);
         }
         
         // index of created line !!!!!!
@@ -3235,3 +3749,184 @@ Module.getInstance().right_arrow = function(options)
 
 var module = new Module.getInstance();
 module.addFunction('39', 'right_arrow');
+/**
+  * @function up_arrow
+  * @author Ivan Kaduk
+  * @copyright Ivan Kaduk 2016.
+  * @license cc-by-nc-sa 4.0
+  * @desc this module need to emulate "up arrow" key features.
+  * @param {object} options.object - entity of editors object.
+  * @param {int} options.index - index of current editor element on document.
+  * @memberof Module
+  * @instance
+  */
+Module.getInstance().up_arrow = function(options)
+{
+  // standart block of initialization of dependencies		
+  var class_generator = new Char_Class_Generator('wet-');
+  var concrete_entity = options.object.container[options.index];
+  var divider = new Divider();
+  var director = new Director(concrete_entity, "wet-", "active");
+  var word = director.getParentWord();
+  var cursor_entity = director.getCursorEntity('active');
+  var after_cursor = director.getNextEntity(cursor_entity);
+  var before_cursor = director.getBeforeEntity(cursor_entity);
+  var cursor_parent = cursor_entity.parentNode;
+  
+  // must be fixed !!!!!!!!!
+  var line = word.parentNode || false;
+  
+  if(!line)
+  {
+    line = cursor_parent || false;
+  }
+  
+  var previose_line = director.getBeforeEntity(line);
+  
+  var previouse_line_length = director.findCursorPosition(cursor_entity, previose_line);
+    
+  // if cursor on first line:
+  if(!previose_line)
+  {
+    console.log('bad')
+  }
+  else
+  {
+    var cursor_position = director.findCursorPosition(cursor_entity);
+    
+    console.log(cursor_position, previouse_line_length);
+    
+    // if cursor on a line start:
+    if(director.isCursorFirstOnALine('active'))
+    {
+      director.deactivate(cursor_entity);
+      
+      director.setCursorOnPosition(-1, previose_line);      
+    }
+    // if cursor not on a line start:
+    else
+    {
+      if(previouse_line_length < cursor_position)
+      {
+        cursor_position = previouse_line_length;
+      }
+
+      director.deactivate(cursor_entity);
+
+      if(word)
+      {
+        word.innerHTML = divider.concat(word);
+
+        director.makeItWord(word);
+        
+        // with word going something wrong so i must make decremating for prevent it
+        director.setCursorOnPosition(--cursor_position, previose_line);
+      }
+      // if we going not from word:
+      else
+      {
+        director.setCursorOnPosition(cursor_position, previose_line);
+      }
+      
+      // index of created line !!!!!!
+      options.object.current_line[options.index]--;
+    }
+     
+  }
+  
+}
+
+var module = new Module.getInstance();
+module.addFunction('38', 'up_arrow');
+/**
+  * @function down_arrow
+  * @author Ivan Kaduk
+  * @copyright Ivan Kaduk 2016.
+  * @license cc-by-nc-sa 4.0
+  * @desc this module need to emulate "down arrow" key features.
+  * @param {object} options.object - entity of editors object.
+  * @param {int} options.index - index of current editor element on document.
+  * @memberof Module
+  * @instance
+  */
+Module.getInstance().down_arrow = function(options)
+{
+  // standart block of initialization of dependencies		
+  var class_generator = new Char_Class_Generator('wet-');
+  var concrete_entity = options.object.container[options.index];
+  var divider = new Divider();
+  var director = new Director(concrete_entity, "wet-", "active");
+  var word = director.getParentWord();
+  var cursor_entity = director.getCursorEntity('active');
+  var after_cursor = director.getNextEntity(cursor_entity);
+  var before_cursor = director.getBeforeEntity(cursor_entity);
+  var cursor_parent = cursor_entity.parentNode;
+  
+  // must be fixed !!!!!!!!!
+  var line = word.parentNode || false;
+  
+  if(!line)
+  {
+    line = cursor_parent || false;
+  }
+  
+  var next_line = director.getNextEntity(line);
+  
+  var previouse_line_length = director.findCursorPosition(cursor_entity, next_line);
+    
+  // If next line is not:
+  if(!next_line)
+  {
+    console.log('bad')
+  }
+  // if next line is:
+  else
+  {
+    var cursor_position = director.findCursorPosition(cursor_entity);
+    
+    console.log(cursor_position, previouse_line_length);
+    
+    // if cursor on a line start:
+    if(director.isCursorFirstOnALine('active'))
+    {
+      director.deactivate(cursor_entity);
+      
+      director.setCursorOnPosition(-1, next_line);      
+    }
+    // if cursor not on a line start:
+    else
+    {
+      if(previouse_line_length < cursor_position)
+      {
+        cursor_position = previouse_line_length;
+      }
+
+      director.deactivate(cursor_entity);
+      
+      // if we going from a word:
+      if(word)
+      {
+        word.innerHTML = divider.concat(word);
+
+        director.makeItWord(word);
+        
+        // with word going something wrong so i must make decremating for prevent it
+        director.setCursorOnPosition(--cursor_position, next_line);
+      }
+      // if we going not from word:
+      else
+      {
+        director.setCursorOnPosition(cursor_position, next_line);
+      }
+
+      // index of created line !!!!!!
+      options.object.current_line[options.index]++;
+    }
+    
+    
+  }
+    
+}
+
+var module = new Module.getInstance();
+module.addFunction('40', 'down_arrow');
