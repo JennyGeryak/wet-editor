@@ -1287,7 +1287,7 @@ var Director = (function()
         
       }      
       
-      return character_count;    
+      return ++character_count;    
     }
         
 //////////////////
