@@ -34,11 +34,12 @@ Module.getInstance().down_arrow = function(options)
   
   var previouse_line_length = director.findCursorPosition(cursor_entity, next_line);
     
-  // if cursor on first line:
+  // If next line is not:
   if(!next_line)
   {
     console.log('bad')
   }
+  // if next line is:
   else
   {
     var cursor_position = director.findCursorPosition(cursor_entity);
@@ -84,10 +85,7 @@ Module.getInstance().down_arrow = function(options)
     
     
   }
-  
-  // if cursor not on a first:
-  
-  
+    
 }
 
 var module = new Module.getInstance();

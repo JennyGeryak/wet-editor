@@ -165,7 +165,7 @@
   }
   
   var module = new Module.getInstance();
-  module.addFunction('32', 'space');
+  module.addFunction('9', 'space');
 
   /////////////////////////////////
   //       SNIPETS LIBRARY       //
