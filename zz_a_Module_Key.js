@@ -184,9 +184,13 @@
           // if we not on the end of word:
           else if(!director.isCursorAtTheEndOfWord(parent_node))
           {
-            var word_parts = divider.bisect(parent_node);
+            var word_parts = divider.trim(parent_node, 'active');
             
-            var new_word = director.create("word", word_parts[1], 'active');
+            var clean_second_part = divider.concat(word_parts[1]);
+            
+            var new_word = director.create("word", clean_second_part, 'active');
+            
+            new_word.innerHTML = divider.concat(new_word);
             
             console.log(new_word);
             
