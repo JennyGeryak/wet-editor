@@ -676,13 +676,21 @@ var Director = (function()
     */
     this.deactivate = function(element)
     { 
-      var element_class = this.prefix + "line-start";
+      var line_start_class = this.prefix + "line-start";
+      
+      var tab_class = this.prefix + "tab";
       
       if(!(typeof(element)=='string'))
       {
-        if(element.className.split(' ')[0] == element_class)
+        if(element.className.split(' ')[0] == line_start_class)
         {
           element.className = this.prefix + "line-start";
+        }
+        else if(element.className.split(' ').indexOf(tab_class) >= 0)
+        {
+          element.className = this.prefix + 'signifier'
+                            + ' '
+                            + this.prefix + 'tab';
         }
         else
         {
@@ -981,9 +989,9 @@ var Director = (function()
       {
         return this.createChar(content, status);
       }      
-      else if(type == 'space')
+      else if(type == 'tab')
       {
-        return this.createSpace(status);
+        return this.createTab(content, status);
       }
       else if(type == 'line')
       {
@@ -1118,42 +1126,30 @@ var Director = (function()
     }
     
   /**
-    * @function createSpace 
-    * @desc create space entity.
+    * @function createTab
+    * @desc create tab entity.
     * @param {String} status - is element active or not. 
     * @return {object} - entity of created object.
     * @mamberof Director
     * @instance
     */
-    this.createSpace = function(status)
+    this.createTab = function(content, status)
     {
-      // creating a space object
-      var space = document.createElement('span');
+      // creating a tab object
+      var tab = document.createElement('span');
       // generating of character class 
       if(status == 'active')
       {
-        space.className = this.class_generator
-                                    .setPrefix('wet-')
-                                    .mainClass(' ')
-                                    .space()
-                                    .subClass(' ')
-                                    .space()
-                                    .generate() 
-                                    + 'active'; 
+        tab.className = 'wet-'+'signifier'+' '+'wet-'+'tab'+' '+'active';
       }
       else
       {
-        space.className = this.class_generator
-                                    .setPrefix('wet-')
-                                    .mainClass(' ')
-                                    .space()
-                                    .subClass(' ')
-                                    .generate(); 
+        tab.className = 'wet-'+'signifier'+' '+'wet-'+'tab';
       }
       // adding new character in container
-      space.innerHTML = " ";
+      tab.innerHTML = content;
         
-      return space;    
+      return tab;    
     }
     
   /**

@@ -4,13 +4,13 @@
   * @author Ivan Kaduk
   * @copyright Ivan Kaduk 2016.
   * @license cc-by-nc-sa 4.0
-  * @desc this module need to emulate "space" key features.
+  * @desc this module need to emulate "tab" key features.
   * @param {object} options.object - entity of editors object.
   * @param {int} options.index - index of current editor element on document.
   * @memberof Module
   * @instance
   */
-  Module.getInstance().space = function(options)
+  Module.getInstance().tab = function(options)
   {
     // standart block of initialization of dependencies 
     var class_generator = new Char_Class_Generator('wet-');
@@ -40,7 +40,7 @@
   
     var chars = active_char.parentElement.childNodes.length || false;
     
-    var space = director.create('space', ' ', 'active');
+    var tab = director.create('tab', '&#09;', 'active');
   
     // if we in the word:
     if(chars != false)
@@ -61,7 +61,7 @@
       // word:
       if(word)
       {
-        this.deletePrevioseCursor(concrete_entity);
+        director.deactivate(active_char);
 
         // if we are in parent word:
         if(word != undefined)
@@ -72,7 +72,7 @@
         this.deletePrevioseParent(concrete_entity);
 
         // adding space objecto to an active line
-        word.parentNode.insertBefore(space, word.nextSibling);
+        word.parentNode.insertBefore(tab, word.nextSibling);
 
       }
       // 
@@ -80,31 +80,31 @@
       {
         if(active_char.nextSibling)
         {
-          this.deletePrevioseCursor(concrete_entity);
+          director.deactivate(active_char);
           
-          director.plus(active_char, space);
+          director.plus(active_char, tab);
         }
         else
         {
-          this.deletePrevioseCursor(concrete_entity);
+          director.deactivate(active_char);
         
-          active_char.parentElement.appendChild(space);
+          active_char.parentElement.appendChild(tab);
         }
         
       }
       else
       {
-        this.deletePrevioseCursor(concrete_entity);
+        director.deactivate(active_char);
         
         // if we have something after cursor:
         if(active_char.nextSibling)
         {
-          director.plus(active_char, space);
+          director.plus(active_char, tab);
         }
         // if we have nothing after cursor:
         else
         {
-          active_char.parentElement.appendChild(space);          
+          active_char.parentElement.appendChild(tab);          
         }
       }
     }
@@ -126,7 +126,7 @@
         second_part_word.innerHTML = divider.concat(second_part_word);
       
         // add space after word
-        word.parentNode.insertBefore(space ,word.nextSibling);
+        word.parentNode.insertBefore(tab ,word.nextSibling);
       
         // change words content to a first part that was before a cursor
         word.innerHTML = divider.concat(first_part_word);
@@ -144,28 +144,28 @@
       // if cursor before word:
       else if(director.isCursorBeforeWord(active_char))
       {
-        active_char.parentNode.insertBefore(space ,active_char.nextSibling);
+        active_char.parentNode.insertBefore(tab ,active_char.nextSibling);
         
         director.deactivate(active_char);
         
       }
       else
       {
-        this.deletePrevioseCursor(concrete_entity);        
+        director.deactivate(active_char);       
         if(active_char.nextSibling)
         {
-          active_char.parentNode.insertBefore(space ,active_char.nextSibling);
+          active_char.parentNode.insertBefore(tab ,active_char.nextSibling);
         }
         else
         {
-          active_char.parentElement.appendChild(space);
+          active_char.parentElement.appendChild(tab);
         }
       }
     }
   }
   
   var module = new Module.getInstance();
-  module.addFunction('9', 'space');
+  module.addFunction('9', 'tab');
 
   /////////////////////////////////
   //       SNIPETS LIBRARY       //

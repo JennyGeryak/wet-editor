@@ -25,6 +25,14 @@
 		height: 10px;
 		/*height: 20px;*/
 	}
+
+	.wet-tab{
+		display: inline-block;
+		width: 20px;
+		height: 10px;
+		/*height: 20px;*/
+	}
+
 	.wet-character{
 		color: #aa0000;
 	}
