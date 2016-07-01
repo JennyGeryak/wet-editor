@@ -57,7 +57,7 @@ Module.getInstance().up_arrow = function(options)
     {
       if(previouse_line_length < cursor_position)
       {
-        cursor_position = --previouse_line_length;
+        cursor_position = previouse_line_length;
       }
 
       director.deactivate(cursor_entity);
@@ -67,9 +67,15 @@ Module.getInstance().up_arrow = function(options)
         word.innerHTML = divider.concat(word);
 
         director.makeItWord(word);
+        
+        // with word going something wrong so i must make decremating for prevent it
+        director.setCursorOnPosition(--cursor_position, previose_line);
       }
-
-      director.setCursorOnPosition(cursor_position, previose_line);
+      // if we going not from word:
+      else
+      {
+        director.setCursorOnPosition(cursor_position, previose_line);
+      }
       
       // index of created line !!!!!!
       options.object.current_line[options.index]--;

@@ -67,15 +67,33 @@ var Divider = (function()
     {
       if(word != undefined)
       {
-        var content = word.innerHTML;
+        // if is word object
+        if(typeof(word) == 'object')
+        {
+          var content = word.innerHTML;
 
-        // thanks for Human Being http://stackoverflow.com/users/1835198/human-being 
-        // http://stackoverflow.com/questions/13911681/remove-html-tags-from-a-javascript-string
-        var rex = /(<([^>]+)>)/ig;
+          // thanks for Human Being http://stackoverflow.com/users/1835198/human-being 
+          // http://stackoverflow.com/questions/13911681/remove-html-tags-from-a-javascript-string
+          var rex = /(<([^>]+)>)/ig;
 
-        content = content.replace(rex , "");
+          content = content.replace(rex , "");
 
-        return content;
+          return content;
+        }
+        // if string
+        else if(typeof(word) == 'string')
+        {
+          var content = word;
+
+          // thanks for Human Being http://stackoverflow.com/users/1835198/human-being 
+          // http://stackoverflow.com/questions/13911681/remove-html-tags-from-a-javascript-string
+          var rex = /(<([^>]+)>)/ig;
+
+          content = content.replace(rex , "");
+
+          return content;
+        }
+        
       }
       else
       {
