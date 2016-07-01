@@ -994,6 +994,7 @@ var Director = (function()
                                     .mainClass(content)
                                     .space()
                                     .subClass(content)
+                                    .space()
                                     .generate() 
                                     + 'active'; 
         // adding new character in container
@@ -1035,6 +1036,7 @@ var Director = (function()
                                     .mainClass(content)
                                     .space()
                                     .subClass(content)
+                                    .space()
                                     .generate() 
                                     + 'active'; 
       }
@@ -1182,6 +1184,9 @@ var Director = (function()
             if(lines_elements[i].className.split(' ').indexOf('active') >= 0)
             {
               stop = true;
+              
+              character_count--;
+              
               break;
             }
             

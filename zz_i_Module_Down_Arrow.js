@@ -1,15 +1,15 @@
 /**
-  * @function up_arrow
+  * @function down_arrow
   * @author Ivan Kaduk
   * @copyright Ivan Kaduk 2016.
   * @license cc-by-nc-sa 4.0
-  * @desc this module need to emulate "up arrow" key features.
+  * @desc this module need to emulate "down arrow" key features.
   * @param {object} options.object - entity of editors object.
   * @param {int} options.index - index of current editor element on document.
   * @memberof Module
   * @instance
   */
-Module.getInstance().up_arrow = function(options)
+Module.getInstance().down_arrow = function(options)
 {
   // standart block of initialization of dependencies		
   var class_generator = new Char_Class_Generator('wet-');
@@ -30,12 +30,12 @@ Module.getInstance().up_arrow = function(options)
     line = cursor_parent || false;
   }
   
-  var previose_line = director.getBeforeEntity(line);
+  var next_line = director.getNextEntity(line);
   
-  var previouse_line_length = director.findCursorPosition(cursor_entity, previose_line);
+  var previouse_line_length = director.findCursorPosition(cursor_entity, next_line);
     
   // if cursor on first line:
-  if(!previose_line)
+  if(!next_line)
   {
     console.log('bad')
   }
@@ -50,7 +50,7 @@ Module.getInstance().up_arrow = function(options)
     {
       director.deactivate(cursor_entity);
       
-      director.setCursorOnPosition(-1, previose_line);      
+      director.setCursorOnPosition(-1, next_line);      
     }
     // if cursor not on a line start:
     else
@@ -69,10 +69,10 @@ Module.getInstance().up_arrow = function(options)
         director.makeItWord(word);
       }
 
-      director.setCursorOnPosition(cursor_position, previose_line);
+      director.setCursorOnPosition(cursor_position, next_line);
       
       // index of created line !!!!!!
-      options.object.current_line[options.index]--;
+      options.object.current_line[options.index]++;
     }
     
     
@@ -84,4 +84,4 @@ Module.getInstance().up_arrow = function(options)
 }
 
 var module = new Module.getInstance();
-module.addFunction('38', 'up_arrow');
+module.addFunction('40', 'down_arrow');
