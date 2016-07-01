@@ -98,7 +98,7 @@
             word_before_active.className = "wet-word parent";
             director.deactivatePreviouse();
           }
-          // if we not in the word and before signifire:
+          // if we not in the word and before signifier:
           else if((next_element != null)&&(director.isSignifier(next_element)))
           {
             var active_entity = director.getCursorEntity('active');
@@ -112,7 +112,7 @@
             
           }
         }
-        // if we in the word
+        // if we in the word:
         else
         {
           // geting activ character after what we planing to paste new one
@@ -138,6 +138,112 @@
             director.plus(active_char, character_holder);
           }
         }
+      }
+      // if pressed button is signifier:
+      else if(class_of_char_in_buffer == "signifier")
+      {
+        var active_char = director.getCursorEntity('active');
+        
+        var parent_node = active_char.parentNode;
+        
+        var next_element = director.getNextEntity(active_char);
+        
+        var next_to_parent = director.getNextEntity(parent_node);
+        
+        var signifier = director.create('char', character_from_Buffer, 'active');
+        
+        // if we in the word:
+        if(director.isParentWord(parent_node))
+        {
+          // if we at the end of word:
+          if(director.isCursorAtTheEndOfWord(parent_node))
+          {
+            // if line is empty:
+            if(!next_to_parent)
+            {
+              director.deactivate(active_char);
+              
+              director.makeItWord(parent_node);
+              
+              parent_node.innerHTML = divider.concat(parent_node);
+
+              concrete_line.innerHTML += signifier.outerHTML;
+            }
+            // if line is not empty:
+            else if(next_to_parent)
+            {
+              director.deactivate(active_char);
+              
+              director.makeItWord(parent_node);
+              
+              parent_node.innerHTML = divider.concat(parent_node);
+              
+              director.plus(parent_node, signifier);
+            }
+          }
+          // if we not on the end of word:
+          else if(!director.isCursorAtTheEndOfWord(parent_node))
+          {
+            var word_parts = divider.trim(parent_node, 'active');
+            
+            var clean_second_part = divider.concat(word_parts[1]);
+            
+            var new_word = director.create("word", clean_second_part, 'active');
+            
+            new_word.innerHTML = divider.concat(new_word);
+            
+            console.log(new_word);
+            
+            parent_node.innerHTML = word_parts[0];
+                        
+            parent_node.innerHTML = divider.concat(parent_node);
+            
+            
+            // if next element is empty:
+            if(!next_to_parent)
+            {
+              director.makeItWord(parent_node);
+              
+              parent_node.innerHTML = divider.concat(parent_node);
+
+              concrete_line.innerHTML += signifier.outerHTML;
+              
+              concrete_line.innerHTML += new_word.outerHTML;
+            }
+            // if next element is not empty:
+            else if(next_to_parent)
+            {
+              director.deactivate(active_char);
+              
+              director.makeItWord(parent_node);
+              
+              parent_node.innerHTML = divider.concat(parent_node);
+              
+              director.plus(parent_node, signifier);
+            }
+            
+            
+          }
+        }
+        // if we not in the word:
+        else if(!director.isParentWord(parent_node))
+        {
+          // if line is empty:
+          if(!next_element)
+          {
+            director.deactivate(active_char);
+
+            concrete_line.innerHTML += signifier.outerHTML;
+          }
+          // if line is not empty:
+          else if(next_element)
+          {
+            director.plus(active_char, signifier);
+
+            director.deactivate(active_char);
+          }
+        }
+        
       }
       
       // this an exception element that dont have auto generative class 
