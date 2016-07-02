@@ -166,6 +166,34 @@ var Director = (function()
       }
       
     }
+    
+  /**
+    * @function isNumerial 
+    * @desc chacking element is numeral.
+    * @param {object} element - html element for checking.
+    * @return {bool}
+    * @mamberof Director
+    * @instance
+    */
+    this.isNumeral = function(element)
+    { 
+      if(element)
+      {
+        if(element.className.split(" ").indexOf(this.prefix + 'numeral') >= 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
 
   /**
     * @function isWord

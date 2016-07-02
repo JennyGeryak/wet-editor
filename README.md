@@ -13,8 +13,8 @@ This early version hase next features:
 - backspace button emulation;
 - enter button emulation;
 - delete button emulation;
-- space button emulation;
-- left arrow emulation;
+- tab button emulation;
+- arrows emulation;
 - hetkey console.
 
 [demo](http://codepen.io/Ceditvodu/full/ZWgOrO/)

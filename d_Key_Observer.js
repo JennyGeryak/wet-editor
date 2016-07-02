@@ -103,7 +103,6 @@
     // adding pressed keys combinations to console
     if(data.console[index] != undefined)
     {
-      console.log(scope.getKeyMap());
       data.console[index].innerHTML = (scope.getKeyMap());
     }
   }

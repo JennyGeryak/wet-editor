@@ -31,6 +31,18 @@
 </dd>
 </dl>
 
+<a name="isWord"></a>
+
+## .isWord(element) ⇒ <code>bool</code>
+chacking element is it word.
+
+**Kind**: instance function  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| element | <code>object</code> | html element for checking. |
+
 <a name="Editor"></a>
 
 ## Editor ⇐ <code>[Observable](#Observable)</code>
@@ -268,6 +280,8 @@ it is solution that helps to create additional mudules more
     * [.enter()](#Module+enter)
     * [.delete()](#Module+delete)
     * [.right_arrow()](#Module+right_arrow)
+    * [.up_arrow()](#Module+up_arrow)
+    * [.down_arrow()](#Module+down_arrow)
 
 <a name="Module+key"></a>
 
@@ -317,7 +331,7 @@ this module need to emulate "left arrow" key features.
 <a name="Module+backspase"></a>
 
 ### module.backspase()
-this module need to emulate "space" key features.
+this module need to emulate "tab" key features.
 
 **Kind**: instance method of <code>[Module](#Module)</code>  
 **Author:** Ivan Kaduk  
@@ -363,6 +377,36 @@ this module need to emulate "delete" key features.
 
 ### module.right_arrow()
 this module need to emulate "right arrow" key features.
+
+**Kind**: instance method of <code>[Module](#Module)</code>  
+**Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
+**Copyright**: Ivan Kaduk 2016.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options.object | <code>object</code> | entity of editors object. |
+| options.index | <code>int</code> | index of current editor element on document. |
+
+<a name="Module+up_arrow"></a>
+
+### module.up_arrow()
+this module need to emulate "up arrow" key features.
+
+**Kind**: instance method of <code>[Module](#Module)</code>  
+**Author:** Ivan Kaduk  
+**License**: cc-by-nc-sa 4.0  
+**Copyright**: Ivan Kaduk 2016.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options.object | <code>object</code> | entity of editors object. |
+| options.index | <code>int</code> | index of current editor element on document. |
+
+<a name="Module+down_arrow"></a>
+
+### module.down_arrow()
+this module need to emulate "down arrow" key features.
 
 **Kind**: instance method of <code>[Module](#Module)</code>  
 **Author:** Ivan Kaduk  
@@ -473,6 +517,19 @@ divide a massive of characters in the word to two parts.
 | --- | --- | --- |
 | word | <code>Object</code> | container that contain separated characters with word       that must be exploded. |
 
+<a name="trim"></a>
+
+## .trim(word) ⇒ <code>Array</code>
+clean line content from unneccesary elements
+
+**Kind**: instance function  
+**Returns**: <code>Array</code> - - string with word.  
+**Mamberof**: Divider  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| word | <code>Object</code> | container that contain separated characters with word       that must be exploded. |
+
 <a name="Director"></a>
 
 ## Director
@@ -554,18 +611,6 @@ chacking element is signifer.
 | --- | --- | --- |
 | element | <code>object</code> | html element for checking. |
 
-<a name="isWord"></a>
-
-## .isWord(element) ⇒ <code>bool</code>
-chacking element is it word.
-
-**Kind**: instance function  
-**Mamberof**: Director  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| element | <code>object</code> | html element for checking. |
-
 <a name="isParentWord"></a>
 
 ## .isParentWord(element) ⇒ <code>bool</code>
@@ -625,6 +670,30 @@ checking line is it empty.
 | Param | Type | Description |
 | --- | --- | --- |
 | line | <code>object</code> | html element for checking. |
+
+<a name="isCursorAtTheEndOfWord"></a>
+
+## .isCursorAtTheEndOfWord(word) ⇒ <code>bool</code>
+checking is cursor at the end of word.
+
+**Kind**: instance function  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| word | <code>object</code> | html element for checking. |
+
+<a name="isCursor"></a>
+
+## .isCursor(element) ⇒ <code>bool</code>
+checking is the element is cursor.
+
+**Kind**: instance function  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| element | <code>object</code> | html element for checking. |
 
 <a name="getCursorEntity"></a>
 
@@ -785,6 +854,19 @@ add some element after this, if this have a next element.
 | element | <code>object</code> | element after wich will be added content. |
 | content | <code>String</code> | content wich will be added after element. |
 
+<a name="setCursorOnPosition"></a>
+
+## .setCursorOnPosition(position, line)
+set cursor on some position on some line.
+
+**Kind**: instance function  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| position | <code>Number</code> | position on which will be paste cursor. |
+| line | <code>object</code> | line in wich need to paste cursor. |
+
 <a name="deactivatePreviouse"></a>
 
 ## .deactivatePreviouse()
@@ -885,10 +967,10 @@ create character entity.
 | content | <code>String</code> | text wich will be in content when it will be created. |
 | status | <code>String</code> | is element active or not. |
 
-<a name="createSpace"></a>
+<a name="createTab"></a>
 
-## .createSpace(status) ⇒ <code>object</code>
-create space entity.
+## .createTab(status) ⇒ <code>object</code>
+create tab entity.
 
 **Kind**: instance function  
 **Returns**: <code>object</code> - - entity of created object.  
@@ -911,4 +993,19 @@ create line entity.
 | --- | --- | --- |
 | content | <code>String</code> | text wich will be in content when it will be created. |
 | index | <code>number</code> | lines index number. |
+
+<a name="findCursorPosition"></a>
+
+## .findCursorPosition(cursor, line) ⇒ <code>number</code>
+searching for an number of char position on wich cursor is stand on 
+      line, if it dont find a cursor, it simply return a length of line.
+
+**Kind**: instance function  
+**Returns**: <code>number</code> - - number of char position on wich cursor is stand on line.  
+**Mamberof**: Director  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cursor | <code>object</code> | entity of cursor. |
+| line | <code>object</code> | line on which we must search a cursor. |
 
