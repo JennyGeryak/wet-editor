@@ -29,6 +29,13 @@ Module.getInstance().right_arrow = function(options)
     
     director.activate(after_cursore);
   }  
+  // if next element - numerial:
+  if(director.isNumeral(after_cursore))
+  {
+    director.deactivate(cursore_entity);
+    
+    director.activate(after_cursore);
+  }  
   // if next element - character:
   else if(director.isCharacter(after_cursore))
   {
@@ -54,7 +61,7 @@ Module.getInstance().right_arrow = function(options)
     var parent_for_parent = cursore_parent.parentNode || false;
     var next_to_parent_for_parent = parent_for_parent.nextSibling || false;
     
-    // if next element - signifire:
+    // if next to parent element - signifire:
     if(director.isSignifier(next_to_parent))
     {
       director.deactivate(cursore_entity);
