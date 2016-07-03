@@ -37,6 +37,7 @@
         {
           Observable.apply(this, arguments);
           this.subscribe(Key_Observer);
+          this.subscribe(Combination_Observer);
         }
 
         // unic code for each editor by this class 

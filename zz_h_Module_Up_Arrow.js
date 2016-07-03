@@ -57,7 +57,7 @@ Module.getInstance().up_arrow = function(options)
     {
       if(previouse_line_length < cursor_position)
       {
-        cursor_position = previouse_line_length;
+        cursor_position = --previouse_line_length;
       }
 
       director.deactivate(cursor_entity);
