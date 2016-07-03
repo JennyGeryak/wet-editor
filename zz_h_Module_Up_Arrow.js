@@ -80,12 +80,8 @@ Module.getInstance().up_arrow = function(options)
       // index of created line !!!!!!
       options.object.current_line[options.index]--;
     }
-    
-    
+     
   }
-  
-  // if cursor not on a first:
-  
   
 }
 

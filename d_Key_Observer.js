@@ -34,7 +34,7 @@
     var divider = new Divider();
     
     var director = new Director(concrete_entity, 'wet-');
-    
+      
     // if controlling key pressed 
     // need to disabled browser hotkeys
     if(((scope.getKeyMap()[0] < '46')&&(scope.getKeyMap()[0] != '16'))
@@ -42,6 +42,7 @@
     {
       event.preventDefault(); event.stopPropagation();
     }
+      
     
     
     // if pressed enter pressed (undefined, 13)
@@ -61,10 +62,28 @@
       data.symbol_buffer[index].value ='';
     }
     
+    // if tab - pressed:
+    if(event.keyCode == 9){
+      if((condition == 'pressed'))
+      {
+        event.preventDefault()
+        hotkey.setOptions({
+          'object': data,
+          'index': index
+        });
+        hotkey.runFunction('9'); 
+      }
+      else if(condition == 'relised')
+      {
+        
+      }
+      return;
+    }
+    
     // if key is pressed or relissed add event to singleton
     if((condition == 'pressed'))
     {
-      //console.log(scope.getKeyMap()[0]);
+//      console.log(scope.getKeyMap());
       hotkey.setOptions({
         'object': data,
         'index': index
@@ -74,14 +93,17 @@
     }
     else if(condition == 'relised')
     {
-      //console.log(scope.getKeyMap()[0]);
+//      console.log(scope.getKeyMap());
       hotkey.runFunction(scope.getStringKeyMap());
       scope.keyUp(event);
     }
     
+
+    
     // adding pressed keys combinations to console
     if(data.console[index] != undefined)
     {
+      console.log(scope.getKeyMap());
       data.console[index].innerHTML = (scope.getKeyMap());
     }
   }
