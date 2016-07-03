@@ -17,7 +17,7 @@
   * @param {String} condition - condition of key: pressed or released 
   */
 
-  var Key_Observer = function(data, scope, index, event, condition)
+  var Combination_Observer = function(data, scope, index, event, condition)
   {
     // initialization of new character class generator
     var class_generator = new Char_Class_Generator('wet-');
